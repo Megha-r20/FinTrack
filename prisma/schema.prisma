@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id                    String                 @id @default(uuid())
+  name                  String
+  email                 String                 @unique
+  passwordHash          String
+  currency              String                 @default("₹")
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  categories            Category[]
+  transactions          Transaction[]
+  budgets               Budget[]
+  goals                 Goal[]
+  recurringTransactions RecurringTransaction[]
+  aiConversations       AiConversation[]
+  notifications         Notification[]
+}
+
+model Category {
+  id                    String                 @id @default(uuid())
+  name                  String
+  type                  String                 // "INCOME" | "EXPENSE"
+  color                 String                 @default("#6366f1")
+  icon                  String                 @default("Tag")
+  isDefault             Boolean                @default(false)
+  userId                String?
+  user                  User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  transactions          Transaction[]
+  budgets               Budget[]
+  recurringTransactions RecurringTransaction[]
+
+  @@unique([name, userId])
+}
+
+model Transaction {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  amount        Float
+  type          String   // "INCOME" | "EXPENSE"
+  date          DateTime
+  description   String
+  paymentMethod String   @default("UPI") // "UPI", "Credit Card", "Debit Card", "Bank Transfer", "Cash", "Other"
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId, date])
+  @@index([userId, type])
+}
+
+model Budget {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  amount     Float
+  month      Int      // 1-12
+  year       Int      // e.g. 2026
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, categoryId, month, year])
+}
+
+model Goal {
+  id            String             @id @default(uuid())
+  userId        String
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  targetAmount  Float
+  currentAmount Float              @default(0)
+  deadline      DateTime
+  category      String             @default("Savings")
+  status        String             @default("IN_PROGRESS") // "IN_PROGRESS" | "COMPLETED"
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  contributions GoalContribution[]
+}
+
+model GoalContribution {
+  id        String   @id @default(uuid())
+  goalId    String
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  amount    Float
+  date      DateTime @default(now())
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model RecurringTransaction {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  amount        Float
+  type          String   // "INCOME" | "EXPENSE"
+  frequency     String   // "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY"
+  startDate     DateTime
+  nextDueDate   DateTime
+  description   String
+  paymentMethod String   @default("Bank Transfer")
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AiConversation {
+  id        String      @id @default(uuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String      @default("Financial Consultation")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  messages  AiMessage[]
+}
+
+model AiMessage {
+  id             String         @id @default(uuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String         // "user" | "assistant"
+  content        String
+  createdAt      DateTime       @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   // "BUDGET_WARNING" | "GOAL_ACHIEVED" | "RECURRING_DUE" | "SYSTEM"
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
