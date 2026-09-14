@@ -35,8 +35,9 @@ export async function POST(req: Request) {
     });
 
     // Seed default categories for new user
+    const categoryMap: Record<string, string> = {};
     for (const cat of DEFAULT_CATEGORIES) {
-      await prisma.category.create({
+      const created = await prisma.category.create({
         data: {
           name: cat.name,
           type: cat.type,
@@ -46,14 +47,45 @@ export async function POST(req: Request) {
           userId: user.id,
         },
       });
+      categoryMap[cat.name] = created.id;
+    }
+
+    // Seed default ₹6,000 Hostel Student Budgets for current month
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+    const hostelBudgets = [
+      { categoryName: "Snacks & Mess Outings", amount: 1500 },
+      { categoryName: "Transport", amount: 800 },
+      { categoryName: "Mobile & Data Recharge", amount: 300 },
+      { categoryName: "Personal Care & Toiletries", amount: 500 },
+      { categoryName: "Entertainment", amount: 600 },
+      { categoryName: "Education", amount: 500 },
+      { categoryName: "Emergency Fund", amount: 800 },
+      { categoryName: "Shopping", amount: 1000 },
+    ];
+
+    for (const b of hostelBudgets) {
+      if (categoryMap[b.categoryName]) {
+        await prisma.budget.create({
+          data: {
+            userId: user.id,
+            categoryId: categoryMap[b.categoryName],
+            amount: b.amount,
+            month: currentMonth,
+            year: currentYear,
+          },
+        });
+      }
     }
 
     // Welcome Notification
     await prisma.notification.create({
       data: {
         userId: user.id,
-        title: "Welcome to FinTrack!",
-        message: "Start by logging your income and expenses or setting up monthly budgets.",
+        title: "Welcome to FinTrack Hostel Edition!",
+        message: "Your account is pre-configured with a ₹6,000 monthly hostel budget and safe daily spend tracking.",
         type: "SYSTEM",
       },
     });

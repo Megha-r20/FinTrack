@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { DEFAULT_CATEGORIES } from "../lib/defaultCategories";
 
 async function main() {
-  console.log("🌱 Starting FinTrack database seeding...");
+  console.log("🌱 Starting FinTrack database seeding for Hostel Student Persona...");
 
   // 1. Clean existing demo data if present
   const existingUser = await prisma.user.findUnique({
@@ -14,7 +14,7 @@ async function main() {
     await prisma.user.delete({ where: { id: existingUser.id } });
   }
 
-  // 2. Create Demo User
+  // 2. Create Demo Hostel Student User
   const passwordHash = await bcrypt.hash("password123", 10);
   const user = await prisma.user.create({
     data: {
@@ -25,7 +25,7 @@ async function main() {
     },
   });
 
-  console.log(`👤 Created Demo User: ${user.email} (${user.id})`);
+  console.log(`👤 Created Demo Hostel Student User: ${user.email} (${user.id})`);
 
   // 3. Create Categories
   const categoryMap: Record<string, string> = {};
@@ -44,23 +44,25 @@ async function main() {
     categoryMap[cat.name] = createdCat.id;
   }
 
-  console.log("🏷️ Created Category definitions.");
+  console.log("🏷️ Created Hostel Category definitions.");
 
-  // 4. Create Budgets for Current Month & Year
+  // 4. Create Budgets for Current Month (Total ₹6,000 Hostel Allowance)
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
   const currentYear = now.getFullYear();
 
-  const budgets = [
-    { categoryName: "Food", amount: 10000 },
-    { categoryName: "Transport", amount: 4000 },
-    { categoryName: "Entertainment", amount: 3500 },
-    { categoryName: "Shopping", amount: 6000 },
-    { categoryName: "Bills", amount: 5000 },
-    { categoryName: "Subscriptions", amount: 2000 },
+  const hostelBudgets = [
+    { categoryName: "Snacks & Mess Outings", amount: 1500 },
+    { categoryName: "Transport", amount: 800 },
+    { categoryName: "Mobile & Data Recharge", amount: 300 },
+    { categoryName: "Personal Care & Toiletries", amount: 500 },
+    { categoryName: "Entertainment", amount: 600 },
+    { categoryName: "Education", amount: 500 },
+    { categoryName: "Emergency Fund", amount: 800 },
+    { categoryName: "Shopping", amount: 1000 },
   ];
 
-  for (const b of budgets) {
+  for (const b of hostelBudgets) {
     if (categoryMap[b.categoryName]) {
       await prisma.budget.create({
         data: {
@@ -74,48 +76,26 @@ async function main() {
     }
   }
 
-  console.log("📊 Created Monthly Category Budgets.");
+  console.log("📊 Created ₹6,000 Hostel Category Budgets.");
 
-  // 5. Create Transactions across past 90 days
+  // 5. Create Transactions reflecting realistic hostel student spending
   const sampleTransactions = [
-    // Income
-    { cat: "Salary", amount: 95000, type: "INCOME", desc: "Monthly Salary Credit", method: "Bank Transfer", daysAgo: 1 },
-    { cat: "Freelance", amount: 18500, type: "INCOME", desc: "UI/UX Design Contract", method: "UPI", daysAgo: 5 },
-    { cat: "Investments", amount: 4200, type: "INCOME", desc: "Dividend payout", method: "Bank Transfer", daysAgo: 12 },
-    { cat: "Salary", amount: 95000, type: "INCOME", desc: "Previous Month Salary Credit", method: "Bank Transfer", daysAgo: 31 },
-    { cat: "Freelance", amount: 14000, type: "INCOME", desc: "Mobile App Consulting", method: "UPI", daysAgo: 38 },
+    // Monthly Allowance Income
+    { cat: "Pocket Money / Allowance", amount: 6000, type: "INCOME", desc: "Monthly Hostel Allowance from Home", method: "Bank Transfer", daysAgo: 1 },
+    { cat: "Pocket Money / Allowance", amount: 6000, type: "INCOME", desc: "Previous Month Hostel Allowance", method: "Bank Transfer", daysAgo: 31 },
 
-    // Rent & Fixed Bills
-    { cat: "Rent", amount: 22000, type: "EXPENSE", desc: "Apartment Rent Payment", method: "Bank Transfer", daysAgo: 2 },
-    { cat: "Bills", amount: 2450, type: "EXPENSE", desc: "Electricity & Utility Bill", method: "UPI", daysAgo: 4 },
-    { cat: "Bills", amount: 999, type: "EXPENSE", desc: "Airtel Fiber Broadband", method: "Credit Card", daysAgo: 6 },
-    { cat: "Rent", amount: 22000, type: "EXPENSE", desc: "Last Month Apartment Rent", method: "Bank Transfer", daysAgo: 32 },
-
-    // Food & Groceries
-    { cat: "Food", amount: 1850, type: "EXPENSE", desc: "Whole Foods Weekly Groceries", method: "Credit Card", daysAgo: 3 },
-    { cat: "Food", amount: 640, type: "EXPENSE", desc: "Dinner with team at Nando's", method: "UPI", daysAgo: 7 },
-    { cat: "Food", amount: 420, type: "EXPENSE", desc: "Blue Tokai Coffee & Pastry", method: "UPI", daysAgo: 8 },
-    { cat: "Food", amount: 2400, type: "EXPENSE", desc: "Supermarket Household Stockup", method: "Debit Card", daysAgo: 11 },
-    { cat: "Food", amount: 890, type: "EXPENSE", desc: "Weekend Sushi Ordering", method: "UPI", daysAgo: 14 },
-    { cat: "Food", amount: 1600, type: "EXPENSE", desc: "Organic Produce Delivery", method: "UPI", daysAgo: 18 },
-
-    // Transport
-    { cat: "Transport", amount: 450, type: "EXPENSE", desc: "Uber ride to Client Meeting", method: "UPI", daysAgo: 2 },
-    { cat: "Transport", amount: 1800, type: "EXPENSE", desc: "Petrol Refill - Shell Station", method: "Credit Card", daysAgo: 9 },
-    { cat: "Transport", amount: 350, type: "EXPENSE", desc: "Metro Pass Top-up", method: "UPI", daysAgo: 15 },
-
-    // Shopping & Subscriptions
-    { cat: "Shopping", amount: 3499, type: "EXPENSE", desc: "Nike Running Shoes", method: "Credit Card", daysAgo: 5 },
-    { cat: "Shopping", amount: 1290, type: "EXPENSE", desc: "Tech Accessories & Cables", method: "UPI", daysAgo: 13 },
-    { cat: "Subscriptions", amount: 649, type: "EXPENSE", desc: "Netflix 4K Premium Plan", method: "Credit Card", daysAgo: 3 },
-    { cat: "Subscriptions", amount: 299, type: "EXPENSE", desc: "Spotify Family Subscription", method: "Credit Card", daysAgo: 10 },
-    { cat: "Subscriptions", amount: 1499, type: "EXPENSE", desc: "ChatGPT Plus & AI Tools", method: "Credit Card", daysAgo: 16 },
-
-    // Entertainment & Health
-    { cat: "Entertainment", amount: 1200, type: "EXPENSE", desc: "IMAX Movie Tickets & Snacks", method: "UPI", daysAgo: 8 },
-    { cat: "Entertainment", amount: 1800, type: "EXPENSE", desc: "Concert Ticket booking", method: "Credit Card", daysAgo: 22 },
-    { cat: "Health", amount: 2500, type: "EXPENSE", desc: "Monthly Cult.fit Gym Membership", method: "Credit Card", daysAgo: 4 },
-    { cat: "Health", amount: 750, type: "EXPENSE", desc: "Pharmacy Medicine Purchase", method: "UPI", daysAgo: 17 },
+    // Discretionary Hostel Expenses
+    { cat: "Snacks & Mess Outings", amount: 180, type: "EXPENSE", desc: "Canteen Tea & Samosa with hostel friends", method: "UPI", daysAgo: 1 },
+    { cat: "Snacks & Mess Outings", amount: 340, type: "EXPENSE", desc: "Late-night Swiggy Pizza with roommates", method: "UPI", daysAgo: 3 },
+    { cat: "Snacks & Mess Outings", amount: 220, type: "EXPENSE", desc: "Cold Coffee & Maggi at Campus Canteen", method: "UPI", daysAgo: 6 },
+    { cat: "Transport", amount: 120, type: "EXPENSE", desc: "Auto fare to Railway Station", method: "UPI", daysAgo: 2 },
+    { cat: "Transport", amount: 250, type: "EXPENSE", desc: "City Bus Pass Monthly Renewal", method: "UPI", daysAgo: 5 },
+    { cat: "Mobile & Data Recharge", amount: 299, type: "EXPENSE", desc: "Jio 2GB/day Monthly Data Recharge", method: "UPI", daysAgo: 4 },
+    { cat: "Personal Care & Toiletries", amount: 380, type: "EXPENSE", desc: "Shampoo, Soap & Toothpaste from Store", method: "UPI", daysAgo: 7 },
+    { cat: "Education", amount: 450, type: "EXPENSE", desc: "Engineering Lab Notes Printouts & Notebooks", method: "UPI", daysAgo: 8 },
+    { cat: "Entertainment", amount: 250, type: "EXPENSE", desc: "Hostel Weekend Movie Ticket", method: "UPI", daysAgo: 9 },
+    { cat: "Shopping", amount: 650, type: "EXPENSE", desc: "College Department Hoodie", method: "UPI", daysAgo: 11 },
+    { cat: "Emergency Fund", amount: 500, type: "EXPENSE", desc: "Monthly Emergency Reserve Deposit", method: "Bank Transfer", daysAgo: 12 },
   ];
 
   for (const t of sampleTransactions) {
@@ -132,74 +112,53 @@ async function main() {
           date: txDate,
           description: t.desc,
           paymentMethod: t.method,
-          notes: `Seeded entry for ${t.desc}`,
+          notes: `Hostel student entry for ${t.desc}`,
         },
       });
     }
   }
 
-  console.log(`💸 Seeded ${sampleTransactions.length} sample transactions.`);
+  console.log(`💸 Seeded ${sampleTransactions.length} hostel transactions.`);
 
-  // 6. Create Financial Goals
-  const emergencyGoal = await prisma.goal.create({
+  // 6. Create Student Financial Goals
+  const laptopGoal = await prisma.goal.create({
     data: {
       userId: user.id,
-      title: "Emergency Reserve Fund",
-      targetAmount: 150000,
-      currentAmount: 85000,
+      title: "Semester Project Laptop Savings",
+      targetAmount: 45000,
+      currentAmount: 28000,
       deadline: new Date(2026, 11, 31),
-      category: "Savings",
+      category: "Education",
       status: "IN_PROGRESS",
     },
   });
 
   await prisma.goalContribution.createMany({
     data: [
-      { goalId: emergencyGoal.id, amount: 25000, note: "Initial seed deposit" },
-      { goalId: emergencyGoal.id, amount: 30000, note: "Bonus allocation" },
-      { goalId: emergencyGoal.id, amount: 30000, note: "Monthly savings transfer" },
-    ],
-  });
-
-  const macbookGoal = await prisma.goal.create({
-    data: {
-      userId: user.id,
-      title: "MacBook Pro M3 Max",
-      targetAmount: 220000,
-      currentAmount: 140000,
-      deadline: new Date(2026, 9, 31),
-      category: "Gadgets",
-      status: "IN_PROGRESS",
-    },
-  });
-
-  await prisma.goalContribution.createMany({
-    data: [
-      { goalId: macbookGoal.id, amount: 70000, note: "Old laptop trade-in & savings" },
-      { goalId: macbookGoal.id, amount: 70000, note: "Freelance project payment" },
+      { goalId: laptopGoal.id, amount: 14000, note: "Stipend savings contribution" },
+      { goalId: laptopGoal.id, amount: 14000, note: "Birthday gift allocation" },
     ],
   });
 
   await prisma.goal.create({
     data: {
       userId: user.id,
-      title: "Goa Annual Vacation",
-      targetAmount: 45000,
-      currentAmount: 45000,
+      title: "Hostel Group Trip Reserve",
+      targetAmount: 5000,
+      currentAmount: 3500,
       deadline: new Date(2026, 10, 15),
       category: "Travel",
-      status: "COMPLETED",
+      status: "IN_PROGRESS",
     },
   });
 
-  console.log("🎯 Created Financial Goals and Contributions.");
+  console.log("🎯 Created Student Financial Goals.");
 
-  // 7. Create Recurring Transactions
+  // 7. Create Recurring Transactions for Hostel Student
   const recurringItems = [
-    { cat: "Rent", amount: 22000, type: "EXPENSE", freq: "MONTHLY", desc: "Apartment Rent", nextDays: 16 },
-    { cat: "Subscriptions", amount: 649, type: "EXPENSE", freq: "MONTHLY", desc: "Netflix Subscription", nextDays: 27 },
-    { cat: "Bills", amount: 999, type: "EXPENSE", freq: "MONTHLY", desc: "Airtel Broadband Internet", nextDays: 24 },
-    { cat: "Salary", amount: 95000, type: "INCOME", freq: "MONTHLY", desc: "Primary Employer Salary", nextDays: 29 },
+    { cat: "Pocket Money / Allowance", amount: 6000, type: "INCOME", freq: "MONTHLY", desc: "Monthly Hostel Allowance from Parents", nextDays: 29 },
+    { cat: "Mobile & Data Recharge", amount: 299, type: "EXPENSE", freq: "MONTHLY", desc: "Jio Data Recharge", nextDays: 26 },
+    { cat: "Entertainment", amount: 59, type: "EXPENSE", freq: "MONTHLY", desc: "Spotify Student Subscription", nextDays: 24 },
   ];
 
   for (const r of recurringItems) {
@@ -217,25 +176,25 @@ async function main() {
           startDate: new Date(),
           nextDueDate: nextDate,
           description: r.desc,
-          paymentMethod: "Bank Transfer",
+          paymentMethod: "UPI",
         },
       });
     }
   }
 
-  console.log("🔄 Created Recurring Transactions.");
+  console.log("🔄 Created Student Recurring Transactions.");
 
-  // 8. Create Initial Welcome Notification
+  // 8. Create Welcome Notification
   await prisma.notification.create({
     data: {
       userId: user.id,
-      title: "Welcome to FinTrack!",
-      message: "Your financial dashboard has been initialized with demo metrics and AI insights.",
+      title: "Welcome to FinTrack Hostel Edition!",
+      message: "Your dashboard is configured for your ₹6,000 monthly hostel budget with safe daily & weekly allowance tracking.",
       type: "SYSTEM",
     },
   });
 
-  console.log("✅ FinTrack Database Seeding Complete!");
+  console.log("✅ FinTrack Hostel Student Database Seeding Complete!");
 }
 
 main()
