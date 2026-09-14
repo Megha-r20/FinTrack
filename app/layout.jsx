@@ -12,8 +12,13 @@ const outfit = Outfit({
     variable: "--font-heading",
 });
 export const metadata = {
-    title: "FinTrack | AI Personal Finance & Wealth Management Platform",
-    description: "Production-grade personal finance application for tracking income, expenses, budgets, goals, and AI analytical insights.",
+    title: "FinTrack | Personal Expense Tracker",
+    description: "Production-grade personal expense tracker application for tracking income, daily expenses, category budgets, financial goals, and household workspaces.",
+    icons: {
+        icon: "/logo.png",
+        shortcut: "/logo.png",
+        apple: "/logo.png",
+    },
 };
 export default function RootLayout({ children }) {
     return (<html lang="en" className={`${plusJakarta.variable} ${outfit.variable} font-sans h-full`} suppressHydrationWarning>
