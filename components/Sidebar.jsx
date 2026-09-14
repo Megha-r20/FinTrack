@@ -30,13 +30,11 @@ export function Sidebar({ isOpen, onClose }) {
                 FinTrack
               </span>
               <span className="text-[10px] uppercase tracking-widest font-extrabold text-[#810100] dark:text-[#E53835] -mt-1">
-                Personal Finance
+                Personal Expense Tracker
               </span>
             </div>
           </Link>
         </div>
-
-        {/* Navigation Links */}
         <nav className="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-160px)]">
           {navItems.map((item) => {
             const isActive = pathname === item.href;

@@ -72,7 +72,7 @@ export default function LandingPage() {
               FinTrack
             </span>
             <span className="text-[10px] uppercase tracking-widest font-bold text-[#810100] dark:text-[#E53835] -mt-1">
-              Expense & Wealth Intelligence
+              Personal Expense Tracker
             </span>
           </div>
         </Link>
@@ -366,7 +366,7 @@ export default function LandingPage() {
             Engineered for Total Financial Control
           </span>
           <h2 className="text-3xl sm:text-5xl font-black text-[#141010] dark:text-[#FAF8F5]">
-            Full-Stack Expense & Wealth Intelligence
+            Full-Stack Personal Expense Tracker
           </h2>
         </div>
 
@@ -578,7 +578,7 @@ export default function LandingPage() {
             F
           </div>
           <span className="font-extrabold text-[#141010] dark:text-[#FAF8F5]">
-            FinTrack • Personal Finance & Expense Intelligence
+            FinTrack • Personal Expense Tracker
           </span>
         </div>
 
