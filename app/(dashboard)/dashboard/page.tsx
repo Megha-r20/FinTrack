@@ -214,31 +214,42 @@ export default function DashboardPage() {
                 <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-extrabold text-base text-white dark:text-[#FAF8F5]">FinTrack AI Advisor Insights</h3>
+                <h3 className="font-heading font-extrabold text-base text-white dark:text-[#FAF8F5]">FinTrack AI Advisor Insights</h3>
                 <p className="text-xs text-white/80 dark:text-[#C8BFB0]">Automated observations grounded in your transaction history</p>
               </div>
             </div>
             <Link
               href="/ai-advisor"
-              className="flex items-center gap-1 text-xs font-extrabold text-white dark:text-[#FAF8F5] hover:underline"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white dark:text-[#FAF8F5] text-xs font-extrabold transition-all backdrop-blur-sm shadow-sm"
             >
-              <span>Ask AI Chat</span>
+              <span>Launch AI Assistant</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {aiInsights.insights.map((insight: any, idx: number) => (
-              <div
+              <Link
                 key={idx}
-                className="p-4 rounded-2xl bg-black/20 dark:bg-[#141010]/80 border border-white/20 dark:border-[#3B3030] backdrop-blur-sm flex flex-col justify-between"
+                href={`/ai-advisor`}
+                className="p-4 rounded-2xl bg-black/20 dark:bg-[#141010]/80 border border-white/20 dark:border-[#3B3030] backdrop-blur-sm flex flex-col justify-between hover:bg-black/30 transition-all group"
               >
-                <div className="flex items-center gap-2 text-xs font-bold text-white dark:text-[#FAF8F5] mb-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-white dark:text-[#E53835]" />
-                  <span>{insight.title}</span>
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-2 text-xs font-bold text-white dark:text-[#FAF8F5]">
+                      <Sparkles className="w-3.5 h-3.5 text-white dark:text-[#E53835]" />
+                      <span>{insight.title}</span>
+                    </div>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-white/20 text-white uppercase tracking-wider">
+                      {insight.category}
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/90 dark:text-[#C8BFB0] leading-relaxed">{insight.text}</p>
                 </div>
-                <p className="text-xs text-white/90 dark:text-[#C8BFB0] leading-relaxed">{insight.text}</p>
-              </div>
+                <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-end text-[11px] font-bold text-white/80 group-hover:text-white">
+                  <span>Analyze in Chat ➔</span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

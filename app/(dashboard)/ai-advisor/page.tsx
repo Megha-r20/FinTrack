@@ -6,12 +6,12 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 
 const PRESET_QUESTIONS = [
+  "What is my current monthly savings rate?",
+  "Which category had the largest month-over-month spending increase?",
+  "Are any of my budgets near or over their limits?",
+  "What are my recurring subscription costs this month?",
   "Where am I spending the most money?",
-  "How much did I spend on food this month?",
-  "Why are my expenses higher than last month?",
-  "How much am I saving each month?",
-  "What categories increased the most?",
-  "Give me some ways to reduce unnecessary spending.",
+  "How can I optimize my monthly cash flow?",
 ];
 
 export default function AiAdvisorPage() {
