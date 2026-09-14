@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { VoiceAssistantModal } from "@/components/VoiceAssistantModal";
 import { X, Plus, Calendar, Tag, CreditCard, FileText, ArrowUpRight, ArrowDownLeft, Camera, Sparkles, Check, AlertCircle, Mic } from "lucide-react";
 import { useToast } from "@/context/ToastContext";
