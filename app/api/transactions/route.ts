@@ -39,21 +39,21 @@ export async function GET(req: Request) {
     // Date filtering logic
     const now = new Date();
     if (period === "THIS_WEEK") {
-      const firstDay = new Date(now.setDate(now.getDate() - now.getDay()));
-      firstDay.setHours(0, 0, 0, 0);
+      const day = now.getDay();
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day, 0, 0, 0, 0);
       where.date = { gte: firstDay };
     } else if (period === "THIS_MONTH") {
-      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
       where.date = { gte: firstDay };
     } else if (period === "LAST_MONTH") {
-      const firstDay = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      const lastDay = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+      const firstDay = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0, 0);
+      const lastDay = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
       where.date = { gte: firstDay, lte: lastDay };
     } else if (period === "LAST_3_MONTHS") {
-      const firstDay = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+      const firstDay = new Date(now.getFullYear(), now.getMonth() - 3, 1, 0, 0, 0, 0);
       where.date = { gte: firstDay };
     } else if (period === "THIS_YEAR") {
-      const firstDay = new Date(now.getFullYear(), 0, 1);
+      const firstDay = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
       where.date = { gte: firstDay };
     } else if (period === "CUSTOM" && startDateParam && endDateParam) {
       where.date = {

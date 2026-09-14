@@ -110,74 +110,88 @@ export default function RecurringPage() {
           <Plus className="w-4 h-4" />
           <span>Add Recurring Item</span>
         </button>
-      </div>
-
-      <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#FAF8F5] dark:bg-[#141010] border-b border-[#E2DBD0] dark:border-[#3B3030] text-[#594D4D] uppercase tracking-wider font-extrabold">
-              <tr>
-                <th className="py-4 px-5">Recurring Item</th>
-                <th className="py-4 px-5">Frequency</th>
-                <th className="py-4 px-5">Next Due Date</th>
-                <th className="py-4 px-5">Status</th>
-                <th className="py-4 px-5 text-right">Amount</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#E2DBD0]/50 dark:divide-[#3B3030] font-medium">
-              {recurringItems.map((item) => (
-                <tr key={item.id} className="hover:bg-[#FAF8F5] dark:hover:bg-[#302929] transition-colors">
-                  <td className="py-4 px-5">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-9 h-9 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
-                        style={{ backgroundColor: item.category?.color || "#810100" }}
-                      >
-                        <CategoryIcon iconName={item.category?.icon || "Tag"} className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <span className="font-bold text-[#141010] dark:text-[#FAF8F5] block">{item.description}</span>
-                        <span className="text-[11px] text-[#594D4D]">{item.category?.name}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="py-4 px-5">
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030]">
-                      {item.frequency}
-                    </span>
-                  </td>
-                  <td className="py-4 px-5 text-[#4A3F3F] dark:text-[#C8BFB0] font-semibold">
-                    {new Date(item.nextDueDate).toLocaleDateString()}
-                  </td>
-                  <td className="py-4 px-5">
-                    {item.isDueSoon ? (
-                      <span className="flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30">
-                        <Clock className="w-3 h-3" /> Due in {item.daysUntilDue} days
-                      </span>
-                    ) : item.isOverdue ? (
-                      <span className="flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30">
-                        <AlertCircle className="w-3 h-3" /> Overdue
-                      </span>
-                    ) : (
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF8F5] dark:bg-[#141010] text-[#594D4D] dark:text-[#A89F9F] border border-[#E2DBD0] dark:border-[#3B3030]">
-                        Active
-                      </span>
-                    )}
-                  </td>
-                  <td
-                    className={`py-4 px-5 text-right font-black text-sm ${
-                      item.type === "INCOME" ? "text-emerald-700 dark:text-emerald-400" : "text-[#810100] dark:text-[#FAF8F5]"
-                    }`}
-                  >
-                    {item.type === "INCOME" ? "+" : "-"}
-                    {currency}
-                    {item.amount.toLocaleString()}
-                  </td>
+      </div>      <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-xs text-[#594D4D] font-medium animate-pulse">
+            Loading recurring bills & subscriptions...
+          </div>
+        ) : recurringItems.length === 0 ? (
+          <div className="p-12 text-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] flex items-center justify-center mx-auto text-[#594D4D]">
+              <Clock className="w-6 h-6" />
+            </div>
+            <p className="text-sm font-bold text-[#141010] dark:text-[#FAF8F5]">No recurring bills yet</p>
+            <p className="text-xs text-[#594D4D] max-w-sm mx-auto">
+              Add your monthly subscriptions, utility bills, or income streams to keep track of upcoming payments.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#FAF8F5] dark:bg-[#141010] border-b border-[#E2DBD0] dark:border-[#3B3030] text-[#594D4D] uppercase tracking-wider font-extrabold">
+                <tr>
+                  <th className="py-4 px-5">Recurring Item</th>
+                  <th className="py-4 px-5">Frequency</th>
+                  <th className="py-4 px-5">Next Due Date</th>
+                  <th className="py-4 px-5">Status</th>
+                  <th className="py-4 px-5 text-right">Amount</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-[#E2DBD0]/50 dark:divide-[#3B3030] font-medium">
+                {recurringItems.map((item) => (
+                  <tr key={item.id} className="hover:bg-[#FAF8F5] dark:hover:bg-[#302929] transition-colors">
+                    <td className="py-4 px-5">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-9 h-9 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
+                          style={{ backgroundColor: item.category?.color || "#810100" }}
+                        >
+                          <CategoryIcon iconName={item.category?.icon || "Tag"} className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-bold text-[#141010] dark:text-[#FAF8F5] block">{item.description}</span>
+                          <span className="text-[11px] text-[#594D4D]">{item.category?.name}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-5">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030]">
+                        {item.frequency}
+                      </span>
+                    </td>
+                    <td className="py-4 px-5 text-[#4A3F3F] dark:text-[#C8BFB0] font-semibold">
+                      {new Date(item.nextDueDate).toLocaleDateString()}
+                    </td>
+                    <td className="py-4 px-5">
+                      {item.isDueSoon ? (
+                        <span className="flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30">
+                          <Clock className="w-3 h-3" /> Due in {item.daysUntilDue} days
+                        </span>
+                      ) : item.isOverdue ? (
+                        <span className="flex items-center gap-1 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30">
+                          <AlertCircle className="w-3 h-3" /> Overdue
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF8F5] dark:bg-[#141010] text-[#594D4D] dark:text-[#A89F9F] border border-[#E2DBD0] dark:border-[#3B3030]">
+                          Active
+                        </span>
+                      )}
+                    </td>
+                    <td
+                      className={`py-4 px-5 text-right font-black text-sm ${
+                        item.type === "INCOME" ? "text-emerald-700 dark:text-emerald-400" : "text-[#810100] dark:text-[#FAF8F5]"
+                      }`}
+                    >
+                      {item.type === "INCOME" ? "+" : "-"}
+                      {currency}
+                      {item.amount.toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -196,6 +210,21 @@ export default function RecurringPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Category</label>
+                <select
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                >
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="grid grid-cols-2 gap-3">

@@ -16,24 +16,23 @@ export async function GET(req: Request) {
     let endDate: Date = new Date();
 
     if (period === "THIS_WEEK") {
-      startDate = new Date(now);
-      startDate.setDate(now.getDate() - now.getDay());
-      startDate.setHours(0, 0, 0, 0);
+      const day = now.getDay();
+      startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day, 0, 0, 0, 0);
     } else if (period === "THIS_MONTH") {
-      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
     } else if (period === "LAST_MONTH") {
-      startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      endDate = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59);
+      startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1, 0, 0, 0, 0);
+      endDate = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
     } else if (period === "LAST_3_MONTHS") {
-      startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+      startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1, 0, 0, 0, 0);
     } else if (period === "THIS_YEAR") {
-      startDate = new Date(now.getFullYear(), 0, 1);
+      startDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
     } else if (period === "CUSTOM" && startDateParam && endDateParam) {
       startDate = new Date(startDateParam);
       endDate = new Date(endDateParam);
     } else {
       // Default to THIS_MONTH
-      startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      startDate = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
     }
 
     // 1. Fetch current period transactions
