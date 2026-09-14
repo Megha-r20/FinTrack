@@ -15,9 +15,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      window.location.href = "/";
     }
-  }, [user, loading, router]);
+  }, [user, loading]);
 
   if (loading) {
     return (
