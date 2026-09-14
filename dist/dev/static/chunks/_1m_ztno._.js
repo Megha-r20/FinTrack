@@ -1,5 +1,0 @@
-(globalThis["TURBOPACK_CHUNK_LISTS"] || (globalThis["TURBOPACK_CHUNK_LISTS"] = [])).push({
-    script: typeof document === "object" ? document.currentScript : undefined,
-    chunks: ["static/chunks/[root-of-the-server]__0u-bgz8._.css","static/chunks/_0i_pcga._.js","static/chunks/_0bz7tw7._.js","static/chunks/node_modules_0rm-8hw._.js","static/chunks/_1q1j1lr._.js","static/chunks/node_modules_lucide-react_dist_esm_icons_index_mjs_0p0q0ni._.js","static/chunks/node_modules_lucide-react_dist_esm_icons_0skmgee._.js","static/chunks/node_modules_lucide-react_dist_esm_lucide-react_mjs_0yp6hup._.js","static/chunks/node_modules_lucide-react_dist_esm_lucide-react_mjs_1l93clm._.js","static/chunks/node_modules_es-toolkit_dist_0pqn3ny._.js","static/chunks/node_modules_recharts_es6_util_06hoyf2._.js","static/chunks/node_modules_recharts_es6_component_141l5d5._.js","static/chunks/node_modules_recharts_es6_state_1t5dcgz._.js","static/chunks/node_modules_recharts_es6_cartesian_0oyp31j._.js","static/chunks/node_modules_recharts_es6_0ecio1p._.js","static/chunks/node_modules_0xmflwi._.js"],
-    source: "entry"
-});
