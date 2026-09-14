@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LayoutDashboard, Receipt, PieChart as ChartIcon, Target, Repeat, BarChart3, Bot, User, LogOut, Sparkles, TrendingUp, } from "lucide-react";
+import { LayoutDashboard, Receipt, PieChart as ChartIcon, Target, Repeat, BarChart3, Bot, User, LogOut, Sparkles, TrendingUp } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { Logo } from "@/components/Logo";
+
 const navItems = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Transactions", href: "/transactions", icon: Receipt },
@@ -21,21 +22,7 @@ export function Sidebar({ isOpen, onClose }) {
       <div>
         {/* Brand Header */}
         <div className="flex items-center justify-between h-20 px-6 border-b border-[#E2DBD0] dark:border-[#3B3030]">
-          <Link href="/dashboard" className="flex items-center gap-3 group">
-            <img
-              src="/logo.png"
-              alt="FinTrack Logo"
-              className="w-10 h-10 rounded-2xl object-cover shadow-md cherry-glow group-hover:scale-105 transition-transform"
-            />
-            <div className="flex flex-col">
-              <span className="font-heading font-black text-xl tracking-tight text-[#181414] dark:text-[#FAF8F5]">
-                FinTrack
-              </span>
-              <span className="text-[10px] uppercase tracking-widest font-extrabold text-[#810100] dark:text-[#E53835] -mt-1">
-                Personal Expense Tracker
-              </span>
-            </div>
-          </Link>
+          <Logo href="/dashboard" subtitle="Personal Expense Tracker" size="md" />
         </div>
         <nav className="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-160px)]">
           {navItems.map((item) => {
