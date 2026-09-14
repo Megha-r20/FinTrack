@@ -11,6 +11,7 @@ import {
   X,
   FileSpreadsheet,
   AlertCircle,
+  Receipt,
 } from "lucide-react";
 import Papa from "papaparse";
 import { useAuth } from "@/context/AuthContext";
