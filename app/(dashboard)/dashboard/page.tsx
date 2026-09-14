@@ -127,20 +127,23 @@ export default function DashboardPage() {
       {/* KPI Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Balance Card */}
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#810100] text-white border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden">
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#810100] text-white border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-widest text-[#FAF8F5]/90 uppercase">Total Balance</span>
-            <div className="w-9 h-9 rounded-2xl bg-white/20 flex items-center justify-center text-white">
-              <Wallet className="w-4 h-4" />
+            <span className="text-xs font-bold tracking-widest text-[#FAF8F5]/90 uppercase">Total Net Balance</span>
+            <div className="w-9 h-9 rounded-2xl bg-white/20 flex items-center justify-center text-white backdrop-blur-md">
+              <Wallet className="w-4.5 h-4.5" />
             </div>
           </div>
           <div className="mt-4">
-            <span className="text-3xl font-black tracking-tight">
+            <span className="font-heading text-3xl md:text-4xl font-black tracking-tight">
               {currency}{totalBalance.toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#FAF8F5]/80 font-semibold">
-            Cumulative Net Capital
+          <div className="mt-3 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] text-[#FAF8F5]/90 font-semibold">
+            <span>Cumulative Net Capital</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white font-extrabold text-[10px]">
+              Live Track
+            </span>
           </div>
         </div>
 

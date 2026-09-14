@@ -283,15 +283,36 @@ export default function TransactionsPage() {
             </thead>
             <tbody className="divide-y divide-[#E2DBD0]/50 dark:divide-[#3B3030] font-medium">
               {loading ? (
-                <tr>
-                  <td colSpan={6} className="py-8 text-center text-[#594D4D]">
-                    Loading transactions...
-                  </td>
-                </tr>
+                Array.from({ length: 5 }).map((_, idx) => (
+                  <tr key={idx} className="animate-pulse">
+                    <td className="py-4 px-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-[#E2DBD0] dark:bg-[#3B3030]" />
+                        <div className="space-y-1.5 flex-1">
+                          <div className="w-28 h-3.5 bg-[#E2DBD0] dark:bg-[#3B3030] rounded-md" />
+                          <div className="w-16 h-2.5 bg-[#E2DBD0]/60 dark:bg-[#3B3030]/60 rounded-md" />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-5"><div className="w-20 h-6 bg-[#E2DBD0] dark:bg-[#3B3030] rounded-full" /></td>
+                    <td className="py-4 px-5"><div className="w-16 h-3 bg-[#E2DBD0] dark:bg-[#3B3030] rounded-md" /></td>
+                    <td className="py-4 px-5"><div className="w-16 h-3 bg-[#E2DBD0] dark:bg-[#3B3030] rounded-md" /></td>
+                    <td className="py-4 px-5 text-right"><div className="w-16 h-4 bg-[#E2DBD0] dark:bg-[#3B3030] rounded-md ml-auto" /></td>
+                    <td className="py-4 px-5 text-center"><div className="w-6 h-6 bg-[#E2DBD0] dark:bg-[#3B3030] rounded-lg mx-auto" /></td>
+                  </tr>
+                ))
               ) : transactions.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-[#594D4D]">
-                    No transactions match your selected filters.
+                  <td colSpan={6} className="py-12 text-center text-[#594D4D]">
+                    <div className="flex flex-col items-center justify-center space-y-3 max-w-sm mx-auto">
+                      <div className="w-12 h-12 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#E53835] flex items-center justify-center shadow-sm">
+                        <Receipt className="w-6 h-6" />
+                      </div>
+                      <h4 className="font-extrabold text-sm text-[#141010] dark:text-[#FAF8F5]">No Transactions Found</h4>
+                      <p className="text-xs text-[#594D4D] dark:text-[#9E9090]">
+                        No financial records match your selected filters. Try resetting search parameters or record a new transaction.
+                      </p>
+                    </div>
                   </td>
                 </tr>
               ) : (

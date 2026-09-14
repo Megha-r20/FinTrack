@@ -26,13 +26,19 @@ export function Navbar({ onToggleSidebar, onOpenAddModal }: NavbarProps) {
         </button>
 
         {/* Safety Badge */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] border border-[#810100]/30">
+        <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] border border-[#810100]/30 shadow-sm">
           <ShieldCheck className="w-4 h-4 text-[#810100] dark:text-[#E53835]" />
           <span>Cherry Palette • Educational Safety</span>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
+        {/* Quick Search Shortcut Pill */}
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#594D4D] dark:text-[#9E9090] shadow-sm">
+          <span>Quick Search</span>
+          <kbd className="px-1.5 py-0.5 text-[10px] font-bold bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-md text-[#810100] dark:text-[#E53835]">⌘K</kbd>
+        </div>
+
         {/* Currency Indicator */}
         <div className="hidden md:flex items-center gap-1 px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-[#FFFFFF] dark:bg-[#201A1A] text-[#181414] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm">
           <span>Currency:</span>
@@ -42,10 +48,10 @@ export function Navbar({ onToggleSidebar, onOpenAddModal }: NavbarProps) {
         {/* Dark/Light Mode Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2.5 rounded-xl text-[#181414] dark:text-[#FAF8F5] bg-[#FFFFFF] dark:bg-[#201A1A] hover:bg-[#810100]/10 border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm transition-all"
+          className="p-2.5 rounded-xl text-[#181414] dark:text-[#FAF8F5] bg-[#FFFFFF] dark:bg-[#201A1A] hover:bg-[#810100]/10 border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm transition-all duration-200 active:scale-95"
           aria-label="Toggle Theme"
         >
-          {theme === "dark" ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#810100]" />}
+          {theme === "dark" ? <Sun className="w-4 h-4 text-amber-400 rotate-0 transition-transform duration-300" /> : <Moon className="w-4 h-4 text-[#810100] transition-transform duration-300" />}
         </button>
 
         {/* Quick Add Transaction Button */}
