@@ -102,16 +102,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Amount, type, category, and description are required." }, { status: 400 });
     }
 
+    if (isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) {
+      return NextResponse.json({ error: "Amount must be a positive number." }, { status: 400 });
+    }
+
+    // Verify category belongs to user or is a default category to prevent cross-tenant data pollution
+    const validCategory = await prisma.category.findFirst({
+      where: {
+        id: categoryId,
+        OR: [{ userId: user.id }, { isDefault: true }],
+      },
+    });
+
+    if (!validCategory) {
+      return NextResponse.json({ error: "Invalid category selected." }, { status: 400 });
+    }
+
     const transaction = await prisma.transaction.create({
       data: {
         userId: user.id,
         amount: parseFloat(amount),
         type,
-        categoryId,
+        categoryId: validCategory.id,
         date: date ? new Date(date) : new Date(),
         description: description.trim(),
         paymentMethod,
-        notes,
+        notes: notes ? notes.trim() : null,
       },
       include: {
         category: true,

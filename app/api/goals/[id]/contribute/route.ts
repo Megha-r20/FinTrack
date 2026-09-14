@@ -35,7 +35,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     // Update goal record
     const updatedGoal = await prisma.goal.update({
-      where: { id: goal.id },
+      where: { id: goal.id, userId: user.id },
       data: {
         currentAmount: updatedCurrent,
         status: isCompleted ? "COMPLETED" : "IN_PROGRESS",

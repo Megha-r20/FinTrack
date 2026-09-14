@@ -17,15 +17,15 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     }
 
     const updated = await prisma.transaction.update({
-      where: { id },
+      where: { id: existing.id, userId: user.id },
       data: {
-        ...(body.amount && { amount: parseFloat(body.amount) }),
+        ...(body.amount && !isNaN(parseFloat(body.amount)) && { amount: parseFloat(body.amount) }),
         ...(body.type && { type: body.type }),
         ...(body.categoryId && { categoryId: body.categoryId }),
         ...(body.date && { date: new Date(body.date) }),
         ...(body.description && { description: body.description.trim() }),
         ...(body.paymentMethod && { paymentMethod: body.paymentMethod }),
-        ...(body.notes !== undefined && { notes: body.notes }),
+        ...(body.notes !== undefined && { notes: body.notes ? body.notes.trim() : null }),
       },
       include: {
         category: true,
@@ -52,7 +52,9 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
       return NextResponse.json({ error: "Transaction not found or forbidden." }, { status: 404 });
     }
 
-    await prisma.transaction.delete({ where: { id } });
+    await prisma.transaction.delete({
+      where: { id: existing.id, userId: user.id },
+    });
 
     return NextResponse.json({ message: "Transaction deleted successfully." });
   } catch (error) {
