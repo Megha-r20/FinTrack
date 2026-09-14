@@ -86,16 +86,16 @@ export default function DashboardPage() {
       {/* Header & Time Period Selector */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
             Welcome back, {user?.name || "Megha R"}
           </h1>
-          <p className="text-xs md:text-sm text-[#544A4A] dark:text-[#C8BFB0] mt-1">
-            Cotton & Cherry Noir Edition • Financial intelligence & AI metrics.
+          <p className="text-xs md:text-sm text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-1">
+            FinTrack Intelligence • Real-time metrics and cash flow analysis.
           </p>
         </div>
 
         {/* Time Period Filter Pills */}
-        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] rounded-2xl shadow-sm overflow-x-auto">
+        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-2xl shadow-sm overflow-x-auto">
           {[
             { id: "THIS_WEEK", label: "This Week" },
             { id: "THIS_MONTH", label: "This Month" },
@@ -106,10 +106,10 @@ export default function DashboardPage() {
             <button
               key={item.id}
               onClick={() => setPeriod(item.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${
                 period === item.id
-                  ? "bg-gradient-to-r from-[#810100] to-[#630000] text-[#EDEBDD] shadow-md cherry-glow"
-                  : "text-[#544A4A] dark:text-[#C8BFB0] hover:text-[#1B1717] dark:hover:text-[#EDEBDD]"
+                  ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#1B1717] dark:hover:text-[#EDEBDD]"
               }`}
             >
               {item.label}
@@ -121,10 +121,10 @@ export default function DashboardPage() {
       {/* KPI Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Balance Card */}
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#810100] text-[#EDEBDD] border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden">
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#810100] text-white border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold tracking-widest text-[#EDEBDD]/90 uppercase">Total Balance</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#EDEBDD]/20 flex items-center justify-center text-[#EDEBDD]">
+            <div className="w-9 h-9 rounded-2xl bg-white/20 flex items-center justify-center text-white">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
@@ -139,9 +139,9 @@ export default function DashboardPage() {
         </div>
 
         {/* Total Income Card */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-widest text-[#544A4A] dark:text-[#C8BFB0] uppercase">Total Income</span>
+            <span className="text-xs font-bold tracking-widest text-[#4A3F3F] dark:text-[#C8BFB0] uppercase">Total Income</span>
             <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold">
               <TrendingUp className="w-4 h-4" />
             </div>
@@ -151,15 +151,15 @@ export default function DashboardPage() {
               {currency}{(summary.totalIncome || 0).toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#887B7B] dark:text-[#8C8080] font-medium">
+          <div className="mt-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-medium">
             Inflow for selected period
           </div>
         </div>
 
         {/* Total Expenses Card */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-widest text-[#544A4A] dark:text-[#C8BFB0] uppercase">Total Expenses</span>
+            <span className="text-xs font-bold tracking-widest text-[#4A3F3F] dark:text-[#C8BFB0] uppercase">Total Expenses</span>
             <div className="w-9 h-9 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#E53835] flex items-center justify-center font-bold">
               <TrendingDown className="w-4 h-4" />
             </div>
@@ -169,15 +169,15 @@ export default function DashboardPage() {
               {currency}{(summary.totalExpenses || 0).toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#887B7B] dark:text-[#8C8080] font-medium">
+          <div className="mt-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-medium">
             Outflow for selected period
           </div>
         </div>
 
-        {/* Savings & Savings Rate */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm">
+        {/* Savings Rate Card */}
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-widest text-[#544A4A] dark:text-[#C8BFB0] uppercase">Savings Rate</span>
+            <span className="text-xs font-bold tracking-widest text-[#4A3F3F] dark:text-[#C8BFB0] uppercase">Savings Rate</span>
             <div className="w-9 h-9 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#EDEBDD] flex items-center justify-center font-bold">
               <PiggyBank className="w-4 h-4" />
             </div>
@@ -190,7 +190,7 @@ export default function DashboardPage() {
               {summary.savingsRate}%
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#887B7B] dark:text-[#8C8080] font-medium">
+          <div className="mt-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-medium">
             Net saved percentage
           </div>
         </div>
@@ -198,20 +198,20 @@ export default function DashboardPage() {
 
       {/* AI Financial Snapshot Card */}
       {aiInsights && aiInsights.insights && aiInsights.insights.length > 0 && (
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#810100] via-[#630000] to-[#810100] dark:from-[#252020] dark:via-[#1B1717] dark:to-[#252020] text-[#EDEBDD] border border-[#810100]/40 shadow-xl relative overflow-hidden">
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#810100] via-[#630000] to-[#810100] dark:from-[#252020] dark:via-[#1B1717] dark:to-[#252020] text-white dark:text-[#EDEBDD] border border-[#810100]/40 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-[#EDEBDD]/20 text-[#EDEBDD] flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-white/20 dark:bg-[#EDEBDD]/20 text-white flex items-center justify-center shadow-md">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-extrabold text-base text-[#EDEBDD]">FinTrack AI Advisor Insights</h3>
-                <p className="text-xs text-[#EDEBDD]/80 dark:text-[#C8BFB0]">Automated observations grounded in your transaction history</p>
+                <h3 className="font-extrabold text-base text-white dark:text-[#EDEBDD]">FinTrack AI Advisor Insights</h3>
+                <p className="text-xs text-white/80 dark:text-[#C8BFB0]">Automated observations grounded in your transaction history</p>
               </div>
             </div>
             <Link
               href="/ai-advisor"
-              className="flex items-center gap-1 text-xs font-bold text-[#EDEBDD] hover:underline"
+              className="flex items-center gap-1 text-xs font-extrabold text-white dark:text-[#EDEBDD] hover:underline"
             >
               <span>Ask AI Chat</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -222,13 +222,13 @@ export default function DashboardPage() {
             {aiInsights.insights.map((insight: any, idx: number) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-[#1B1717]/40 dark:bg-[#1B1717]/80 border border-[#EDEBDD]/20 dark:border-[#382D2D] backdrop-blur-sm flex flex-col justify-between"
+                className="p-4 rounded-2xl bg-black/20 dark:bg-[#1B1717]/80 border border-white/20 dark:border-[#382D2D] backdrop-blur-sm flex flex-col justify-between"
               >
-                <div className="flex items-center gap-2 text-xs font-bold text-[#EDEBDD] mb-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#EDEBDD] dark:text-[#E53835]" />
+                <div className="flex items-center gap-2 text-xs font-bold text-white dark:text-[#EDEBDD] mb-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-white dark:text-[#E53835]" />
                   <span>{insight.title}</span>
                 </div>
-                <p className="text-xs text-[#EDEBDD]/90 dark:text-[#C8BFB0] leading-relaxed">{insight.text}</p>
+                <p className="text-xs text-white/90 dark:text-[#C8BFB0] leading-relaxed">{insight.text}</p>
               </div>
             ))}
           </div>
@@ -238,11 +238,11 @@ export default function DashboardPage() {
       {/* Recharts Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Income vs Expenses Bar Chart */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Monthly Cash Flow</h3>
-              <p className="text-xs text-[#887B7B] dark:text-[#8C8080]">Income vs Expenses (Last 6 Months)</p>
+              <p className="text-xs text-[#7A6E6E] dark:text-[#8C8080]">Income vs Expenses (Last 6 Months)</p>
             </div>
           </div>
 
@@ -250,12 +250,12 @@ export default function DashboardPage() {
             {analyticsData?.monthlyTrend && (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={analyticsData.monthlyTrend}>
-                  <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#544A4A"} fontSize={11} />
-                  <YAxis stroke={theme === "dark" ? "#887B7B" : "#544A4A"} fontSize={11} />
+                  <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#7A6E6E"} fontSize={11} />
+                  <YAxis stroke={theme === "dark" ? "#887B7B" : "#7A6E6E"} fontSize={11} />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
-                      borderColor: theme === "dark" ? "#382D2D" : "#DCD7C5",
+                      borderColor: theme === "dark" ? "#382D2D" : "#E6E1D3",
                       borderRadius: "14px",
                       color: theme === "dark" ? "#EDEBDD" : "#1B1717",
                       fontSize: "12px",
@@ -270,10 +270,10 @@ export default function DashboardPage() {
         </div>
 
         {/* Expense Category Breakdown Pie Chart */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm flex flex-col justify-between">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm flex flex-col justify-between">
           <div>
             <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Category Outflow</h3>
-            <p className="text-xs text-[#887B7B] dark:text-[#8C8080]">Top spending categories</p>
+            <p className="text-xs text-[#7A6E6E] dark:text-[#8C8080]">Top spending categories</p>
           </div>
 
           <div className="h-52 w-full my-2">
@@ -298,7 +298,7 @@ export default function DashboardPage() {
                     formatter={(value: any) => `${currency}${value.toLocaleString()}`}
                     contentStyle={{
                       backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
-                      borderColor: theme === "dark" ? "#382D2D" : "#DCD7C5",
+                      borderColor: theme === "dark" ? "#382D2D" : "#E6E1D3",
                       borderRadius: "14px",
                       color: theme === "dark" ? "#EDEBDD" : "#1B1717",
                       fontSize: "12px",
@@ -307,7 +307,7 @@ export default function DashboardPage() {
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex items-center justify-center text-xs text-[#887B7B]">
+              <div className="h-full flex items-center justify-center text-xs text-[#7A6E6E]">
                 No expense entries logged for this period
               </div>
             )}
@@ -319,7 +319,7 @@ export default function DashboardPage() {
               <div key={idx} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: CHERRY_PALETTE[idx % CHERRY_PALETTE.length] }} />
-                  <span className="font-bold text-[#544A4A] dark:text-[#C8BFB0]">{cat.name}</span>
+                  <span className="font-bold text-[#4A3F3F] dark:text-[#C8BFB0]">{cat.name}</span>
                 </div>
                 <span className="font-black text-[#1B1717] dark:text-[#EDEBDD]">
                   {currency}{cat.amount.toLocaleString()} ({cat.percentage}%)
@@ -333,28 +333,28 @@ export default function DashboardPage() {
       {/* Grid: Financial Goals & Recent Transactions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Financial Goals Progress */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm space-y-4">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Financial Goals</h3>
-            <Link href="/goals" className="text-xs font-bold text-[#810100] dark:text-[#EDEBDD] hover:underline">
+            <Link href="/goals" className="text-xs font-extrabold text-[#810100] dark:text-[#EDEBDD] hover:underline">
               View All
             </Link>
           </div>
 
           <div className="space-y-4">
             {goals.slice(0, 3).map((goal) => (
-              <div key={goal.id} className="p-4 rounded-2xl bg-[#FAF8F2] dark:bg-[#1B1717]/60 border border-[#DCD7C5] dark:border-[#382D2D] space-y-2">
+              <div key={goal.id} className="p-4 rounded-2xl bg-[#FAF9F5] dark:bg-[#1B1717]/60 border border-[#E6E1D3] dark:border-[#382D2D] space-y-2">
                 <div className="flex items-center justify-between text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD]">
                   <span>{goal.title}</span>
                   <span className="text-[#810100] dark:text-[#EDEBDD]">{goal.percentageCompleted}%</span>
                 </div>
-                <div className="w-full bg-[#DCD7C5] dark:bg-[#382D2D] h-2.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#E6E1D3] dark:bg-[#382D2D] h-2.5 rounded-full overflow-hidden">
                   <div
                     className="bg-[#810100] h-full rounded-full transition-all duration-500"
                     style={{ width: `${goal.percentageCompleted}%` }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-[#887B7B] dark:text-[#8C8080] font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-semibold">
                   <span>
                     Saved: {currency}{goal.currentAmount.toLocaleString()}
                   </span>
@@ -366,32 +366,32 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Transactions List */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm space-y-4">
+        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Recent Activity</h3>
-            <Link href="/transactions" className="text-xs font-bold text-[#810100] dark:text-[#EDEBDD] hover:underline">
+            <Link href="/transactions" className="text-xs font-extrabold text-[#810100] dark:text-[#EDEBDD] hover:underline">
               View All Transactions
             </Link>
           </div>
 
-          <div className="divide-y divide-[#DCD7C5]/40 dark:divide-[#382D2D]">
+          <div className="divide-y divide-[#E6E1D3]/50 dark:divide-[#382D2D]">
             {recentTx.map((tx) => (
               <div key={tx.id} className="py-3.5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center text-[#EDEBDD] shrink-0 shadow-sm"
+                    className="w-10 h-10 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-sm"
                     style={{ backgroundColor: tx.category?.color || "#810100" }}
                   >
                     <CategoryIcon iconName={tx.category?.icon || "Tag"} className="w-5 h-5" />
                   </div>
                   <div>
                     <h4 className="font-bold text-xs md:text-sm text-[#1B1717] dark:text-[#EDEBDD]">{tx.description}</h4>
-                    <div className="flex items-center gap-2 text-[11px] text-[#887B7B] dark:text-[#8C8080]">
+                    <div className="flex items-center gap-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080]">
                       <span>{tx.category?.name}</span>
                       <span>•</span>
                       <span>{new Date(tx.date).toLocaleDateString()}</span>
                       <span>•</span>
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F2] dark:bg-[#1B1717] font-semibold border border-[#DCD7C5] dark:border-[#382D2D]">
+                      <span className="px-2 py-0.5 rounded-md bg-[#FAF9F5] dark:bg-[#1B1717] font-semibold border border-[#E6E1D3] dark:border-[#382D2D]">
                         {tx.paymentMethod}
                       </span>
                     </div>

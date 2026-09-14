@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#EDEBDD] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] flex">
+    <div className="min-h-screen bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] flex">
       {/* Sidebar Navigation */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
