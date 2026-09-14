@@ -10,6 +10,9 @@ import { StudentPacingCard } from "@/components/StudentPacingCard";
 import { ForecastWidget } from "@/components/ForecastWidget";
 import { GamificationWidget } from "@/components/GamificationWidget";
 import { EmergencyFundCard } from "@/components/EmergencyFundCard";
+import { WhatIfSimulatorModal } from "@/components/WhatIfSimulatorModal";
+import { HelpCircle } from "lucide-react";
+
 export default function DashboardPage() {
     const { user } = useAuth();
     const { theme } = useTheme();
@@ -21,6 +24,7 @@ export default function DashboardPage() {
     const [recentTx, setRecentTx] = useState([]);
     const [budgetsData, setBudgetsData] = useState(null);
     const [aiInsights, setAiInsights] = useState(null);
+    const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -82,19 +86,28 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Time Period Filter Pills */}
-        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl shadow-sm overflow-x-auto">
-          {[
-            { id: "THIS_WEEK", label: "This Week" },
-            { id: "THIS_MONTH", label: "This Month" },
-            { id: "LAST_MONTH", label: "Last Month" },
-            { id: "LAST_3_MONTHS", label: "Last 3M" },
-            { id: "THIS_YEAR", label: "This Year" },
-        ].map((item) => (<button key={item.id} onClick={() => setPeriod(item.id)} className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${period === item.id
-                ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
-                : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010] dark:hover:text-[#FAF8F5]"}`}>
-              {item.label}
-            </button>))}
+        {/* Time Period Filter Pills & What-If Simulator Trigger */}
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setIsSimulatorOpen(true)}
+            className="px-4 py-2 rounded-2xl text-xs font-black bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-md flex items-center gap-1.5 hover:opacity-95 transition"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Can I Afford This?</span>
+          </button>
+          <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl shadow-sm overflow-x-auto">
+            {[
+              { id: "THIS_WEEK", label: "This Week" },
+              { id: "THIS_MONTH", label: "This Month" },
+              { id: "LAST_MONTH", label: "Last Month" },
+              { id: "LAST_3_MONTHS", label: "Last 3M" },
+              { id: "THIS_YEAR", label: "This Year" },
+          ].map((item) => (<button key={item.id} onClick={() => setPeriod(item.id)} className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${period === item.id
+                  ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010] dark:hover:text-[#FAF8F5]"}`}>
+                {item.label}
+              </button>))}
+          </div>
         </div>
       </div>
 
@@ -368,5 +381,10 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      <WhatIfSimulatorModal
+        isOpen={isSimulatorOpen}
+        onClose={() => setIsSimulatorOpen(false)}
+      />
     </div>);
 }

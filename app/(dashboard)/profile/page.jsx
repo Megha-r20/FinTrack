@@ -1,143 +1,191 @@
 "use client";
 import React, { useState } from "react";
-import { User, Mail, Save, ShieldCheck, GraduationCap, Sparkles, Lock, Download, Key, Globe, Bell, CheckCircle2, } from "lucide-react";
+import {
+  User,
+  Mail,
+  Save,
+  ShieldCheck,
+  GraduationCap,
+  Sparkles,
+  Lock,
+  Download,
+  Key,
+  Globe,
+  Bell,
+  CheckCircle2,
+  Palette,
+  Smartphone,
+  Check,
+  X,
+} from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
+import { useTheme } from "@/context/ThemeContext";
+
 export default function ProfilePage() {
-    const { user, refreshUser } = useAuth();
-    const { showToast } = useToast();
-    const [activeTab, setActiveTab] = useState("profile");
-    // Profile Form State
-    const [name, setName] = useState(user?.name || "Megha R");
-    const [currency, setCurrency] = useState(user?.currency || "₹");
-    const [savingProfile, setSavingProfile] = useState(false);
-    // Pacing Preferences State
-    const [monthlyCap, setMonthlyCap] = useState("6000");
-    const [dailyPacingAlerts, setDailyPacingAlerts] = useState(true);
-    const [savingPacing, setSavingPacing] = useState(false);
-    // Security Form State
-    const [currentPassword, setCurrentPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [updatingPassword, setUpdatingPassword] = useState(false);
-    // Profile Update
-    const handleProfileUpdate = async (e) => {
-        e.preventDefault();
-        setSavingProfile(true);
-        try {
-            const res = await fetch("/api/auth/me", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, currency }),
-            });
-            if (res.ok) {
-                showToast("Profile preferences saved!", "success");
-                await refreshUser();
-            }
-            else {
-                showToast("Failed to update profile", "error");
-            }
-        }
-        catch {
-            showToast("Error updating profile", "error");
-        }
-        finally {
-            setSavingProfile(false);
-        }
-    };
-    // Preset Template Trigger
-    const handleApplyHostelPreset = async () => {
-        setSavingPacing(true);
-        try {
-            const hostelItems = [
-                { categoryName: "Snacks & Mess Outings", amount: 1500 },
-                { categoryName: "Transport", amount: 800 },
-                { categoryName: "Mobile & Data Recharge", amount: 300 },
-                { categoryName: "Personal Care & Toiletries", amount: 500 },
-                { categoryName: "Entertainment", amount: 600 },
-                { categoryName: "Education", amount: 500 },
-                { categoryName: "Emergency Fund", amount: 800 },
-                { categoryName: "Shopping", amount: 1000 },
-            ];
-            const res = await fetch("/api/budgets", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ bulk: true, items: hostelItems }),
-            });
-            if (res.ok) {
-                showToast("Hostel Student ₹6,000 Budget Template applied!", "success");
-            }
-            else {
-                showToast("Failed to apply preset", "error");
-            }
-        }
-        catch {
-            showToast("Error applying preset", "error");
-        }
-        finally {
-            setSavingPacing(false);
-        }
-    };
-    // Password Update
-    const handlePasswordUpdate = async (e) => {
-        e.preventDefault();
-        if (newPassword !== confirmPassword) {
-            showToast("New passwords do not match", "error");
-            return;
-        }
-        if (newPassword.length < 6) {
-            showToast("Password must be at least 6 characters", "error");
-            return;
-        }
-        setUpdatingPassword(true);
-        try {
-            // Mock security password update toast for demo user
-            setTimeout(() => {
-                showToast("Security password updated successfully!", "success");
-                setCurrentPassword("");
-                setNewPassword("");
-                setConfirmPassword("");
-                setUpdatingPassword(false);
-            }, 600);
-        }
-        catch {
-            showToast("Failed to update password", "error");
-            setUpdatingPassword(false);
-        }
-    };
-    // Export Data Download
-    const handleExportData = async () => {
-        try {
-            const [txRes, bRes] = await Promise.all([fetch("/api/transactions"), fetch("/api/budgets")]);
-            const txData = txRes.ok ? await txRes.json() : {};
-            const bData = bRes.ok ? await bRes.json() : {};
-            const exportPayload = {
-                user: { name: user?.name, email: user?.email, currency: user?.currency },
-                exportDate: new Date().toISOString(),
-                transactions: txData.transactions || [],
-                budgets: bData.budgets || [],
-            };
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
-            const downloadAnchor = document.createElement("a");
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `FinTrack_Export_${user?.name?.replace(/\s+/g, "_") || "User"}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast("Financial dataset exported cleanly!", "success");
-        }
-        catch {
-            showToast("Error exporting financial data", "error");
-        }
-    };
-    return (<div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
+  const { user, refreshUser } = useAuth();
+  const { showToast } = useToast();
+  const { accentTheme, setAccentTheme } = useTheme();
+  const [activeTab, setActiveTab] = useState("profile");
+
+  // Profile Form State
+  const [name, setName] = useState(user?.name || "Megha R");
+  const [currency, setCurrency] = useState(user?.currency || "₹");
+  const [savingProfile, setSavingProfile] = useState(false);
+
+  // Security & PIN Lock State
+  const [pinInput, setPinInput] = useState("");
+  const [hasPinSet, setHasPinSet] = useState(() => {
+    if (typeof window !== "undefined") {
+      return !!localStorage.getItem("fintrack_pin_code");
+    }
+    return false;
+  });
+
+  // Pacing Preferences State
+  const [monthlyCap, setMonthlyCap] = useState("6000");
+  const [dailyPacingAlerts, setDailyPacingAlerts] = useState(true);
+  const [savingPacing, setSavingPacing] = useState(false);
+
+  // Security Form State
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+
+  const handleSavePin = (e) => {
+    e.preventDefault();
+    if (pinInput.length !== 4) {
+      showToast("PIN must be exactly 4 digits", "warning");
+      return;
+    }
+    localStorage.setItem("fintrack_pin_code", pinInput);
+    setHasPinSet(true);
+    setPinInput("");
+    showToast("4-Digit PIN Lock enabled!", "success");
+  };
+
+  const handleRemovePin = () => {
+    localStorage.removeItem("fintrack_pin_code");
+    setHasPinSet(false);
+    setPinInput("");
+    showToast("PIN Lock disabled", "info");
+  };
+
+  // Profile Update
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    setSavingProfile(true);
+    try {
+      const res = await fetch("/api/auth/me", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, currency }),
+      });
+      if (res.ok) {
+        showToast("Profile preferences saved!", "success");
+        await refreshUser();
+      } else {
+        showToast("Failed to update profile", "error");
+      }
+    } catch {
+      showToast("Error updating profile", "error");
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  // Preset Template Trigger
+  const handleApplyHostelPreset = async () => {
+    setSavingPacing(true);
+    try {
+      const hostelItems = [
+        { categoryName: "Snacks & Mess Outings", amount: 1500 },
+        { categoryName: "Transport", amount: 800 },
+        { categoryName: "Mobile & Data Recharge", amount: 300 },
+        { categoryName: "Personal Care & Toiletries", amount: 500 },
+        { categoryName: "Entertainment", amount: 600 },
+        { categoryName: "Education", amount: 500 },
+        { categoryName: "Emergency Fund", amount: 800 },
+        { categoryName: "Shopping", amount: 1000 },
+      ];
+      const res = await fetch("/api/budgets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bulk: true, items: hostelItems }),
+      });
+      if (res.ok) {
+        showToast("Hostel Student ₹6,000 Budget Template applied!", "success");
+      } else {
+        showToast("Failed to apply preset", "error");
+      }
+    } catch {
+      showToast("Error applying preset", "error");
+    } finally {
+      setSavingPacing(false);
+    }
+  };
+
+  // Password Update
+  const handlePasswordUpdate = async (e) => {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      showToast("New passwords do not match", "error");
+      return;
+    }
+    if (newPassword.length < 6) {
+      showToast("Password must be at least 6 characters", "error");
+      return;
+    }
+    setUpdatingPassword(true);
+    try {
+      setTimeout(() => {
+        showToast("Security password updated successfully!", "success");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        setUpdatingPassword(false);
+      }, 600);
+    } catch {
+      showToast("Failed to update password", "error");
+      setUpdatingPassword(false);
+    }
+  };
+
+  // Export Data Download
+  const handleExportData = async () => {
+    try {
+      const [txRes, bRes] = await Promise.all([fetch("/api/transactions"), fetch("/api/budgets")]);
+      const txData = txRes.ok ? await txRes.json() : {};
+      const bData = bRes.ok ? await bRes.json() : {};
+      const exportPayload = {
+        user: { name: user?.name, email: user?.email, currency: user?.currency },
+        exportDate: new Date().toISOString(),
+        transactions: txData.transactions || [],
+        budgets: bData.budgets || [],
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `FinTrack_Export_${user?.name?.replace(/\s+/g, "_") || "User"}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("Financial dataset exported cleanly!", "success");
+    } catch {
+      showToast("Error exporting financial data", "error");
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Title */}
       <div>
         <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
           Account Settings
         </h1>
         <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-0.5">
-          Manage your personal profile, budget preferences, and security options.
+          Manage your personal profile, budget preferences, theme accents, and security options.
         </p>
       </div>
 
@@ -151,11 +199,11 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-xl font-black text-[#141010] dark:text-[#FAF8F5]">{user?.name || "Megha R"}</h2>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-                <User className="w-3 h-3"/> Personal Account
+                <User className="w-3 h-3" /> Personal Account
               </span>
             </div>
             <p className="text-xs font-semibold text-[#594D4D] dark:text-[#C8BFB0] flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-[#810100]"/> {user?.email || "demo@fintrack.com"}
+              <Mail className="w-3.5 h-3.5 text-[#810100]" /> {user?.email || "demo@fintrack.com"}
             </p>
           </div>
         </div>
@@ -163,11 +211,11 @@ export default function ProfilePage() {
         {/* Metadata Pills */}
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           <div className="px-3.5 py-2 rounded-2xl bg-[#FFFFFF]/80 dark:bg-[#141010]/80 border border-[#E2DBD0] dark:border-[#3B3030] text-[11px] font-bold text-[#141010] dark:text-[#FAF8F5] flex items-center gap-1.5 shadow-sm">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"/>
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Isolated Tenant</span>
           </div>
           <div className="px-3.5 py-2 rounded-2xl bg-[#FFFFFF]/80 dark:bg-[#141010]/80 border border-[#E2DBD0] dark:border-[#3B3030] text-[11px] font-bold text-[#141010] dark:text-[#FAF8F5] flex items-center gap-1.5 shadow-sm">
-            <Globe className="w-3.5 h-3.5 text-[#810100]"/>
+            <Globe className="w-3.5 h-3.5 text-[#810100]" />
             <span>{user?.currency || "₹"} Currency</span>
           </div>
         </div>
@@ -176,45 +224,65 @@ export default function ProfilePage() {
       {/* Tab Navigation */}
       <div className="flex items-center gap-2 p-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl shadow-sm overflow-x-auto">
         {[
-            { id: "profile", label: "Profile & Preferences", icon: User },
-            { id: "pacing", label: "Budget & Pacing", icon: GraduationCap },
-            { id: "security", label: "Security & Export", icon: Lock },
+          { id: "profile", label: "Profile & Preferences", icon: User },
+          { id: "pacing", label: "Budget & Pacing", icon: GraduationCap },
+          { id: "security", label: "Security & App Lock", icon: Lock },
         ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (<button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${isActive
-                    ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
-                    : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010] dark:hover:text-[#FAF8F5]"}`}>
-              <Icon className="w-4 h-4"/>
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${
+                isActive
+                  ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010] dark:hover:text-[#FAF8F5]"
+              }`}
+            >
+              <Icon className="w-4 h-4" />
               <span>{tab.label}</span>
-            </button>);
+            </button>
+          );
         })}
       </div>
 
       {/* TAB 1: Profile & Preferences */}
-      {activeTab === "profile" && (<div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
+      {activeTab === "profile" && (
+        <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
           <div>
             <h3 className="text-base font-black text-[#141010] dark:text-[#FAF8F5]">Personal Information</h3>
-            <p className="text-xs text-[#594D4D] font-medium mt-0.5">Update your display name and preferred currency format.</p>
+            <p className="text-xs text-[#594D4D] font-medium mt-0.5">Update your display name, preferred currency, and visual theme style.</p>
           </div>
 
-          <form onSubmit={handleProfileUpdate} className="space-y-4">
+          <form onSubmit={handleProfileUpdate} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Full Name</label>
                 <div className="relative">
-                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]"/>
-                  <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"/>
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                  />
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Email Address</label>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]"/>
-                  <input type="email" disabled value={user?.email || "demo@fintrack.com"} className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5]/60 dark:bg-[#141010]/60 border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#594D4D] cursor-not-allowed"/>
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
+                  <input
+                    type="email"
+                    disabled
+                    value={user?.email || "demo@fintrack.com"}
+                    className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5]/60 dark:bg-[#141010]/60 border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#594D4D] cursor-not-allowed"
+                  />
                   <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3"/> Verified
+                    <CheckCircle2 className="w-3 h-3" /> Verified
                   </span>
                 </div>
               </div>
@@ -223,27 +291,70 @@ export default function ProfilePage() {
             <div>
               <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Preferred Display Currency</label>
               <div className="relative">
-                <select value={currency} onChange={(e) => setCurrency(e.target.value)} className="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-black text-[#810100] dark:text-[#FAF8F5] focus:outline-none">
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-black text-[#810100] dark:text-[#FAF8F5] focus:outline-none"
+                >
                   <option value="₹">₹ (INR - Indian Rupee)</option>
                   <option value="$">$ (USD - US Dollar)</option>
                   <option value="€">€ (EUR - Euro)</option>
                   <option value="£">£ (GBP - British Pound)</option>
                 </select>
               </div>
-              <p className="text-[11px] text-[#594D4D] font-medium mt-1">This currency symbol will be formatted across all dashboard views and AI advice.</p>
+            </div>
+
+            {/* Dynamic Accent Themes */}
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] space-y-3">
+              <div className="flex items-center gap-2">
+                <Palette className="w-4 h-4 text-[#810100] dark:text-[#E53835]" />
+                <span className="text-xs font-bold text-[#141010] dark:text-[#FAF8F5]">Dynamic Accent Palette</span>
+              </div>
+              <p className="text-xs text-[#594D4D]">Select your preferred color highlight theme for buttons and badges:</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                {[
+                  { id: "cherry", label: "Deep Cherry", color: "bg-[#810100]" },
+                  { id: "emerald", label: "Emerald Mint", color: "bg-emerald-600" },
+                  { id: "gold", label: "Golden Amber", color: "bg-amber-500" },
+                  { id: "violet", label: "Royal Violet", color: "bg-purple-600" },
+                ].map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setAccentTheme(item.id);
+                      showToast(`Accent theme updated to ${item.label}!`, "success");
+                    }}
+                    className={`p-3 rounded-xl border transition flex items-center gap-2 text-xs font-bold ${
+                      accentTheme === item.id
+                        ? "border-[#810100] dark:border-white bg-white dark:bg-[#201A1A] shadow-sm"
+                        : "border-[#E2DBD0] dark:border-[#3B3030] bg-transparent"
+                    }`}
+                  >
+                    <span className={`w-3.5 h-3.5 rounded-full ${item.color} shrink-0`} />
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="pt-2">
-              <button type="submit" disabled={savingProfile} className="flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow transition-all">
-                <Save className="w-4 h-4"/>
+              <button
+                type="submit"
+                disabled={savingProfile}
+                className="flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow transition-all"
+              >
+                <Save className="w-4 h-4" />
                 <span>{savingProfile ? "Saving Preferences..." : "Save Preferences"}</span>
               </button>
             </div>
           </form>
-        </div>)}
+        </div>
+      )}
 
       {/* TAB 2: Budget & Pacing */}
-      {activeTab === "pacing" && (<div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
+      {activeTab === "pacing" && (
+        <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
           <div>
             <h3 className="text-base font-black text-[#141010] dark:text-[#FAF8F5]">Hostel Budget & Pacing Controls</h3>
             <p className="text-xs text-[#594D4D] font-medium mt-0.5">Configure your target monthly spending allowance and pacing alerts.</p>
@@ -253,14 +364,18 @@ export default function ProfilePage() {
             <div className="p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <h4 className="text-sm font-bold text-[#141010] dark:text-[#FAF8F5] flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-amber-500"/>
+                  <Sparkles className="w-4 h-4 text-amber-500" />
                   <span>Hostel Student ₹6,000 Preset Template</span>
                 </h4>
                 <p className="text-xs text-[#594D4D] font-medium">
                   Automatically set standard category limits for snacks, transport, data recharge, personal care, and books.
                 </p>
               </div>
-              <button onClick={handleApplyHostelPreset} disabled={savingPacing} className="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-[#810100] hover:bg-[#630000] text-white shadow-md cherry-glow shrink-0 transition-all">
+              <button
+                onClick={handleApplyHostelPreset}
+                disabled={savingPacing}
+                className="px-4 py-2.5 rounded-xl text-xs font-extrabold bg-[#810100] hover:bg-[#630000] text-white shadow-md cherry-glow shrink-0 transition-all"
+              >
                 {savingPacing ? "Applying..." : "Load ₹6,000 Preset"}
               </button>
             </div>
@@ -270,28 +385,84 @@ export default function ProfilePage() {
                 <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Target Monthly Allowance Cap</label>
                 <div className="relative">
                   <span className="absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-xs text-[#594D4D]">{currency}</span>
-                  <input type="number" value={monthlyCap} onChange={(e) => setMonthlyCap(e.target.value)} className="w-full pl-8 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"/>
+                  <input
+                    type="number"
+                    value={monthlyCap}
+                    onChange={(e) => setMonthlyCap(e.target.value)}
+                    className="w-full pl-8 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                  />
                 </div>
               </div>
 
               <div className="flex items-center justify-between p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030]">
                 <div className="flex items-center gap-3">
-                  <Bell className="w-5 h-5 text-[#810100]"/>
+                  <Bell className="w-5 h-5 text-[#810100]" />
                   <div>
                     <span className="text-xs font-bold text-[#141010] dark:text-[#FAF8F5] block">Daily Safe Spend Notifications</span>
                     <span className="text-[11px] text-[#594D4D]">Warn on dashboard when daily spending exceeds safe allowance limit</span>
                   </div>
                 </div>
-                <button type="button" onClick={() => setDailyPacingAlerts(!dailyPacingAlerts)} className={`w-12 h-6 rounded-full p-1 transition-all ${dailyPacingAlerts ? "bg-[#810100]" : "bg-[#E2DBD0] dark:bg-[#3B3030]"}`}>
-                  <div className={`w-4 h-4 rounded-full bg-white transition-all ${dailyPacingAlerts ? "translate-x-6" : "translate-x-0"}`}/>
+                <button
+                  type="button"
+                  onClick={() => setDailyPacingAlerts(!dailyPacingAlerts)}
+                  className={`w-12 h-6 rounded-full p-1 transition-all ${dailyPacingAlerts ? "bg-[#810100]" : "bg-[#E2DBD0] dark:bg-[#3B3030]"}`}
+                >
+                  <div className={`w-4 h-4 rounded-full bg-white transition-all ${dailyPacingAlerts ? "translate-x-6" : "translate-x-0"}`} />
                 </button>
               </div>
             </div>
           </div>
-        </div>)}
+        </div>
+      )}
 
-      {/* TAB 3: Security & Export */}
-      {activeTab === "security" && (<div className="space-y-6">
+      {/* TAB 3: Security & App Lock */}
+      {activeTab === "security" && (
+        <div className="space-y-6">
+          {/* 4-Digit PIN App Lock Card */}
+          <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#E53835]">
+                <Smartphone className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-black text-[#141010] dark:text-[#FAF8F5]">4-Digit App Lock Screen</h3>
+                <p className="text-xs text-[#594D4D] font-medium">Protect your dashboard privacy with a security PIN overlay.</p>
+              </div>
+            </div>
+
+            {hasPinSet ? (
+              <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                  <Check className="w-4 h-4" />
+                  <span>4-Digit Security PIN active on this device</span>
+                </div>
+                <button
+                  onClick={handleRemovePin}
+                  className="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-extrabold hover:bg-rose-700 transition"
+                >
+                  Disable PIN
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSavePin} className="flex flex-col sm:flex-row gap-3 pt-1">
+                <input
+                  type="password"
+                  maxLength={4}
+                  placeholder="Enter 4-digit PIN (e.g. 1234)"
+                  value={pinInput}
+                  onChange={(e) => setPinInput(e.target.value.replace(/\D/g, ""))}
+                  className="px-4 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none flex-1"
+                />
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl text-xs font-extrabold bg-[#810100] text-white shadow-md cherry-glow hover:opacity-95"
+                >
+                  Set PIN Lock
+                </button>
+              </form>
+            )}
+          </div>
+
           {/* Change Password Form */}
           <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
             <div>
@@ -303,8 +474,15 @@ export default function ProfilePage() {
               <div>
                 <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Current Password</label>
                 <div className="relative">
-                  <Key className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]"/>
-                  <input type="password" required placeholder="••••••••" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"/>
+                  <Key className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
+                  <input
+                    type="password"
+                    required
+                    placeholder="••••••••"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                  />
                 </div>
               </div>
 
@@ -312,23 +490,41 @@ export default function ProfilePage() {
                 <div>
                   <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">New Password</label>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]"/>
-                    <input type="password" required placeholder="••••••••" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"/>
+                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
+                    <input
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Confirm New Password</label>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]"/>
-                    <input type="password" required placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"/>
+                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
+                    <input
+                      type="password"
+                      required
+                      placeholder="••••••••"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                    />
                   </div>
                 </div>
               </div>
 
               <div className="pt-2">
-                <button type="submit" disabled={updatingPassword} className="flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow transition-all">
-                  <Lock className="w-4 h-4"/>
+                <button
+                  type="submit"
+                  disabled={updatingPassword}
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow transition-all"
+                >
+                  <Lock className="w-4 h-4" />
                   <span>{updatingPassword ? "Updating Password..." : "Update Password"}</span>
                 </button>
               </div>
@@ -347,12 +543,17 @@ export default function ProfilePage() {
                 <span className="text-xs font-bold text-[#141010] dark:text-[#FAF8F5] block">Export Financial Records (JSON)</span>
                 <span className="text-[11px] text-[#594D4D]">Download a full structured backup of your transactions, categories & budgets.</span>
               </div>
-              <button onClick={handleExportData} className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-extrabold bg-[#141010] dark:bg-[#FAF8F5] text-[#FAF8F5] dark:text-[#141010] hover:bg-black dark:hover:bg-white shadow-sm shrink-0 transition-all">
-                <Download className="w-3.5 h-3.5"/>
+              <button
+                onClick={handleExportData}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-extrabold bg-[#141010] dark:bg-[#FAF8F5] text-[#FAF8F5] dark:text-[#141010] hover:bg-black dark:hover:bg-white shadow-sm shrink-0 transition-all"
+              >
+                <Download className="w-3.5 h-3.5" />
                 <span>Export Data</span>
               </button>
             </div>
           </div>
-        </div>)}
-    </div>);
+        </div>
+      )}
+    </div>
+  );
 }

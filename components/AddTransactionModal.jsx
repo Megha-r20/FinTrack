@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { X, Plus, Calendar, Tag, CreditCard, FileText, ArrowUpRight, ArrowDownLeft, Camera, Sparkles, Check, AlertCircle } from "lucide-react";
+import { VoiceAssistantModal } from "@/components/VoiceAssistantModal";
+import { X, Plus, Calendar, Tag, CreditCard, FileText, ArrowUpRight, ArrowDownLeft, Camera, Sparkles, Check, AlertCircle, Mic } from "lucide-react";
 import { useToast } from "@/context/ToastContext";
 import { queueOfflineTransaction } from "@/lib/offlineStore";
 
@@ -19,6 +19,7 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }) {
     const [submitting, setSubmitting] = useState(false);
     const [scanningOcr, setScanningOcr] = useState(false);
     const [activeTab, setActiveTab] = useState("MANUAL"); // "MANUAL" | "OCR"
+    const [isVoiceOpen, setIsVoiceOpen] = useState(false);
     const { showToast } = useToast();
 
     useEffect(() => {
@@ -42,6 +43,17 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }) {
         catch (err) {
             console.error(err);
         }
+    };
+
+    const handleVoiceParsed = (result) => {
+        if (result.amount) setAmount(result.amount.toString());
+        if (result.description) setDescription(result.description);
+        if (result.paymentMethod) setPaymentMethod(result.paymentMethod);
+        if (result.categoryName) {
+            const matched = categories.find((c) => c.name.toLowerCase().includes(result.categoryName.toLowerCase()) || result.categoryName.toLowerCase().includes(c.name.toLowerCase()));
+            if (matched) setCategoryId(matched.id);
+        }
+        showToast("Voice details filled into form!", "success");
     };
 
     useEffect(() => {
@@ -204,6 +216,10 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }) {
               <button type="button" onClick={() => setActiveTab("OCR")} className={`px-2.5 py-1 rounded-lg flex items-center gap-1 ${activeTab === "OCR" ? "bg-[#810100] text-white" : "text-[#594D4D]"}`}>
                 <Camera className="w-3 h-3" />
                 <span>OCR Receipt</span>
+              </button>
+              <button type="button" onClick={() => setIsVoiceOpen(true)} className="px-2.5 py-1 rounded-lg flex items-center gap-1 bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20">
+                <Mic className="w-3 h-3" />
+                <span>Voice Log</span>
               </button>
             </div>
           </div>
@@ -368,5 +384,11 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }) {
           </form>
         )}
       </div>
+
+      <VoiceAssistantModal
+        isOpen={isVoiceOpen}
+        onClose={() => setIsVoiceOpen(false)}
+        onParsed={handleVoiceParsed}
+      />
     </div>);
 }

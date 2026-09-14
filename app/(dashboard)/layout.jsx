@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { Navbar } from "@/components/Navbar";
 import { AddTransactionModal } from "@/components/AddTransactionModal";
 import { QuickAddGlobal } from "@/components/QuickAddGlobal";
+import { AppLockOverlay } from "@/components/AppLockOverlay";
 
 export default function DashboardLayout({ children }) {
     const { user, loading } = useAuth();
@@ -34,6 +35,9 @@ export default function DashboardLayout({ children }) {
     if (!user)
         return null;
     return (<div className="min-h-screen bg-[#FAF8F5] dark:bg-[#141010] text-[#181414] dark:text-[#FAF8F5] flex">
+      {/* App Lock Overlay */}
+      <AppLockOverlay />
+
       {/* Sidebar Navigation */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)}/>
 

@@ -4,6 +4,8 @@ import { Plus, AlertCircle, Clock } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import SubscriptionAuditCard from "@/components/SubscriptionAuditCard";
+
 export default function RecurringPage() {
     const { user } = useAuth();
     const currency = user?.currency || "₹";
@@ -11,6 +13,7 @@ export default function RecurringPage() {
     const [recurringItems, setRecurringItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [description, setDescription] = useState("");
@@ -20,6 +23,7 @@ export default function RecurringPage() {
     const [frequency, setFrequency] = useState("MONTHLY");
     const [nextDueDate, setNextDueDate] = useState("");
     const [submitting, setSubmitting] = useState(false);
+
     const fetchRecurring = async () => {
         setLoading(true);
         try {
@@ -36,6 +40,7 @@ export default function RecurringPage() {
             setLoading(false);
         }
     };
+
     const fetchCategories = async () => {
         try {
             const res = await fetch("/api/categories");
@@ -50,10 +55,12 @@ export default function RecurringPage() {
             console.error(err);
         }
     };
+
     useEffect(() => {
         fetchRecurring();
         fetchCategories();
     }, []);
+
     const handleCreate = async (e) => {
         e.preventDefault();
         if (!description || !amount || !categoryId || !nextDueDate)
@@ -87,6 +94,7 @@ export default function RecurringPage() {
             setSubmitting(false);
         }
     };
+
     return (<div className="space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -102,7 +110,12 @@ export default function RecurringPage() {
           <Plus className="w-4 h-4"/>
           <span>Add Recurring Item</span>
         </button>
-      </div>      <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm overflow-hidden">
+      </div>
+
+      {/* Student Discount & Subscription Audit Card */}
+      <SubscriptionAuditCard />
+
+      <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm overflow-hidden">
         {loading ? (<div className="p-8 text-center text-xs text-[#594D4D] font-medium animate-pulse">
             Loading recurring bills & subscriptions...
           </div>) : recurringItems.length === 0 ? (<div className="p-12 text-center space-y-3">
