@@ -13,6 +13,8 @@ import {
   Key,
   ArrowRight,
   Sparkles,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { useToast } from "@/context/ToastContext";
 
@@ -33,6 +35,11 @@ export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) 
   const [joinCode, setJoinCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
+
+  // Edit & Delete states
+  const [editingWsId, setEditingWsId] = useState(null);
+  const [editingWsName, setEditingWsName] = useState("");
+  const [deletingWsId, setDeletingWsId] = useState(null);
 
   const fetchWorkspaces = async () => {
     setLoading(true);
@@ -73,6 +80,58 @@ export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) 
       }
     } catch {
       showToast("Error switching workspace", "error");
+    }
+  };
+
+  const handleRename = async (id) => {
+    if (!editingWsName.trim()) return;
+    try {
+      const res = await fetch("/api/workspaces", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ workspaceId: id, name: editingWsName.trim() }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setWorkspaces((prev) =>
+          prev.map((w) => (w.id === id ? { ...w, name: data.workspace.name } : w))
+        );
+        showToast(`Workspace renamed to "${data.workspace.name}"!`, "success");
+        setEditingWsId(null);
+        setEditingWsName("");
+        window.dispatchEvent(new Event("fintrack_workspace_changed"));
+      } else {
+        const err = await res.json();
+        showToast(err.error || "Failed to rename workspace", "error");
+      }
+    } catch {
+      showToast("Error renaming workspace", "error");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(`/api/workspaces?workspaceId=${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setWorkspaces((prev) => prev.filter((w) => w.id !== id));
+        showToast("Workspace deleted successfully!", "success");
+        setDeletingWsId(null);
+
+        // If the deleted workspace was currently active, fall back to Personal Workspace
+        if (id === activeWsId) {
+          handleSwitch("ws_personal");
+        } else {
+          window.dispatchEvent(new Event("fintrack_workspace_changed"));
+        }
+      } else {
+        const err = await res.json();
+        showToast(err.error || "Failed to delete workspace", "error");
+      }
+    } catch {
+      showToast("Error deleting workspace", "error");
     }
   };
 
@@ -205,6 +264,10 @@ export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) 
             <div className="space-y-2.5 max-h-[300px] overflow-y-auto pr-1">
               {workspaces.map((ws) => {
                 const isActive = ws.id === activeWsId;
+                const isEditing = editingWsId === ws.id;
+                const isDeleting = deletingWsId === ws.id;
+                const isDefaultWs = ws.isDefault || ws.id === "ws_personal";
+
                 return (
                   <div
                     key={ws.id}
@@ -214,45 +277,131 @@ export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) 
                         : "bg-[#FAF8F5]/60 dark:bg-[#141010] border-[#E2DBD0] dark:border-[#3B3030]"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-background flex items-center justify-center font-bold text-[#810100] dark:text-[#FAF8F5] border border-border shadow-xs">
-                        {ws.name.charAt(0)}
+                    {/* Inline Delete Mode */}
+                    {isDeleting ? (
+                      <div className="flex items-center justify-between w-full gap-2 animate-in fade-in duration-150">
+                        <span className="text-xs font-bold text-rose-600 dark:text-rose-400 truncate">
+                          Delete "{ws.name}"? This action cannot be undone.
+                        </span>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            onClick={() => setDeletingWsId(null)}
+                            className="px-2.5 py-1 rounded-lg border border-[#E2DBD0] dark:border-[#3B3030] text-xs font-bold text-[#594D4D]"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={() => handleDelete(ws.id)}
+                            className="px-3 py-1 rounded-lg bg-rose-600 text-white text-xs font-extrabold shadow-sm hover:bg-rose-700 transition"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-sm text-[#141010] dark:text-[#FAF8F5]">
-                            {ws.name}
-                          </span>
-                          {isActive && (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-extrabold border border-emerald-500/30">
-                              Active Session
-                            </span>
+                    ) : isEditing ? (
+                      /* Inline Edit Mode */
+                      <div className="flex items-center gap-2 w-full animate-in fade-in duration-150">
+                        <input
+                          type="text"
+                          value={editingWsName}
+                          onChange={(e) => setEditingWsName(e.target.value)}
+                          onKeyDown={(e) => e.key === "Enter" && handleRename(ws.id)}
+                          className="flex-1 px-3 py-1.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#810100] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
+                          autoFocus
+                        />
+                        <button
+                          onClick={() => handleRename(ws.id)}
+                          className="p-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition"
+                          title="Save Name"
+                        >
+                          <Check className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => setEditingWsId(null)}
+                          className="p-1.5 rounded-lg border border-[#E2DBD0] dark:border-[#3B3030] text-[#594D4D]"
+                          title="Cancel"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      /* Standard Row Mode */
+                      <>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-background flex items-center justify-center font-bold text-[#810100] dark:text-[#FAF8F5] border border-border shadow-xs">
+                            {ws.name.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-sm text-[#141010] dark:text-[#FAF8F5]">
+                                {ws.name}
+                              </span>
+                              {isActive && (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-extrabold border border-emerald-500/30">
+                                  Active Session
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-[#594D4D]">
+                              Code: <span className="font-mono font-bold text-[#141010] dark:text-[#FAF8F5]">{ws.code}</span> • Role:{" "}
+                              <span className="font-semibold text-[#810100] dark:text-[#E53835]">{ws.role}</span>
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          {/* Copy Code */}
+                          <button
+                            onClick={() => copyInviteCode(ws.code)}
+                            className="p-2 rounded-lg border border-border bg-background text-xs text-[#594D4D] hover:text-[#141010] dark:hover:text-[#FAF8F5]"
+                            title="Copy Invite Code"
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+
+                          {/* Edit Rename */}
+                          <button
+                            onClick={() => {
+                              setEditingWsId(ws.id);
+                              setEditingWsName(ws.name);
+                            }}
+                            className="p-2 rounded-lg border border-border bg-background text-xs text-[#594D4D] hover:text-[#810100] dark:hover:text-[#FAF8F5] transition"
+                            title="Edit Workspace Name"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+
+                          {/* Delete Workspace */}
+                          {!isDefaultWs ? (
+                            <button
+                              onClick={() => setDeletingWsId(ws.id)}
+                              className="p-2 rounded-lg border border-border bg-background text-xs text-rose-500 hover:bg-rose-500/10 transition"
+                              title="Delete Workspace"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          ) : (
+                            <button
+                              disabled
+                              className="p-2 rounded-lg border border-border bg-background text-xs text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50"
+                              title="Default Personal Workspace cannot be deleted"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+
+                          {/* Switch active */}
+                          {!isActive && (
+                            <button
+                              onClick={() => handleSwitch(ws.id)}
+                              className="ml-1 px-3 py-1.5 rounded-xl bg-[#810100] text-white text-xs font-black cherry-glow hover:opacity-90 transition"
+                            >
+                              Switch
+                            </button>
                           )}
                         </div>
-                        <p className="text-xs text-[#594D4D]">
-                          Code: <span className="font-mono font-bold text-[#141010] dark:text-[#FAF8F5]">{ws.code}</span> • Role:{" "}
-                          <span className="font-semibold text-[#810100] dark:text-[#E53835]">{ws.role}</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => copyInviteCode(ws.code)}
-                        className="p-2 rounded-lg border border-border bg-background text-xs text-[#594D4D] hover:text-[#141010] dark:hover:text-[#FAF8F5]"
-                        title="Copy Invite Code"
-                      >
-                        <Copy className="w-3.5 h-3.5" />
-                      </button>
-                      {!isActive && (
-                        <button
-                          onClick={() => handleSwitch(ws.id)}
-                          className="px-3 py-1.5 rounded-xl bg-[#810100] text-white text-xs font-black cherry-glow hover:opacity-90 transition"
-                        >
-                          Switch
-                        </button>
-                      )}
-                    </div>
+                      </>
+                    )}
                   </div>
                 );
               })}

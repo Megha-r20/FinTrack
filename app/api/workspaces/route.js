@@ -83,3 +83,65 @@ export async function POST(req) {
     return NextResponse.json({ error: "Failed to create workspace" }, { status: 500 });
   }
 }
+
+export async function PUT(req) {
+  try {
+    await requireAuthUser();
+    const body = await req.json();
+    const { workspaceId, name } = body;
+
+    if (!workspaceId || !name || !name.trim()) {
+      return NextResponse.json({ error: "Workspace ID and new name are required" }, { status: 400 });
+    }
+
+    const targetIndex = mockWorkspaces.findIndex((w) => w.id === workspaceId);
+    if (targetIndex === -1) {
+      return NextResponse.json({ error: "Workspace not found" }, { status: 404 });
+    }
+
+    mockWorkspaces[targetIndex].name = name.trim();
+
+    return NextResponse.json({
+      success: true,
+      message: `Workspace renamed to "${mockWorkspaces[targetIndex].name}"!`,
+      workspace: mockWorkspaces[targetIndex],
+    });
+  } catch (error) {
+    console.error("Update Workspace Error:", error);
+    return NextResponse.json({ error: "Failed to update workspace" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    await requireAuthUser();
+    const { searchParams } = new URL(req.url);
+    const workspaceId = searchParams.get("workspaceId");
+
+    if (!workspaceId) {
+      return NextResponse.json({ error: "Workspace ID is required" }, { status: 400 });
+    }
+
+    const targetIndex = mockWorkspaces.findIndex((w) => w.id === workspaceId);
+    if (targetIndex === -1) {
+      return NextResponse.json({ error: "Workspace not found" }, { status: 404 });
+    }
+
+    const targetWs = mockWorkspaces[targetIndex];
+    if (targetWs.isDefault || targetWs.id === "ws_personal") {
+      return NextResponse.json({ error: "Personal Workspace cannot be deleted" }, { status: 400 });
+    }
+
+    mockWorkspaces.splice(targetIndex, 1);
+
+    return NextResponse.json({
+      success: true,
+      message: `Workspace "${targetWs.name}" deleted successfully!`,
+      fallbackWorkspaceId: "ws_personal",
+    });
+  } catch (error) {
+    console.error("Delete Workspace Error:", error);
+    return NextResponse.json({ error: "Failed to delete workspace" }, { status: 500 });
+  }
+}
+
