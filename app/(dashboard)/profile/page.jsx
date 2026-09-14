@@ -233,7 +233,7 @@ export default function ProfilePage() {
           { id: "pacing", label: "Budget & Pacing", icon: GraduationCap },
           { id: "security", label: "Security & App Lock", icon: Lock },
           { id: "workspaces", label: "Household Workspaces", icon: Users },
-          { id: "bot", label: "WhatsApp & Telegram Bot", icon: MessageSquare },
+          { id: "bot", label: "WhatsApp Assistant Bot", icon: MessageSquare },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;

@@ -150,7 +150,7 @@ export default function BotIntegrationCard() {
             </div>
             <div>
               <h3 className="font-black text-lg text-[#141010] dark:text-[#FAF8F5]">
-                WhatsApp & Telegram Bot Integration
+                WhatsApp Assistant Bot Integration
               </h3>
               <p className="text-xs text-[#594D4D] dark:text-[#C8BFB0]">
                 Log transactions via text messages directly to your FinTrack account.
@@ -206,10 +206,10 @@ export default function BotIntegrationCard() {
         {/* Instructions Box */}
         <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs space-y-1.5">
           <span className="font-extrabold text-amber-800 dark:text-amber-400 block flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4" /> How to Connect Your Bot:
+            <Sparkles className="w-4 h-4" /> How to Connect Your WhatsApp Bot:
           </span>
           <p className="text-[#594D4D] dark:text-[#C8BFB0]">
-            Paste your <strong>Webhook Endpoint</strong> and <strong>Secret API Key</strong> into your Telegram BotFather webhook settings or WhatsApp Business Cloud API. Any text message sent to the bot will automatically log to FinTrack!
+            Paste your <strong>Webhook Endpoint</strong> and <strong>Secret API Key</strong> into your WhatsApp Business Cloud API or Twilio WhatsApp webhook settings. Any text message sent to your WhatsApp number will automatically log to FinTrack!
           </p>
         </div>
       </div>
@@ -224,7 +224,7 @@ export default function BotIntegrationCard() {
             </div>
             <div>
               <h4 className="font-extrabold text-sm text-[#141010] dark:text-[#FAF8F5]">
-                WhatsApp / Telegram Bot Live Simulator
+                WhatsApp Assistant Bot Live Simulator
               </h4>
               <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" /> Live Webhook Parser Online

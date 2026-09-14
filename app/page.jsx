@@ -42,8 +42,8 @@ export default function LandingPage() {
       a: "You can create shared workspaces for flatmates, room outings, or family bills. Share a 6-character Invite Code (e.g., FLAT-302) with roommates to manage shared expenses and track individual contributions seamlessly.",
     },
     {
-      q: "How do I log transactions via WhatsApp or Telegram Bot?",
-      a: "FinTrack provides an automated bot webhook key. You can simply send text messages like 'Swiggy 240' or photo receipts to your bot on Telegram or WhatsApp, and FinTrack will automatically categorize and log it into your database.",
+      q: "How do I log transactions via WhatsApp Bot?",
+      a: "FinTrack provides an automated bot webhook key. You can simply send text messages like 'Swiggy 240' or photo receipts to your WhatsApp bot, and FinTrack will automatically categorize and log it into your database.",
     },
     {
       q: "How does the AI Financial Advisor ensure number accuracy?",
@@ -125,7 +125,7 @@ export default function LandingPage() {
         {/* Animated Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] border border-[#810100]/30 shadow-xs animate-in fade-in duration-300">
           <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
-          <span>New: Multi-User Household Workspaces & Telegram Bot</span>
+          <span>New: Multi-User Household Workspaces & WhatsApp Assistant Bot</span>
         </div>
 
         {/* Hero Main Heading */}
@@ -138,7 +138,7 @@ export default function LandingPage() {
 
         {/* Subtitle */}
         <p className="text-base sm:text-lg text-[#594D4D] dark:text-[#C8BFB0] max-w-3xl mx-auto font-medium leading-relaxed">
-          Log transactions instantly via WhatsApp/Telegram bot, track Safe Daily Spend pacing, collaborate on household roommate bills, and get data-grounded AI advice.
+          Log transactions instantly via WhatsApp bot, track Safe Daily Spend pacing, collaborate on household roommate bills, and get data-grounded AI advice.
         </p>
 
         {/* Hero CTA Buttons */}
@@ -168,7 +168,7 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-2">
             <MessageSquare className="w-4 h-4 text-[#810100] dark:text-[#FAF8F5]" />
-            <span>Telegram & WhatsApp Bot</span>
+            <span>WhatsApp Assistant Bot</span>
           </div>
           <div className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4 text-amber-500" />
@@ -194,7 +194,7 @@ export default function LandingPage() {
             { id: "pacing", label: "Daily Pacing Engine", icon: Calendar },
             { id: "workspaces", label: "Household Workspaces", icon: Users },
             { id: "ai", label: "AI Advisor Intelligence", icon: Bot },
-            { id: "bot", label: "WhatsApp & Telegram Bot", icon: MessageSquare },
+            { id: "bot", label: "WhatsApp Assistant Bot", icon: MessageSquare },
           ].map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -334,13 +334,13 @@ export default function LandingPage() {
             </div>
           )}
 
-          {/* TAB 4: WhatsApp & Telegram Bot Preview */}
+          {/* TAB 4: WhatsApp Assistant Bot Preview */}
           {activeTab === "bot" && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <div className="p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] space-y-3">
                 <div className="flex items-center justify-between text-xs font-bold">
                   <span className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-                    <MessageSquare className="w-4 h-4" /> Instant Telegram / WhatsApp Bot Logger
+                    <MessageSquare className="w-4 h-4" /> Instant WhatsApp Assistant Bot Logger
                   </span>
                   <span className="font-mono text-[10px] text-[#594D4D]">Webhook Active</span>
                 </div>
@@ -398,9 +398,9 @@ export default function LandingPage() {
             <div className="w-10 h-10 rounded-2xl bg-[#630000] text-white flex items-center justify-center font-bold">
               <MessageSquare className="w-5 h-5" />
             </div>
-            <h3 className="font-extrabold text-lg text-[#141010] dark:text-[#FAF8F5]">WhatsApp & Telegram Bot</h3>
+            <h3 className="font-extrabold text-lg text-[#141010] dark:text-[#FAF8F5]">WhatsApp Assistant Bot</h3>
             <p className="text-xs text-[#594D4D] dark:text-[#C8BFB0] leading-relaxed font-medium">
-              Log transactions on the fly directly inside messaging apps. Text simple prompts or photo receipts for instant logging.
+              Log transactions on the fly directly inside WhatsApp. Text simple prompts or photo receipts for instant logging.
             </p>
           </div>
 
@@ -557,7 +557,7 @@ export default function LandingPage() {
             Ready to Take Control of Your Daily Spending?
           </h2>
           <p className="text-xs sm:text-sm text-white/80 max-w-xl mx-auto font-medium leading-relaxed">
-            Join FinTrack today. Set category budgets, automate expense logging via Telegram/WhatsApp, and track your safe daily spend allowance.
+            Join FinTrack today. Set category budgets, automate expense logging via WhatsApp, and track your safe daily spend allowance.
           </p>
           <div className="pt-2">
             <Link
