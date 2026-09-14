@@ -70,7 +70,7 @@ export function QuickAddGlobal({ onOpenModal }) {
     <>
       {/* Offline Sync Banner */}
       {(isOffline || pendingCount > 0) && (
-        <div className="fixed bottom-24 right-6 z-40 flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#201A1A] text-[#FAF8F5] border border-[#3B3030] shadow-xl text-xs font-bold animate-in fade-in">
+        <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-[#201A1A] text-[#FAF8F5] border border-[#3B3030] shadow-xl text-xs font-bold animate-in fade-in">
           {isOffline ? (
             <>
               <WifiOff className="w-4 h-4 text-rose-500 shrink-0" />
@@ -90,16 +90,6 @@ export function QuickAddGlobal({ onOpenModal }) {
           )}
         </div>
       )}
-
-      {/* Floating Action Button */}
-      <button
-        onClick={onOpenModal}
-        title="Quick Add Transaction (Press 'N')"
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-r from-[#810100] to-[#630000] text-white flex items-center justify-center shadow-2xl cherry-glow hover:scale-105 active:scale-95 transition-all group"
-        aria-label="Quick Add Transaction"
-      >
-        <Plus className="w-7 h-7 group-hover:rotate-90 transition-transform duration-300" />
-      </button>
     </>
   );
 }
