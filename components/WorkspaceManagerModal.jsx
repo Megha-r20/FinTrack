@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   Users,
   Plus,
@@ -17,7 +18,12 @@ import { useToast } from "@/context/ToastContext";
 
 export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) {
   const { showToast } = useToast();
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("list"); // "list" | "create" | "join"
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [workspaces, setWorkspaces] = useState([]);
   const [activeWsId, setActiveWsId] = useState("ws_personal");
   const [loading, setLoading] = useState(true);
@@ -135,13 +141,13 @@ export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) 
     showToast(`Invite code ${code} copied! Share with roommates.`, "info");
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const currentActiveWs = workspaces.find((w) => w.id === activeWsId) || workspaces[0];
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
-      <div className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto bg-[#FFFFFF] dark:bg-[#201A1A] rounded-3xl shadow-2xl border border-[#E2DBD0] dark:border-[#3B3030] p-6 space-y-5 my-auto">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md animate-in fade-in duration-200">
+      <div className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto bg-[#FFFFFF] dark:bg-[#201A1A] rounded-3xl shadow-2xl border border-[#E2DBD0] dark:border-[#3B3030] p-6 space-y-5">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#E2DBD0] dark:border-[#3B3030] pb-4">
           <div className="flex items-center gap-3">
@@ -374,6 +380,7 @@ export function WorkspaceManagerModal({ isOpen, onClose, onWorkspaceSwitched }) 
           </form>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
