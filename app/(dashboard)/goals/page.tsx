@@ -114,7 +114,7 @@ export default function GoalsPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+          <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
             Financial Goals
           </h1>
           <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-0.5">
@@ -139,15 +139,15 @@ export default function GoalsPage() {
           return (
             <div
               key={goal.id}
-              className={`p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border transition-all shadow-sm flex flex-col justify-between space-y-4 ${
+              className={`p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border transition-all shadow-sm flex flex-col justify-between space-y-4 ${
                 isDone
                   ? "border-emerald-500/60 ring-1 ring-emerald-500/20"
-                  : "border-[#E6E1D3] dark:border-[#382D2D]"
+                  : "border-[#E2DBD0] dark:border-[#3B3030]"
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] border border-[#E6E1D3] dark:border-[#382D2D]">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030]">
                     {goal.category}
                   </span>
                   {isDone ? (
@@ -155,16 +155,16 @@ export default function GoalsPage() {
                       <CheckCircle2 className="w-3 h-3" /> Completed
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-[#7A6E6E]">
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-[#594D4D]">
                       <Clock className="w-3 h-3" /> Due {new Date(goal.deadline).toLocaleDateString()}
                     </span>
                   )}
                 </div>
 
-                <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">{goal.title}</h3>
-                <div className="mt-2 text-2xl font-black text-[#1B1717] dark:text-[#EDEBDD]">
+                <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">{goal.title}</h3>
+                <div className="mt-2 text-2xl font-black text-[#141010] dark:text-[#FAF8F5]">
                   {currency}{goal.currentAmount.toLocaleString()}{" "}
-                  <span className="text-xs font-semibold text-[#7A6E6E]">
+                  <span className="text-xs font-semibold text-[#594D4D]">
                     / {currency}{goal.targetAmount.toLocaleString()}
                   </span>
                 </div>
@@ -173,11 +173,11 @@ export default function GoalsPage() {
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs font-extrabold">
                   <span className="text-[#4A3F3F] dark:text-[#C8BFB0]">{goal.percentageCompleted}% Target Reached</span>
-                  <span className="text-[#810100] dark:text-[#EDEBDD]">
+                  <span className="text-[#810100] dark:text-[#FAF8F5]">
                     {currency}{goal.remainingAmount.toLocaleString()} needed
                   </span>
                 </div>
-                <div className="w-full bg-[#E6E1D3] dark:bg-[#382D2D] h-3 rounded-full overflow-hidden">
+                <div className="w-full bg-[#E2DBD0] dark:bg-[#3B3030] h-3 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       isDone ? "bg-emerald-500" : "bg-[#810100]"
@@ -193,7 +193,7 @@ export default function GoalsPage() {
                     setActiveGoal(goal);
                     setIsContribModalOpen(true);
                   }}
-                  className="w-full py-2.5 px-3 rounded-xl text-xs font-extrabold bg-[#FAF9F5] hover:bg-[#E6E1D3]/50 dark:bg-[#1B1717] dark:hover:bg-[#302929] text-[#1B1717] dark:text-[#EDEBDD] transition-colors border border-[#E6E1D3] dark:border-[#382D2D]"
+                  className="w-full py-2.5 px-3 rounded-xl text-xs font-extrabold bg-[#FAF8F5] hover:bg-[#E2DBD0]/50 dark:bg-[#141010] dark:hover:bg-[#302929] text-[#141010] dark:text-[#FAF8F5] transition-colors border border-[#E2DBD0] dark:border-[#3B3030]"
                 >
                   + Add Contribution Deposit
                 </button>
@@ -206,53 +206,53 @@ export default function GoalsPage() {
       {/* Goal Creator Modal */}
       {isGoalModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] p-6 space-y-4">
-            <h3 className="text-lg font-black text-[#1B1717] dark:text-[#EDEBDD]">Create Financial Goal</h3>
+          <div className="w-full max-w-md bg-[#FFFFFF] dark:bg-[#201A1A] rounded-3xl shadow-2xl border border-[#E2DBD0] dark:border-[#3B3030] p-6 space-y-4">
+            <h3 className="text-lg font-black text-[#141010] dark:text-[#FAF8F5]">Create Financial Goal</h3>
             <form onSubmit={handleCreateGoal} className="space-y-3">
               <div>
-                <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1">Goal Title</label>
+                <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Goal Title</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Emergency Reserve / New Laptop"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1">Target Amount</label>
+                  <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Target Amount</label>
                   <input
                     type="number"
                     required
                     placeholder="100000"
                     value={targetAmount}
                     onChange={(e) => setTargetAmount(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1">Initial Deposit</label>
+                  <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Initial Deposit</label>
                   <input
                     type="number"
                     placeholder="0"
                     value={currentAmount}
                     onChange={(e) => setCurrentAmount(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                    className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1">Target Deadline</label>
+                <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Target Deadline</label>
                 <input
                   type="date"
                   required
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
               </div>
 
@@ -260,7 +260,7 @@ export default function GoalsPage() {
                 <button
                   type="button"
                   onClick={() => setIsGoalModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold text-[#7A6E6E] hover:bg-[#FAF9F5] rounded-xl"
+                  className="px-4 py-2 text-xs font-semibold text-[#594D4D] hover:bg-[#FAF8F5] rounded-xl"
                 >
                   Cancel
                 </button>
@@ -280,31 +280,31 @@ export default function GoalsPage() {
       {/* Contribution Logger Modal */}
       {isContribModalOpen && activeGoal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] p-6 space-y-4">
-            <h3 className="text-lg font-black text-[#1B1717] dark:text-[#EDEBDD]">
+          <div className="w-full max-w-md bg-[#FFFFFF] dark:bg-[#201A1A] rounded-3xl shadow-2xl border border-[#E2DBD0] dark:border-[#3B3030] p-6 space-y-4">
+            <h3 className="text-lg font-black text-[#141010] dark:text-[#FAF8F5]">
               Log Deposit for "{activeGoal.title}"
             </h3>
             <form onSubmit={handleAddContribution} className="space-y-3">
               <div>
-                <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1">Contribution Amount</label>
+                <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Contribution Amount</label>
                 <input
                   type="number"
                   required
                   placeholder="5000"
                   value={contribAmount}
                   onChange={(e) => setContribAmount(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-sm font-bold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-sm font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1">Note / Source</label>
+                <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1">Note / Source</label>
                 <input
                   type="text"
                   placeholder="e.g. Monthly salary savings transfer"
                   value={contribNote}
                   onChange={(e) => setContribNote(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
               </div>
 
@@ -312,7 +312,7 @@ export default function GoalsPage() {
                 <button
                   type="button"
                   onClick={() => setIsContribModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold text-[#7A6E6E] hover:bg-[#FAF9F5] rounded-xl"
+                  className="px-4 py-2 text-xs font-semibold text-[#594D4D] hover:bg-[#FAF8F5] rounded-xl"
                 >
                   Cancel
                 </button>

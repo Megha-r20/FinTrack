@@ -86,7 +86,7 @@ export default function DashboardPage() {
       {/* Header & Time Period Selector */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+          <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
             Welcome back, {user?.name || "Megha R"}
           </h1>
           <p className="text-xs md:text-sm text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-1">
@@ -95,7 +95,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Time Period Filter Pills */}
-        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-2xl shadow-sm overflow-x-auto">
+        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl shadow-sm overflow-x-auto">
           {[
             { id: "THIS_WEEK", label: "This Week" },
             { id: "THIS_MONTH", label: "This Month" },
@@ -109,7 +109,7 @@ export default function DashboardPage() {
               className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all whitespace-nowrap ${
                 period === item.id
                   ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
-                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#1B1717] dark:hover:text-[#EDEBDD]"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010] dark:hover:text-[#FAF8F5]"
               }`}
             >
               {item.label}
@@ -123,7 +123,7 @@ export default function DashboardPage() {
         {/* Total Balance Card */}
         <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#810100] text-white border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-widest text-[#EDEBDD]/90 uppercase">Total Balance</span>
+            <span className="text-xs font-bold tracking-widest text-[#FAF8F5]/90 uppercase">Total Balance</span>
             <div className="w-9 h-9 rounded-2xl bg-white/20 flex items-center justify-center text-white">
               <Wallet className="w-4 h-4" />
             </div>
@@ -133,13 +133,13 @@ export default function DashboardPage() {
               {currency}{totalBalance.toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#EDEBDD]/80 font-semibold">
+          <div className="mt-2 text-[11px] text-[#FAF8F5]/80 font-semibold">
             Cumulative Net Capital
           </div>
         </div>
 
         {/* Total Income Card */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold tracking-widest text-[#4A3F3F] dark:text-[#C8BFB0] uppercase">Total Income</span>
             <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold">
@@ -151,13 +151,13 @@ export default function DashboardPage() {
               {currency}{(summary.totalIncome || 0).toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-medium">
+          <div className="mt-2 text-[11px] text-[#594D4D] dark:text-[#8C8080] font-medium">
             Inflow for selected period
           </div>
         </div>
 
         {/* Total Expenses Card */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold tracking-widest text-[#4A3F3F] dark:text-[#C8BFB0] uppercase">Total Expenses</span>
             <div className="w-9 h-9 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#E53835] flex items-center justify-center font-bold">
@@ -169,28 +169,28 @@ export default function DashboardPage() {
               {currency}{(summary.totalExpenses || 0).toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-medium">
+          <div className="mt-2 text-[11px] text-[#594D4D] dark:text-[#8C8080] font-medium">
             Outflow for selected period
           </div>
         </div>
 
         {/* Savings Rate Card */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold tracking-widest text-[#4A3F3F] dark:text-[#C8BFB0] uppercase">Savings Rate</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#EDEBDD] flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] flex items-center justify-center font-bold">
               <PiggyBank className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline justify-between">
-            <span className="text-3xl font-black text-[#1B1717] dark:text-[#EDEBDD]">
+            <span className="text-3xl font-black text-[#141010] dark:text-[#FAF8F5]">
               {currency}{(summary.netSavings || 0).toLocaleString()}
             </span>
-            <span className="text-xs font-black px-2.5 py-1 rounded-full bg-[#810100]/15 text-[#810100] dark:text-[#EDEBDD] border border-[#810100]/30">
+            <span className="text-xs font-black px-2.5 py-1 rounded-full bg-[#810100]/15 text-[#810100] dark:text-[#FAF8F5] border border-[#810100]/30">
               {summary.savingsRate}%
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-medium">
+          <div className="mt-2 text-[11px] text-[#594D4D] dark:text-[#8C8080] font-medium">
             Net saved percentage
           </div>
         </div>
@@ -198,20 +198,20 @@ export default function DashboardPage() {
 
       {/* AI Financial Snapshot Card */}
       {aiInsights && aiInsights.insights && aiInsights.insights.length > 0 && (
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#810100] via-[#630000] to-[#810100] dark:from-[#252020] dark:via-[#1B1717] dark:to-[#252020] text-white dark:text-[#EDEBDD] border border-[#810100]/40 shadow-xl relative overflow-hidden">
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#810100] via-[#630000] to-[#810100] dark:from-[#201A1A] dark:via-[#141010] dark:to-[#201A1A] text-white dark:text-[#FAF8F5] border border-[#810100]/40 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-white/20 dark:bg-[#EDEBDD]/20 text-white flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-white/20 dark:bg-[#FAF8F5]/20 text-white flex items-center justify-center shadow-md">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-extrabold text-base text-white dark:text-[#EDEBDD]">FinTrack AI Advisor Insights</h3>
+                <h3 className="font-extrabold text-base text-white dark:text-[#FAF8F5]">FinTrack AI Advisor Insights</h3>
                 <p className="text-xs text-white/80 dark:text-[#C8BFB0]">Automated observations grounded in your transaction history</p>
               </div>
             </div>
             <Link
               href="/ai-advisor"
-              className="flex items-center gap-1 text-xs font-extrabold text-white dark:text-[#EDEBDD] hover:underline"
+              className="flex items-center gap-1 text-xs font-extrabold text-white dark:text-[#FAF8F5] hover:underline"
             >
               <span>Ask AI Chat</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -222,9 +222,9 @@ export default function DashboardPage() {
             {aiInsights.insights.map((insight: any, idx: number) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-black/20 dark:bg-[#1B1717]/80 border border-white/20 dark:border-[#382D2D] backdrop-blur-sm flex flex-col justify-between"
+                className="p-4 rounded-2xl bg-black/20 dark:bg-[#141010]/80 border border-white/20 dark:border-[#3B3030] backdrop-blur-sm flex flex-col justify-between"
               >
-                <div className="flex items-center gap-2 text-xs font-bold text-white dark:text-[#EDEBDD] mb-1.5">
+                <div className="flex items-center gap-2 text-xs font-bold text-white dark:text-[#FAF8F5] mb-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-white dark:text-[#E53835]" />
                   <span>{insight.title}</span>
                 </div>
@@ -238,11 +238,11 @@ export default function DashboardPage() {
       {/* Recharts Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Income vs Expenses Bar Chart */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Monthly Cash Flow</h3>
-              <p className="text-xs text-[#7A6E6E] dark:text-[#8C8080]">Income vs Expenses (Last 6 Months)</p>
+              <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Monthly Cash Flow</h3>
+              <p className="text-xs text-[#594D4D] dark:text-[#8C8080]">Income vs Expenses (Last 6 Months)</p>
             </div>
           </div>
 
@@ -250,14 +250,14 @@ export default function DashboardPage() {
             {analyticsData?.monthlyTrend && (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={analyticsData.monthlyTrend}>
-                  <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#7A6E6E"} fontSize={11} />
-                  <YAxis stroke={theme === "dark" ? "#887B7B" : "#7A6E6E"} fontSize={11} />
+                  <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#594D4D"} fontSize={11} />
+                  <YAxis stroke={theme === "dark" ? "#887B7B" : "#594D4D"} fontSize={11} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
-                      borderColor: theme === "dark" ? "#382D2D" : "#E6E1D3",
+                      backgroundColor: theme === "dark" ? "#141010" : "#FFFFFF",
+                      borderColor: theme === "dark" ? "#3B3030" : "#E2DBD0",
                       borderRadius: "14px",
-                      color: theme === "dark" ? "#EDEBDD" : "#1B1717",
+                      color: theme === "dark" ? "#FAF8F5" : "#141010",
                       fontSize: "12px",
                     }}
                   />
@@ -270,10 +270,10 @@ export default function DashboardPage() {
         </div>
 
         {/* Expense Category Breakdown Pie Chart */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm flex flex-col justify-between">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm flex flex-col justify-between">
           <div>
-            <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Category Outflow</h3>
-            <p className="text-xs text-[#7A6E6E] dark:text-[#8C8080]">Top spending categories</p>
+            <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Category Outflow</h3>
+            <p className="text-xs text-[#594D4D] dark:text-[#8C8080]">Top spending categories</p>
           </div>
 
           <div className="h-52 w-full my-2">
@@ -297,17 +297,17 @@ export default function DashboardPage() {
                   <Tooltip
                     formatter={(value: any) => `${currency}${value.toLocaleString()}`}
                     contentStyle={{
-                      backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
-                      borderColor: theme === "dark" ? "#382D2D" : "#E6E1D3",
+                      backgroundColor: theme === "dark" ? "#141010" : "#FFFFFF",
+                      borderColor: theme === "dark" ? "#3B3030" : "#E2DBD0",
                       borderRadius: "14px",
-                      color: theme === "dark" ? "#EDEBDD" : "#1B1717",
+                      color: theme === "dark" ? "#FAF8F5" : "#141010",
                       fontSize: "12px",
                     }}
                   />
                 </PieChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex items-center justify-center text-xs text-[#7A6E6E]">
+              <div className="h-full flex items-center justify-center text-xs text-[#594D4D]">
                 No expense entries logged for this period
               </div>
             )}
@@ -321,7 +321,7 @@ export default function DashboardPage() {
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: CHERRY_PALETTE[idx % CHERRY_PALETTE.length] }} />
                   <span className="font-bold text-[#4A3F3F] dark:text-[#C8BFB0]">{cat.name}</span>
                 </div>
-                <span className="font-black text-[#1B1717] dark:text-[#EDEBDD]">
+                <span className="font-black text-[#141010] dark:text-[#FAF8F5]">
                   {currency}{cat.amount.toLocaleString()} ({cat.percentage}%)
                 </span>
               </div>
@@ -333,28 +333,28 @@ export default function DashboardPage() {
       {/* Grid: Financial Goals & Recent Transactions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Financial Goals Progress */}
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Financial Goals</h3>
-            <Link href="/goals" className="text-xs font-extrabold text-[#810100] dark:text-[#EDEBDD] hover:underline">
+            <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Financial Goals</h3>
+            <Link href="/goals" className="text-xs font-extrabold text-[#810100] dark:text-[#FAF8F5] hover:underline">
               View All
             </Link>
           </div>
 
           <div className="space-y-4">
             {goals.slice(0, 3).map((goal) => (
-              <div key={goal.id} className="p-4 rounded-2xl bg-[#FAF9F5] dark:bg-[#1B1717]/60 border border-[#E6E1D3] dark:border-[#382D2D] space-y-2">
-                <div className="flex items-center justify-between text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD]">
+              <div key={goal.id} className="p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010]/60 border border-[#E2DBD0] dark:border-[#3B3030] space-y-2">
+                <div className="flex items-center justify-between text-xs font-extrabold text-[#141010] dark:text-[#FAF8F5]">
                   <span>{goal.title}</span>
-                  <span className="text-[#810100] dark:text-[#EDEBDD]">{goal.percentageCompleted}%</span>
+                  <span className="text-[#810100] dark:text-[#FAF8F5]">{goal.percentageCompleted}%</span>
                 </div>
-                <div className="w-full bg-[#E6E1D3] dark:bg-[#382D2D] h-2.5 rounded-full overflow-hidden">
+                <div className="w-full bg-[#E2DBD0] dark:bg-[#3B3030] h-2.5 rounded-full overflow-hidden">
                   <div
                     className="bg-[#810100] h-full rounded-full transition-all duration-500"
                     style={{ width: `${goal.percentageCompleted}%` }}
                   />
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-[#7A6E6E] dark:text-[#8C8080] font-semibold">
+                <div className="flex items-center justify-between text-[11px] text-[#594D4D] dark:text-[#8C8080] font-semibold">
                   <span>
                     Saved: {currency}{goal.currentAmount.toLocaleString()}
                   </span>
@@ -366,15 +366,15 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Transactions List */}
-        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
+        <div className="lg:col-span-2 p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Recent Activity</h3>
-            <Link href="/transactions" className="text-xs font-extrabold text-[#810100] dark:text-[#EDEBDD] hover:underline">
+            <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Recent Activity</h3>
+            <Link href="/transactions" className="text-xs font-extrabold text-[#810100] dark:text-[#FAF8F5] hover:underline">
               View All Transactions
             </Link>
           </div>
 
-          <div className="divide-y divide-[#E6E1D3]/50 dark:divide-[#382D2D]">
+          <div className="divide-y divide-[#E2DBD0]/50 dark:divide-[#3B3030]">
             {recentTx.map((tx) => (
               <div key={tx.id} className="py-3.5 flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -385,13 +385,13 @@ export default function DashboardPage() {
                     <CategoryIcon iconName={tx.category?.icon || "Tag"} className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-xs md:text-sm text-[#1B1717] dark:text-[#EDEBDD]">{tx.description}</h4>
-                    <div className="flex items-center gap-2 text-[11px] text-[#7A6E6E] dark:text-[#8C8080]">
+                    <h4 className="font-bold text-xs md:text-sm text-[#141010] dark:text-[#FAF8F5]">{tx.description}</h4>
+                    <div className="flex items-center gap-2 text-[11px] text-[#594D4D] dark:text-[#8C8080]">
                       <span>{tx.category?.name}</span>
                       <span>•</span>
                       <span>{new Date(tx.date).toLocaleDateString()}</span>
                       <span>•</span>
-                      <span className="px-2 py-0.5 rounded-md bg-[#FAF9F5] dark:bg-[#1B1717] font-semibold border border-[#E6E1D3] dark:border-[#382D2D]">
+                      <span className="px-2 py-0.5 rounded-md bg-[#FAF8F5] dark:bg-[#141010] font-semibold border border-[#E2DBD0] dark:border-[#3B3030]">
                         {tx.paymentMethod}
                       </span>
                     </div>
@@ -399,7 +399,7 @@ export default function DashboardPage() {
                 </div>
                 <div
                   className={`font-black text-sm md:text-base ${
-                    tx.type === "INCOME" ? "text-emerald-700 dark:text-emerald-400" : "text-[#810100] dark:text-[#EDEBDD]"
+                    tx.type === "INCOME" ? "text-emerald-700 dark:text-emerald-400" : "text-[#810100] dark:text-[#FAF8F5]"
                   }`}
                 >
                   {tx.type === "INCOME" ? "+" : "-"}

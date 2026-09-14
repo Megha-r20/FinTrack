@@ -108,7 +108,7 @@ export default function AiAdvisorPage() {
             <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#810100] to-[#630000] flex items-center justify-center text-white shadow-md cherry-glow">
               <Bot className="w-5 h-5" />
             </div>
-            <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+            <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
               AI Financial Advisor
             </h1>
           </div>
@@ -120,7 +120,7 @@ export default function AiAdvisorPage() {
         {messages.length > 0 && (
           <button
             onClick={handleClearChat}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-[#810100] dark:text-[#EDEBDD] hover:bg-[#810100]/10 border border-[#810100]/30 transition-colors self-start md:self-auto"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-[#810100] dark:text-[#FAF8F5] hover:bg-[#810100]/10 border border-[#810100]/30 transition-colors self-start md:self-auto"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Clear History</span>
@@ -128,23 +128,23 @@ export default function AiAdvisorPage() {
         )}
       </div>
 
-      <div className="p-3.5 rounded-2xl bg-[#810100]/10 border border-[#810100]/30 text-[#810100] dark:text-[#EDEBDD] text-xs font-semibold flex items-center gap-2 shrink-0">
+      <div className="p-3.5 rounded-2xl bg-[#810100]/10 border border-[#810100]/30 text-[#810100] dark:text-[#FAF8F5] text-xs font-semibold flex items-center gap-2 shrink-0">
         <ShieldAlert className="w-4 h-4 shrink-0 text-[#810100] dark:text-[#E53835]" />
         <span>
           <strong>Educational Disclaimer:</strong> FinTrack AI provides automated analysis of your submitted records. It does not provide professional financial or investment advice.
         </span>
       </div>
 
-      <div className="flex-1 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-3xl shadow-sm flex flex-col min-h-0 overflow-hidden">
+      <div className="flex-1 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm flex flex-col min-h-0 overflow-hidden">
         <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-4">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#EDEBDD] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] flex items-center justify-center">
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Ask your AI Financial Assistant</h3>
-                <p className="text-xs text-[#7A6E6E] max-w-sm mt-1 font-medium">
+                <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Ask your AI Financial Assistant</h3>
+                <p className="text-xs text-[#594D4D] max-w-sm mt-1 font-medium">
                   Select a suggested question below or type custom queries grounded in your real transaction metrics.
                 </p>
               </div>
@@ -154,7 +154,7 @@ export default function AiAdvisorPage() {
                   <button
                     key={idx}
                     onClick={() => handleSend(q)}
-                    className="px-3.5 py-2.5 rounded-2xl text-xs font-bold bg-[#FAF9F5] hover:bg-[#E6E1D3]/60 dark:bg-[#1B1717] dark:hover:bg-[#302929] text-[#1B1717] dark:text-[#EDEBDD] border border-[#E6E1D3] dark:border-[#382D2D] transition-all text-left shadow-sm"
+                    className="px-3.5 py-2.5 rounded-2xl text-xs font-bold bg-[#FAF8F5] hover:bg-[#E2DBD0]/60 dark:bg-[#141010] dark:hover:bg-[#302929] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030] transition-all text-left shadow-sm"
                   >
                     "{q}"
                   </button>
@@ -177,7 +177,7 @@ export default function AiAdvisorPage() {
                   className={`max-w-[85%] md:max-w-[75%] p-4 rounded-2xl text-xs md:text-sm font-medium leading-relaxed whitespace-pre-line ${
                     msg.role === "user"
                       ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow rounded-tr-none"
-                      : "bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] border border-[#E6E1D3] dark:border-[#382D2D] rounded-tl-none shadow-sm"
+                      : "bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030] rounded-tl-none shadow-sm"
                   }`}
                 >
                   {msg.content}
@@ -197,7 +197,7 @@ export default function AiAdvisorPage() {
               <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#810100] to-[#630000] text-white flex items-center justify-center shrink-0">
                 <Bot className="w-4 h-4" />
               </div>
-              <div className="p-4 rounded-2xl bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-tl-none flex items-center gap-2 text-xs text-[#7A6E6E] font-bold">
+              <div className="p-4 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-tl-none flex items-center gap-2 text-xs text-[#594D4D] font-bold">
                 <div className="w-2 h-2 rounded-full bg-[#810100] animate-bounce" />
                 <div className="w-2 h-2 rounded-full bg-[#810100] animate-bounce [animation-delay:0.2s]" />
                 <div className="w-2 h-2 rounded-full bg-[#810100] animate-bounce [animation-delay:0.4s]" />
@@ -209,7 +209,7 @@ export default function AiAdvisorPage() {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className="p-4 border-t border-[#E6E1D3] dark:border-[#382D2D] bg-[#FAF9F5] dark:bg-[#1B1717]/60">
+        <div className="p-4 border-t border-[#E2DBD0] dark:border-[#3B3030] bg-[#FAF8F5] dark:bg-[#141010]/60">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -222,7 +222,7 @@ export default function AiAdvisorPage() {
               placeholder="Ask AI Advisor about your income, spending habits, or budgets..."
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              className="flex-1 px-4 py-3 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-2xl text-xs md:text-sm font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+              className="flex-1 px-4 py-3 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl text-xs md:text-sm font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
             />
             <button
               type="submit"

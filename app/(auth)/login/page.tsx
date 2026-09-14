@@ -37,23 +37,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] relative overflow-hidden transition-colors duration-300">
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#810100]/15 via-[#630000]/10 to-transparent blur-3xl pointer-events-none" />
 
-      <div className="relative w-full max-w-md bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+      <div className="relative w-full max-w-md bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
         {/* Brand Header */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#810100] to-[#630000] flex items-center justify-center text-white shadow-lg cherry-glow mb-3">
             <TrendingUp className="w-7 h-7 stroke-[2.5]" />
           </div>
-          <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">Sign In to FinTrack</h1>
-          <p className="text-xs text-[#7A6E6E] dark:text-[#C8BFB0] font-medium mt-1">AI-Powered Personal Finance & Wealth Platform</p>
+          <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">Sign In to FinTrack</h1>
+          <p className="text-xs text-[#594D4D] dark:text-[#C8BFB0] font-medium mt-1">AI-Powered Personal Finance & Wealth Platform</p>
         </div>
 
         {/* Demo Fast Login Chip */}
-        <div className="mb-6 p-4 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#810100]/30 rounded-2xl flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-bold text-[#810100] dark:text-[#EDEBDD]">
+        <div className="mb-6 p-4 bg-[#FAF8F5] dark:bg-[#141010] border border-[#810100]/30 rounded-2xl flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#810100] dark:text-[#FAF8F5]">
             <Sparkles className="w-4 h-4 text-[#810100] dark:text-[#E53835] shrink-0" />
             <span>Evaluating Demo Account?</span>
           </div>
@@ -68,40 +68,40 @@ export default function LoginPage() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-[#594D4D] mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
               <input
                 type="email"
                 required
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#1B1717] dark:text-[#EDEBDD] placeholder-[#7A6E6E] focus:outline-none"
+                className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] placeholder-[#594D4D] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-[#594D4D] mb-1.5">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
               <input
                 type={showPassword ? "text" : "password"}
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#1B1717] dark:text-[#EDEBDD] placeholder-[#7A6E6E] focus:outline-none"
+                className="w-full pl-10 pr-10 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] placeholder-[#594D4D] focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#7A6E6E] hover:text-[#810100] dark:hover:text-[#EDEBDD]"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#594D4D] hover:text-[#810100] dark:hover:text-[#FAF8F5]"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -118,9 +118,9 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs font-semibold text-[#7A6E6E]">
+        <div className="mt-6 text-center text-xs font-semibold text-[#594D4D]">
           Don't have an account?{" "}
-          <Link href="/register" className="font-extrabold text-[#810100] dark:text-[#EDEBDD] hover:underline">
+          <Link href="/register" className="font-extrabold text-[#810100] dark:text-[#FAF8F5] hover:underline">
             Create Account
           </Link>
         </div>

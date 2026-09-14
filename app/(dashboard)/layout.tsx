@@ -21,9 +21,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] gap-3">
-        <div className="w-9 h-9 rounded-full border-3 border-[#810100] dark:border-[#A31D1C] border-t-transparent animate-spin" />
-        <span className="text-xs font-bold uppercase tracking-wider text-[#810100] dark:text-[#E58887]">Loading FinTrack Workspace...</span>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF8F5] dark:bg-[#141010] text-[#181414] dark:text-[#FAF8F5] gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-[#810100] dark:border-[#E53835] border-t-transparent animate-spin" />
+        <span className="text-xs font-black uppercase tracking-wider text-[#810100] dark:text-[#FAF8F5]">Loading FinTrack Workspace...</span>
       </div>
     );
   }
@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] flex">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#141010] text-[#181414] dark:text-[#FAF8F5] flex">
       {/* Sidebar Navigation */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 

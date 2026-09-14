@@ -134,13 +134,13 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] overflow-hidden">
+      <div className="relative w-full max-w-lg bg-[#FFFFFF] dark:bg-[#201A1A] rounded-3xl shadow-2xl border border-[#E2DBD0] dark:border-[#3B3030] overflow-hidden">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E6E1D3] dark:border-[#382D2D]">
-          <h3 className="text-lg font-black text-[#1B1717] dark:text-[#EDEBDD]">Record Transaction</h3>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2DBD0] dark:border-[#3B3030]">
+          <h3 className="text-lg font-black text-[#141010] dark:text-[#FAF8F5]">Record Transaction</h3>
           <button
             onClick={onClose}
-            className="p-1 text-[#7A6E6E] hover:text-[#1B1717] dark:hover:text-[#EDEBDD] rounded-lg transition-colors"
+            className="p-1 text-[#594D4D] hover:text-[#141010] dark:hover:text-[#FAF8F5] rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -148,14 +148,14 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
           {/* Income vs Expense Toggle */}
-          <div className="grid grid-cols-2 gap-2 p-1 bg-[#FAF9F5] dark:bg-[#1B1717] rounded-2xl border border-[#E6E1D3] dark:border-[#382D2D]">
+          <div className="grid grid-cols-2 gap-2 p-1 bg-[#FAF8F5] dark:bg-[#141010] rounded-2xl border border-[#E2DBD0] dark:border-[#3B3030]">
             <button
               type="button"
               onClick={() => setType("EXPENSE")}
               className={`flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-black transition-all ${
                 type === "EXPENSE"
                   ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
-                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#1B1717]"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010]"
               }`}
             >
               <ArrowDownLeft className="w-4 h-4" />
@@ -167,7 +167,7 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
               className={`flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-black transition-all ${
                 type === "INCOME"
                   ? "bg-emerald-600 text-white shadow-md"
-                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#1B1717]"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010]"
               }`}
             >
               <ArrowUpRight className="w-4 h-4" />
@@ -177,11 +177,11 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
 
           {/* Amount Field */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#594D4D] mb-1.5">
               Amount *
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7A6E6E] font-bold text-lg">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#594D4D] font-bold text-lg">
                 ₹
               </span>
               <input
@@ -191,25 +191,25 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
                 placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full pl-8 pr-4 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-2xl text-lg font-black text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                className="w-full pl-8 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl text-lg font-black text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
               />
             </div>
           </div>
 
           {/* Description Field */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#594D4D] mb-1.5">
               Description *
             </label>
             <div className="relative">
-              <FileText className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+              <FileText className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
               <input
                 type="text"
                 required
                 placeholder="e.g. Weekly Groceries / Salary"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
               />
             </div>
           </div>
@@ -217,13 +217,13 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
           {/* Category Dropdown */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A6E6E]">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#594D4D]">
                 Category *
               </label>
               <button
                 type="button"
                 onClick={() => setIsCreatingCategory(!isCreatingCategory)}
-                className="text-xs font-bold text-[#810100] dark:text-[#EDEBDD] hover:underline flex items-center gap-1"
+                className="text-xs font-bold text-[#810100] dark:text-[#FAF8F5] hover:underline flex items-center gap-1"
               >
                 <Plus className="w-3 h-3" />
                 <span>Custom Category</span>
@@ -231,13 +231,13 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
             </div>
 
             {isCreatingCategory ? (
-              <div className="flex items-center gap-2 p-2 bg-[#FAF9F5] dark:bg-[#1B1717] rounded-xl border border-[#810100]/30">
+              <div className="flex items-center gap-2 p-2 bg-[#FAF8F5] dark:bg-[#141010] rounded-xl border border-[#810100]/30">
                 <input
                   type="text"
                   placeholder="Category Name"
                   value={newCatName}
                   onChange={(e) => setNewCatName(e.target.value)}
-                  className="flex-1 px-3 py-1.5 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-lg text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="flex-1 px-3 py-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-lg text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
                 <button
                   type="button"
@@ -249,11 +249,11 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
               </div>
             ) : (
               <div className="relative">
-                <Tag className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+                <Tag className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
                 <select
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-extrabold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 >
                   {filteredCategories.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -268,30 +268,30 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
           {/* Date & Payment Method */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#594D4D] mb-1.5">
                 Date
               </label>
               <div className="relative">
-                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+                <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-[#594D4D] mb-1.5">
                 Payment Method
               </label>
               <div className="relative">
-                <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+                <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-extrabold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
                 >
                   <option value="UPI">UPI</option>
                   <option value="Credit Card">Credit Card</option>

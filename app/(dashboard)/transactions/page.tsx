@@ -179,7 +179,7 @@ export default function TransactionsPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+          <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
             Transactions
           </h1>
           <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-0.5">
@@ -188,15 +188,15 @@ export default function TransactionsPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <label className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] text-[#1B1717] dark:text-[#EDEBDD] hover:bg-[#FAF9F5] dark:hover:bg-[#302929] transition-colors cursor-pointer shadow-sm">
-            <Upload className="w-4 h-4 text-[#810100] dark:text-[#EDEBDD]" />
+          <label className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] text-[#141010] dark:text-[#FAF8F5] hover:bg-[#FAF8F5] dark:hover:bg-[#302929] transition-colors cursor-pointer shadow-sm">
+            <Upload className="w-4 h-4 text-[#810100] dark:text-[#FAF8F5]" />
             <span>Import CSV</span>
             <input type="file" accept=".csv" onChange={handleFileUpload} className="hidden" />
           </label>
 
           <button
             onClick={handleExportCSV}
-            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] text-[#1B1717] dark:text-[#EDEBDD] hover:bg-[#FAF9F5] dark:hover:bg-[#302929] transition-colors shadow-sm"
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] text-[#141010] dark:text-[#FAF8F5] hover:bg-[#FAF8F5] dark:hover:bg-[#302929] transition-colors shadow-sm"
           >
             <Download className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span>Export CSV</span>
@@ -205,10 +205,10 @@ export default function TransactionsPage() {
       </div>
 
       {/* Filter Controls */}
-      <div className="p-4 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-3">
+      <div className="p-4 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           <div className="lg:col-span-2 relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
             <input
               type="text"
               placeholder="Search description, notes, category..."
@@ -217,7 +217,7 @@ export default function TransactionsPage() {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-10 pr-4 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-semibold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
             />
           </div>
 
@@ -227,7 +227,7 @@ export default function TransactionsPage() {
               setType(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+            className="px-3 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-extrabold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
           >
             <option value="ALL">All Types</option>
             <option value="EXPENSE">Expense Only</option>
@@ -240,7 +240,7 @@ export default function TransactionsPage() {
               setCategoryId(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+            className="px-3 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-extrabold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
           >
             <option value="">All Categories</option>
             {categories.map((c) => (
@@ -257,7 +257,7 @@ export default function TransactionsPage() {
               setSortBy(sb);
               setSortOrder(so);
             }}
-            className="px-3 py-2.5 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-extrabold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+            className="px-3 py-2.5 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-extrabold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
           >
             <option value="date_desc">Newest First</option>
             <option value="date_asc">Oldest First</option>
@@ -268,10 +268,10 @@ export default function TransactionsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-3xl shadow-sm overflow-hidden">
+      <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#FAF9F5] dark:bg-[#1B1717] border-b border-[#E6E1D3] dark:border-[#382D2D] text-[#7A6E6E] uppercase tracking-wider font-extrabold">
+            <thead className="bg-[#FAF8F5] dark:bg-[#141010] border-b border-[#E2DBD0] dark:border-[#3B3030] text-[#594D4D] uppercase tracking-wider font-extrabold">
               <tr>
                 <th className="py-4 px-5">Transaction</th>
                 <th className="py-4 px-5">Category</th>
@@ -281,22 +281,22 @@ export default function TransactionsPage() {
                 <th className="py-4 px-5 text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E6E1D3]/50 dark:divide-[#382D2D] font-medium">
+            <tbody className="divide-y divide-[#E2DBD0]/50 dark:divide-[#3B3030] font-medium">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-[#7A6E6E]">
+                  <td colSpan={6} className="py-8 text-center text-[#594D4D]">
                     Loading transactions...
                   </td>
                 </tr>
               ) : transactions.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-[#7A6E6E]">
+                  <td colSpan={6} className="py-8 text-center text-[#594D4D]">
                     No transactions match your selected filters.
                   </td>
                 </tr>
               ) : (
                 transactions.map((tx) => (
-                  <tr key={tx.id} className="hover:bg-[#FAF9F5] dark:hover:bg-[#302929] transition-colors">
+                  <tr key={tx.id} className="hover:bg-[#FAF8F5] dark:hover:bg-[#302929] transition-colors">
                     <td className="py-4 px-5">
                       <div className="flex items-center gap-3">
                         <div
@@ -306,15 +306,15 @@ export default function TransactionsPage() {
                           <CategoryIcon iconName={tx.category?.icon || "Tag"} className="w-4 h-4" />
                         </div>
                         <div>
-                          <span className="font-bold text-[#1B1717] dark:text-[#EDEBDD] block">
+                          <span className="font-bold text-[#141010] dark:text-[#FAF8F5] block">
                             {tx.description}
                           </span>
-                          {tx.notes && <span className="text-[11px] text-[#7A6E6E]">{tx.notes}</span>}
+                          {tx.notes && <span className="text-[11px] text-[#594D4D]">{tx.notes}</span>}
                         </div>
                       </div>
                     </td>
                     <td className="py-4 px-5">
-                      <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] border border-[#E6E1D3] dark:border-[#382D2D]">
+                      <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030]">
                         {tx.category?.name}
                       </span>
                     </td>
@@ -326,7 +326,7 @@ export default function TransactionsPage() {
                     </td>
                     <td
                       className={`py-4 px-5 text-right font-black text-sm ${
-                        tx.type === "INCOME" ? "text-emerald-700 dark:text-emerald-400" : "text-[#810100] dark:text-[#EDEBDD]"
+                        tx.type === "INCOME" ? "text-emerald-700 dark:text-emerald-400" : "text-[#810100] dark:text-[#FAF8F5]"
                       }`}
                     >
                       {tx.type === "INCOME" ? "+" : "-"}
@@ -350,7 +350,7 @@ export default function TransactionsPage() {
         </div>
 
         {/* Pagination Footer */}
-        <div className="px-5 py-3.5 border-t border-[#E6E1D3] dark:border-[#382D2D] flex items-center justify-between text-xs font-bold text-[#7A6E6E]">
+        <div className="px-5 py-3.5 border-t border-[#E2DBD0] dark:border-[#3B3030] flex items-center justify-between text-xs font-bold text-[#594D4D]">
           <span>
             Page {pagination.page} of {pagination.totalPages} ({pagination.total} total entries)
           </span>
@@ -358,14 +358,14 @@ export default function TransactionsPage() {
             <button
               disabled={page <= 1}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
-              className="p-2 rounded-xl border border-[#E6E1D3] dark:border-[#382D2D] disabled:opacity-40 hover:bg-[#FAF9F5] dark:hover:bg-[#302929]"
+              className="p-2 rounded-xl border border-[#E2DBD0] dark:border-[#3B3030] disabled:opacity-40 hover:bg-[#FAF8F5] dark:hover:bg-[#302929]"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               disabled={page >= pagination.totalPages}
               onClick={() => setPage((p) => p + 1)}
-              className="p-2 rounded-xl border border-[#E6E1D3] dark:border-[#382D2D] disabled:opacity-40 hover:bg-[#FAF9F5] dark:hover:bg-[#302929]"
+              className="p-2 rounded-xl border border-[#E2DBD0] dark:border-[#3B3030] disabled:opacity-40 hover:bg-[#FAF8F5] dark:hover:bg-[#302929]"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -376,20 +376,20 @@ export default function TransactionsPage() {
       {/* CSV Import Preview Modal */}
       {isImportModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-xl bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] overflow-hidden">
-            <div className="flex items-center justify-between p-5 border-b border-[#E6E1D3] dark:border-[#382D2D]">
+          <div className="w-full max-w-xl bg-[#FFFFFF] dark:bg-[#201A1A] rounded-3xl shadow-2xl border border-[#E2DBD0] dark:border-[#3B3030] overflow-hidden">
+            <div className="flex items-center justify-between p-5 border-b border-[#E2DBD0] dark:border-[#3B3030]">
               <div className="flex items-center gap-2">
-                <FileSpreadsheet className="w-5 h-5 text-[#810100] dark:text-[#EDEBDD]" />
-                <h3 className="font-extrabold text-sm text-[#1B1717] dark:text-[#EDEBDD]">Import CSV Confirmation</h3>
+                <FileSpreadsheet className="w-5 h-5 text-[#810100] dark:text-[#FAF8F5]" />
+                <h3 className="font-extrabold text-sm text-[#141010] dark:text-[#FAF8F5]">Import CSV Confirmation</h3>
               </div>
               <button onClick={() => setIsImportModalOpen(false)}>
-                <X className="w-4 h-4 text-[#7A6E6E]" />
+                <X className="w-4 h-4 text-[#594D4D]" />
               </button>
             </div>
 
             <div className="p-5 space-y-3 max-h-[60vh] overflow-y-auto">
               <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0]">
-                Parsed <span className="font-bold text-[#810100] dark:text-[#EDEBDD]">{importRows.length}</span> rows from your CSV file. Confirm batch import to update your financial dashboard.
+                Parsed <span className="font-bold text-[#810100] dark:text-[#FAF8F5]">{importRows.length}</span> rows from your CSV file. Confirm batch import to update your financial dashboard.
               </p>
 
               {importErrors.length > 0 && (
@@ -407,10 +407,10 @@ export default function TransactionsPage() {
               )}
             </div>
 
-            <div className="p-4 border-t border-[#E6E1D3] dark:border-[#382D2D] flex items-center justify-end gap-2">
+            <div className="p-4 border-t border-[#E2DBD0] dark:border-[#3B3030] flex items-center justify-end gap-2">
               <button
                 onClick={() => setIsImportModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold text-[#7A6E6E] hover:bg-[#FAF9F5] dark:hover:bg-[#302929]"
+                className="px-4 py-2 rounded-xl text-xs font-semibold text-[#594D4D] hover:bg-[#FAF8F5] dark:hover:bg-[#302929]"
               >
                 Cancel
               </button>

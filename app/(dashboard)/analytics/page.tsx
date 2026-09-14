@@ -50,7 +50,7 @@ export default function AnalyticsPage() {
     <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+          <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
             Financial Analytics & MoM Trends
           </h1>
           <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-0.5">
@@ -58,7 +58,7 @@ export default function AnalyticsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-2xl shadow-sm">
+        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-2xl shadow-sm">
           {[
             { id: "THIS_MONTH", label: "This Month" },
             { id: "LAST_MONTH", label: "Last Month" },
@@ -71,7 +71,7 @@ export default function AnalyticsPage() {
               className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all ${
                 period === item.id
                   ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow"
-                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#1B1717] dark:hover:text-[#EDEBDD]"
+                  : "text-[#4A3F3F] dark:text-[#C8BFB0] hover:text-[#141010] dark:hover:text-[#FAF8F5]"
               }`}
             >
               {item.label}
@@ -82,13 +82,13 @@ export default function AnalyticsPage() {
 
       {/* MoM Performance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm flex items-center justify-between">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-[#7A6E6E] uppercase tracking-wider">Income Change (MoM)</span>
-            <div className="text-2xl font-black text-[#1B1717] dark:text-[#EDEBDD] mt-1">
+            <span className="text-xs font-bold text-[#594D4D] uppercase tracking-wider">Income Change (MoM)</span>
+            <div className="text-2xl font-black text-[#141010] dark:text-[#FAF8F5] mt-1">
               {currency}{summary.totalIncome.toLocaleString()}
             </div>
-            <span className="text-xs text-[#7A6E6E] font-medium">Vs last month ({currency}{mom.prevIncome.toLocaleString()})</span>
+            <span className="text-xs text-[#594D4D] font-medium">Vs last month ({currency}{mom.prevIncome.toLocaleString()})</span>
           </div>
 
           <div
@@ -103,13 +103,13 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm flex items-center justify-between">
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-xs font-bold text-[#7A6E6E] uppercase tracking-wider">Expenses Change (MoM)</span>
-            <div className="text-2xl font-black text-[#1B1717] dark:text-[#EDEBDD] mt-1">
+            <span className="text-xs font-bold text-[#594D4D] uppercase tracking-wider">Expenses Change (MoM)</span>
+            <div className="text-2xl font-black text-[#141010] dark:text-[#FAF8F5] mt-1">
               {currency}{summary.totalExpenses.toLocaleString()}
             </div>
-            <span className="text-xs text-[#7A6E6E] font-medium">Vs last month ({currency}{mom.prevExpenses.toLocaleString()})</span>
+            <span className="text-xs text-[#594D4D] font-medium">Vs last month ({currency}{mom.prevExpenses.toLocaleString()})</span>
           </div>
 
           <div
@@ -126,10 +126,10 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Savings Trend Area Chart */}
-      <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
+      <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm space-y-4">
         <div>
-          <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Savings & Net Flow Trend</h3>
-          <p className="text-xs text-[#7A6E6E]">Track monthly capital retention over time</p>
+          <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Savings & Net Flow Trend</h3>
+          <p className="text-xs text-[#594D4D]">Track monthly capital retention over time</p>
         </div>
 
         <div className="h-64 w-full">
@@ -142,14 +142,14 @@ export default function AnalyticsPage() {
                     <stop offset="95%" stopColor="#810100" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#7A6E6E"} fontSize={11} />
-                <YAxis stroke={theme === "dark" ? "#887B7B" : "#7A6E6E"} fontSize={11} />
+                <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#594D4D"} fontSize={11} />
+                <YAxis stroke={theme === "dark" ? "#887B7B" : "#594D4D"} fontSize={11} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
-                    borderColor: theme === "dark" ? "#382D2D" : "#E6E1D3",
+                    backgroundColor: theme === "dark" ? "#141010" : "#FFFFFF",
+                    borderColor: theme === "dark" ? "#3B3030" : "#E2DBD0",
                     borderRadius: "14px",
-                    color: theme === "dark" ? "#EDEBDD" : "#1B1717",
+                    color: theme === "dark" ? "#FAF8F5" : "#141010",
                     fontSize: "12px",
                   }}
                 />
@@ -162,19 +162,19 @@ export default function AnalyticsPage() {
 
       {/* Category Outflow & Top Expenses Table */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
-          <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Category Spending Distribution</h3>
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm space-y-4">
+          <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Category Spending Distribution</h3>
 
           <div className="space-y-3">
             {data?.categoryBreakdown?.map((cat: any, idx: number) => (
               <div key={idx} className="space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold">
                   <span className="text-[#4A3F3F] dark:text-[#C8BFB0]">{cat.name}</span>
-                  <span className="text-[#1B1717] dark:text-[#EDEBDD]">
+                  <span className="text-[#141010] dark:text-[#FAF8F5]">
                     {currency}{cat.amount.toLocaleString()} ({cat.percentage}%)
                   </span>
                 </div>
-                <div className="w-full bg-[#E6E1D3] dark:bg-[#382D2D] h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-[#E2DBD0] dark:bg-[#3B3030] h-2 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{
@@ -188,15 +188,15 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] shadow-sm space-y-4">
-          <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Largest Outflow Entries</h3>
+        <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm space-y-4">
+          <h3 className="font-extrabold text-base text-[#141010] dark:text-[#FAF8F5]">Largest Outflow Entries</h3>
 
-          <div className="divide-y divide-[#E6E1D3]/50 dark:divide-[#382D2D]">
+          <div className="divide-y divide-[#E2DBD0]/50 dark:divide-[#3B3030]">
             {data?.topExpenses?.map((tx: any) => (
               <div key={tx.id} className="py-3 flex items-center justify-between">
                 <div>
-                  <h4 className="font-bold text-xs text-[#1B1717] dark:text-[#EDEBDD]">{tx.description}</h4>
-                  <div className="flex items-center gap-2 text-[11px] text-[#7A6E6E]">
+                  <h4 className="font-bold text-xs text-[#141010] dark:text-[#FAF8F5]">{tx.description}</h4>
+                  <div className="flex items-center gap-2 text-[11px] text-[#594D4D]">
                     <span>{tx.category}</span>
                     <span>•</span>
                     <span>{new Date(tx.date).toLocaleDateString()}</span>

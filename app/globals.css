@@ -3,18 +3,18 @@
 @layer base {
   /* Crisp Bright Light & Luxury Cherry Noir Dark Palette */
   :root {
-    --color-cotton: #FAF9F5;
+    --color-cotton: #FAF8F5;
     --color-cherry: #810100;
     --color-maroon: #630000;
-    --color-noir: #1B1717;
+    --color-noir: #141010;
 
-    --bg-primary: #FAF9F5;
+    --bg-primary: #FAF8F5;
     --bg-card: #FFFFFF;
-    --bg-card-hover: #F2EFE5;
-    --border-color: #E6E1D3;
-    --text-primary: #1B1717;
-    --text-secondary: #4A3F3F;
-    --text-muted: #7A6E6E;
+    --bg-card-hover: #F3EFE6;
+    --border-color: #E2DBD0;
+    --text-primary: #181414;
+    --text-secondary: #3D3333;
+    --text-muted: #594D4D;
 
     --accent-primary: #810100;
     --accent-hover: #630000;
@@ -22,17 +22,17 @@
   }
 
   .dark {
-    --bg-primary: #1B1717;
-    --bg-card: #252020;
-    --bg-card-hover: #302929;
-    --border-color: #382D2D;
-    --text-primary: #EDEBDD;
-    --text-secondary: #C8BFB0;
-    --text-muted: #8C8080;
+    --bg-primary: #141010;
+    --bg-card: #201A1A;
+    --bg-card-hover: #2B2323;
+    --border-color: #3B3030;
+    --text-primary: #FAF8F5;
+    --text-secondary: #D4C9B8;
+    --text-muted: #9E9090;
 
     --accent-primary: #810100;
     --accent-hover: #9E0A09;
-    --accent-text: #EDEBDD;
+    --accent-text: #FAF8F5;
   }
 }
 

@@ -39,7 +39,7 @@ export default function ProfilePage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-300">
       <div>
-        <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
+        <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
           Account Settings
         </h1>
         <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-0.5">
@@ -47,42 +47,42 @@ export default function ProfilePage() {
         </p>
       </div>
 
-      <div className="bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-3xl shadow-sm p-6 space-y-6">
+      <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
         <form onSubmit={handleUpdate} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1.5">Full Name</label>
+            <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Full Name</label>
             <div className="relative">
-              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
               <input
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
+                className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1.5">Email Address</label>
+            <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#594D4D]" />
               <input
                 type="email"
                 disabled
                 value={user?.email || "demo@fintrack.com"}
-                className="w-full pl-10 pr-4 py-3 bg-[#FAF9F5]/60 dark:bg-[#1B1717]/60 border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#7A6E6E] cursor-not-allowed"
+                className="w-full pl-10 pr-4 py-3 bg-[#FAF8F5]/60 dark:bg-[#141010]/60 border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-bold text-[#594D4D] cursor-not-allowed"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold uppercase text-[#7A6E6E] mb-1.5">Preferred Currency</label>
+            <label className="block text-xs font-bold uppercase text-[#594D4D] mb-1.5">Preferred Currency</label>
             <div className="relative">
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="w-full px-4 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-black text-[#810100] dark:text-[#EDEBDD] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] rounded-xl text-xs font-black text-[#810100] dark:text-[#FAF8F5] focus:outline-none"
               >
                 <option value="₹">₹ (INR - Indian Rupee)</option>
                 <option value="$">$ (USD - US Dollar)</option>
