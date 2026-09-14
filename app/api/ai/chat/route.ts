@@ -178,7 +178,10 @@ USER REAL FINANCIAL DATABASE RECORD SUMMARY (${user.name}):
 - Approaching Budget Limits (≥80%): ${warningBudgets.length > 0 ? warningBudgets.map((b) => `${b.category} (${b.percentage}% capacity)`).join(", ") : "None"}
 - Unusual Category Increases (>20% MoM): ${unusualIncreases.length > 0 ? unusualIncreases.map((u) => `${u.category} (+${u.pctChange}%, +${user.currency}${u.diff.toLocaleString()})`).join(", ") : "None"}
 - Recurring Monthly Subscriptions/Bills: Total Outflow ${user.currency}${totalRecurringOutflow.toLocaleString()} (${recurring.map((r) => `${r.description}: ${user.currency}${r.amount.toLocaleString()}`).join(", ")})
-- Financial Goals Progress: ${goals.map((g) => `${g.title}: Saved ${user.currency}${g.currentAmount.toLocaleString()} / ${user.currency}${g.targetAmount.toLocaleString()} (${g.percentageCompleted}% reached)`).join("; ")}
+- Financial Goals Progress: ${goals.map((g) => {
+  const pct = g.targetAmount > 0 ? Math.round((g.currentAmount / g.targetAmount) * 100) : 0;
+  return `${g.title}: Saved ${user.currency}${g.currentAmount.toLocaleString()} / ${user.currency}${g.targetAmount.toLocaleString()} (${pct}% reached)`;
+}).join("; ")}
 `;
 
     // 3. AI Reply Generation (Gemini API or intelligent rule-based engine)
@@ -282,7 +285,7 @@ STRICT NUMERICAL DIRECTIVES & SAFETY:
           `- **Total Monthly Expenses**: ${user.currency}${currExpenses.toLocaleString()}\n` +
           `- **Net Savings**: ${user.currency}${netSavings.toLocaleString()} (${savingsRate}% savings rate)\n` +
           `- **Top Category Outflow**: ${Object.entries(catBreakdown).sort((a, b) => b[1] - a[1])[0]?.[0] || "None"} (${user.currency}${(Object.entries(catBreakdown).sort((a, b) => b[1] - a[1])[0]?.[1] || 0).toLocaleString()})\n` +
-          `- **Active Goals**: ${goals.map((g) => `${g.title} (${g.percentageCompleted}%)`).join(", ") || "None"}\n\n` +
+          `- **Active Goals**: ${goals.map((g) => `${g.title} (${g.targetAmount > 0 ? Math.round((g.currentAmount / g.targetAmount) * 100) : 0}%)`).join(", ") || "None"}\n\n` +
           `Feel free to ask about specific categories, budget limits, savings tips, or month-over-month comparisons!`;
       }
     }
