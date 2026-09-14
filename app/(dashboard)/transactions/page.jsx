@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Search, Download, Upload, Trash2, ChevronLeft, ChevronRight, X, FileSpreadsheet, AlertCircle, Receipt, } from "lucide-react";
+import { Search, Download, Upload, Trash2, ChevronLeft, ChevronRight, X, FileSpreadsheet, AlertCircle, Receipt, Users } from "lucide-react";
 import Papa from "papaparse";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { SharedExpenseModal } from "@/components/SharedExpenseModal";
 export default function TransactionsPage() {
     const { user } = useAuth();
     const currency = user?.currency || "₹";
@@ -26,6 +27,8 @@ export default function TransactionsPage() {
     const [importRows, setImportRows] = useState([]);
     const [importErrors, setImportErrors] = useState([]);
     const [importing, setImporting] = useState(false);
+    // Shared Expense Modal State
+    const [isSharedModalOpen, setIsSharedModalOpen] = useState(false);
     const fetchTransactions = async () => {
         setLoading(true);
         try {
@@ -170,6 +173,11 @@ export default function TransactionsPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button onClick={() => setIsSharedModalOpen(true)} className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#810100]/10 text-[#810100] dark:text-[#E53835] border border-[#810100]/30 hover:bg-[#810100]/20 transition-colors shadow-sm">
+            <Users className="w-4 h-4"/>
+            <span>Split Bill</span>
+          </button>
+
           <label className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] text-[#141010] dark:text-[#FAF8F5] hover:bg-[#FAF8F5] dark:hover:bg-[#302929] transition-colors cursor-pointer shadow-sm">
             <Upload className="w-4 h-4 text-[#810100] dark:text-[#FAF8F5]"/>
             <span>Import CSV</span>
@@ -363,5 +371,8 @@ export default function TransactionsPage() {
             </div>
           </div>
         </div>)}
+
+      {/* Shared Expense Splitter Modal */}
+      <SharedExpenseModal isOpen={isSharedModalOpen} onClose={() => setIsSharedModalOpen(false)} categories={categories} currency={currency} onExpenseCreated={fetchTransactions} />
     </div>);
 }

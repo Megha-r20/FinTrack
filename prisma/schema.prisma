@@ -12,6 +12,11 @@ model User {
   email                 String                 @unique
   passwordHash          String
   currency              String                 @default("₹")
+  emergencyFundBalance  Float                  @default(0)
+  emergencyFundPercent  Float                  @default(5.0)
+  currentStreak         Int                    @default(0)
+  bestStreak            Int                    @default(0)
+  lastSafeDate          DateTime?
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   categories            Category[]
@@ -21,12 +26,17 @@ model User {
   recurringTransactions RecurringTransaction[]
   aiConversations       AiConversation[]
   notifications         Notification[]
+  sharedExpenses        SharedExpense[]
+  emergencyFundLogs     EmergencyFundLog[]
+  badges                UserBadge[]
+  savingsChallenges     SavingsChallenge[]
 }
 
 model Category {
   id                    String                 @id @default(uuid())
   name                  String
   type                  String                 // "INCOME" | "EXPENSE"
+  classification        String                 @default("ESSENTIAL") // "ESSENTIAL" | "DISCRETIONARY"
   color                 String                 @default("#6366f1")
   icon                  String                 @default("Tag")
   isDefault             Boolean                @default(false)
@@ -49,6 +59,8 @@ model Transaction {
   category      Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   amount        Float
   type          String   // "INCOME" | "EXPENSE"
+  classification String  @default("ESSENTIAL") // "ESSENTIAL" | "DISCRETIONARY"
+  isShared      Boolean  @default(false)
   date          DateTime
   description   String
   paymentMethod String   @default("UPI") // "UPI", "Credit Card", "Debit Card", "Bank Transfer", "Cash", "Other"
@@ -98,6 +110,57 @@ model GoalContribution {
   date      DateTime @default(now())
   note      String?
   createdAt DateTime @default(now())
+}
+
+model SharedExpense {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  totalAmount  Float
+  myShare      Float
+  participants String   // JSON array string: [{ name: "Alex", share: 300, paid: false }]
+  status       String   @default("PENDING") // "PENDING" | "SETTLED"
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model EmergencyFundLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Float
+  type      String   // "DEPOSIT" | "WITHDRAW"
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model UserBadge {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId     String   // e.g. "PACING_MASTER", "HOSTEL_HERO", "SAFETY_FIRST", "SAVINGS_STREAK"
+  title       String
+  description String
+  icon        String   @default("Trophy")
+  unlockedAt  DateTime @default(now())
+
+  @@unique([userId, badgeId])
+}
+
+model SavingsChallenge {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  targetAmount  Float
+  currentAmount Float    @default(0)
+  durationDays  Int      // 7, 30, 90
+  startDate     DateTime @default(now())
+  status        String   @default("ACTIVE") // "ACTIVE" | "COMPLETED" | "FAILED"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model RecurringTransaction {

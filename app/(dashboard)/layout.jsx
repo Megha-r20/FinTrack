@@ -5,16 +5,26 @@ import { useAuth } from "@/context/AuthContext";
 import { Sidebar } from "@/components/Sidebar";
 import { Navbar } from "@/components/Navbar";
 import { AddTransactionModal } from "@/components/AddTransactionModal";
+import { QuickAddGlobal } from "@/components/QuickAddGlobal";
+
 export default function DashboardLayout({ children }) {
     const { user, loading } = useAuth();
     const router = useRouter();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
     useEffect(() => {
         if (!loading && !user) {
             window.location.href = "/";
         }
     }, [user, loading]);
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js").catch(() => {});
+        }
+    }, []);
+
     if (loading) {
         return (<div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF8F5] dark:bg-[#141010] text-[#181414] dark:text-[#FAF8F5] gap-3">
         <div className="w-9 h-9 rounded-full border-3 border-[#810100] dark:border-[#E53835] border-t-transparent animate-spin"/>
@@ -38,6 +48,9 @@ export default function DashboardLayout({ children }) {
           {children}
         </main>
       </div>
+
+      {/* Global Quick Add Floating Button + Shortcut */}
+      <QuickAddGlobal onOpenModal={() => setIsAddModalOpen(true)} />
 
       {/* Global Add Transaction Modal */}
       <AddTransactionModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={() => {

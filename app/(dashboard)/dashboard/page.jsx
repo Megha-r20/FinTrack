@@ -7,6 +7,9 @@ import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { StudentPacingCard } from "@/components/StudentPacingCard";
+import { ForecastWidget } from "@/components/ForecastWidget";
+import { GamificationWidget } from "@/components/GamificationWidget";
+import { EmergencyFundCard } from "@/components/EmergencyFundCard";
 export default function DashboardPage() {
     const { user } = useAuth();
     const { theme } = useTheme();
@@ -178,6 +181,15 @@ export default function DashboardPage() {
 
       {/* Hostel Student Budget Pacing Card */}
       {budgetsData && <StudentPacingCard summary={budgetsData.summary}/>}
+
+      {/* AI Velocity Forecast & Gamification Streaks */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ForecastWidget currency={currency} />
+        <GamificationWidget />
+      </div>
+
+      {/* Emergency Reserve Bucket */}
+      <EmergencyFundCard currency={currency} />
 
       {/* AI Financial Snapshot Card */}
       {aiInsights && aiInsights.insights && aiInsights.insights.length > 0 && (<div className="p-6 rounded-3xl bg-gradient-to-r from-[#810100] via-[#630000] to-[#810100] dark:from-[#201A1A] dark:via-[#141010] dark:to-[#201A1A] text-white dark:text-[#FAF8F5] border border-[#810100]/40 shadow-xl relative overflow-hidden">
