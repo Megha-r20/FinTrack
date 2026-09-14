@@ -114,12 +114,12 @@
   },
   {
     "route": "/ai-advisor",
-    "firstLoadUncompressedJsBytes": 551896,
+    "firstLoadUncompressedJsBytes": 551678,
     "firstLoadChunkPaths": [
       "dist\\static\\chunks\\2yz5kchbtae0e.js",
       "dist\\static\\chunks\\02c_2o49w38cc.js",
       "dist\\static\\chunks\\1qbi_nefj1uwh.js",
-      "dist\\static\\chunks\\1qmi-f67ntmf9.js",
+      "dist\\static\\chunks\\2non0c4dpvb38.js",
       "dist\\static\\chunks\\0wf2rmyoojkx7.js",
       "dist\\static\\chunks\\0if-vqkhyn-zc.js",
       "dist\\static\\chunks\\3n5xajc_2ez6x.js",
