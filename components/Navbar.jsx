@@ -4,10 +4,13 @@ import { Sun, Moon, Plus, Menu, ShieldCheck, Search } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
 import { CommandPaletteModal } from "@/components/CommandPaletteModal";
+import { WorkspaceSwitcher } from "@/components/WorkspaceSwitcher";
+
 export function Navbar({ onToggleSidebar, onOpenAddModal }) {
     const { theme, toggleTheme } = useTheme();
     const { user } = useAuth();
     const [isCommandOpen, setIsCommandOpen] = useState(false);
+
     // Global Keyboard Shortcut Listener (Cmd+K / Ctrl+K)
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -19,6 +22,7 @@ export function Navbar({ onToggleSidebar, onOpenAddModal }) {
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
+
     return (<>
       <header className="sticky top-0 z-30 h-20 border-b backdrop-blur-xl bg-[#FAF8F5]/90 dark:bg-[#141010]/90 border-[#E2DBD0] dark:border-[#3B3030] px-4 lg:px-8 flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
@@ -26,11 +30,8 @@ export function Navbar({ onToggleSidebar, onOpenAddModal }) {
             <Menu className="w-5 h-5"/>
           </button>
 
-          {/* Status Badge */}
-          <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FFFFFF] dark:bg-[#201A1A] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"/>
-            <span>Financial Intelligence Suite</span>
-          </div>
+          {/* Household Workspace Switcher */}
+          <WorkspaceSwitcher />
         </div>
 
         <div className="flex items-center gap-3">

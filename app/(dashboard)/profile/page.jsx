@@ -18,17 +18,20 @@ import {
   Check,
   X,
   MessageSquare,
+  Users,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { useTheme } from "@/context/ThemeContext";
 import BotIntegrationCard from "@/components/BotIntegrationCard";
+import { WorkspaceManagerModal } from "@/components/WorkspaceManagerModal";
 
 export default function ProfilePage() {
   const { user, refreshUser } = useAuth();
   const { showToast } = useToast();
   const { accentTheme, setAccentTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("profile");
+  const [isWsModalOpen, setIsWsModalOpen] = useState(false);
 
   // Profile Form State
   const [name, setName] = useState(user?.name || "Megha R");
@@ -229,6 +232,7 @@ export default function ProfilePage() {
           { id: "profile", label: "Profile & Preferences", icon: User },
           { id: "pacing", label: "Budget & Pacing", icon: GraduationCap },
           { id: "security", label: "Security & App Lock", icon: Lock },
+          { id: "workspaces", label: "Household Workspaces", icon: Users },
           { id: "bot", label: "WhatsApp & Telegram Bot", icon: MessageSquare },
         ].map((tab) => {
           const Icon = tab.icon;
@@ -558,8 +562,42 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* TAB 4: WhatsApp & Telegram Bot */}
+      {/* TAB 4: Household Workspaces */}
+      {activeTab === "workspaces" && (
+        <div className="bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] rounded-3xl shadow-sm p-6 space-y-6">
+          <div>
+            <h3 className="text-base font-black text-[#141010] dark:text-[#FAF8F5]">Household & Team Workspaces</h3>
+            <p className="text-xs text-[#594D4D] font-medium mt-0.5">Manage shared flat accounts, room outing pools, and invite code permissions.</p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-[#FAF8F5] dark:bg-[#141010] border border-[#E2DBD0] dark:border-[#3B3030] text-center space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] flex items-center justify-center mx-auto">
+              <Users className="w-6 h-6" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="font-extrabold text-sm text-[#141010] dark:text-[#FAF8F5]">Multi-User Workspace Manager</h4>
+              <p className="text-xs text-[#594D4D] max-w-md mx-auto">
+                Create new shared workspaces, join flatmates via Invite Code, or switch your active workspace session.
+              </p>
+            </div>
+            <button
+              onClick={() => setIsWsModalOpen(true)}
+              className="px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow inline-flex items-center gap-2 hover:opacity-95"
+            >
+              <Users className="w-4 h-4" />
+              <span>Open Workspace Manager</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 5: WhatsApp & Telegram Bot */}
       {activeTab === "bot" && <BotIntegrationCard />}
+
+      <WorkspaceManagerModal
+        isOpen={isWsModalOpen}
+        onClose={() => setIsWsModalOpen(false)}
+      />
     </div>
   );
 }
