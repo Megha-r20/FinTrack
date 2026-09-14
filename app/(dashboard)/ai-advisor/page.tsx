@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, Send, Sparkles, Trash2, ShieldAlert, User, RefreshCw } from "lucide-react";
+import { Bot, Send, Sparkles, Trash2, ShieldAlert } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 
@@ -57,12 +57,11 @@ export default function AiAdvisorPage() {
     setInputMessage("");
     setSending(true);
 
-    // Optimistic user message append
     const tempUserMsg = { id: Math.random().toString(), role: "user", content: query };
     setMessages((prev) => [...prev, tempUserMsg]);
 
     try {
-      const res = await fetch("/api/api/ai/chat".replace("/api/api", "/api"), {
+      const res = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -102,19 +101,18 @@ export default function AiAdvisorPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-120px)] flex flex-col space-y-4 animate-in fade-in duration-300">
-      {/* Header & Disclaimer Banner */}
+    <div className="h-[calc(100vh-140px)] flex flex-col space-y-4 animate-in fade-in duration-300">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 shrink-0">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-indigo-600/20">
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#810100] to-[#630000] flex items-center justify-center text-white shadow-md cherry-glow">
               <Bot className="w-5 h-5" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">
               AI Financial Advisor
             </h1>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-1">
             Ask questions about your transactions, spending habits, budget alerts, and savings trends.
           </p>
         </div>
@@ -122,7 +120,7 @@ export default function AiAdvisorPage() {
         {messages.length > 0 && (
           <button
             onClick={handleClearChat}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900/40 transition-colors self-start md:self-auto"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-[#810100] dark:text-[#EDEBDD] hover:bg-[#810100]/10 border border-[#810100]/30 transition-colors self-start md:self-auto"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Clear History</span>
@@ -130,37 +128,33 @@ export default function AiAdvisorPage() {
         )}
       </div>
 
-      {/* Safety Disclaimer Bar */}
-      <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 text-xs flex items-center gap-2 shrink-0">
-        <ShieldAlert className="w-4 h-4 shrink-0 text-amber-500" />
+      <div className="p-3.5 rounded-2xl bg-[#810100]/10 border border-[#810100]/30 text-[#810100] dark:text-[#EDEBDD] text-xs font-semibold flex items-center gap-2 shrink-0">
+        <ShieldAlert className="w-4 h-4 shrink-0 text-[#810100] dark:text-[#E53835]" />
         <span>
-          <strong>Educational Disclaimer:</strong> FinTrack AI provides automated analysis of your submitted transaction records. It does not provide certified professional financial or investment advice.
+          <strong>Educational Disclaimer:</strong> FinTrack AI provides automated analysis of your submitted records. It does not provide professional financial or investment advice.
         </span>
       </div>
 
-      {/* Main Chat Container */}
-      <div className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm flex flex-col min-h-0 overflow-hidden">
-        {/* Chat Messages Feed */}
+      <div className="flex-1 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-3xl shadow-sm flex flex-col min-h-0 overflow-hidden">
         <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-4">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-[#810100]/10 text-[#810100] dark:text-[#EDEBDD] flex items-center justify-center">
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-slate-900 dark:text-white">Ask your AI Financial Assistant</h3>
-                <p className="text-xs text-slate-400 max-w-sm mt-1">
+                <h3 className="font-extrabold text-base text-[#1B1717] dark:text-[#EDEBDD]">Ask your AI Financial Assistant</h3>
+                <p className="text-xs text-[#7A6E6E] max-w-sm mt-1 font-medium">
                   Select a suggested question below or type custom queries grounded in your real transaction metrics.
                 </p>
               </div>
 
-              {/* Preset Chips */}
               <div className="flex flex-wrap items-center justify-center gap-2 max-w-xl pt-2">
                 {PRESET_QUESTIONS.map((q, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleSend(q)}
-                    className="px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-indigo-50 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 border border-slate-200 dark:border-slate-700 transition-all text-left"
+                    className="px-3.5 py-2.5 rounded-2xl text-xs font-bold bg-[#FAF9F5] hover:bg-[#E6E1D3]/60 dark:bg-[#1B1717] dark:hover:bg-[#302929] text-[#1B1717] dark:text-[#EDEBDD] border border-[#E6E1D3] dark:border-[#382D2D] transition-all text-left shadow-sm"
                   >
                     "{q}"
                   </button>
@@ -174,24 +168,24 @@ export default function AiAdvisorPage() {
                 className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.role !== "user" && (
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-400 text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#810100] to-[#630000] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
                     <Bot className="w-4 h-4" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[85%] md:max-w-[75%] p-4 rounded-2xl text-xs md:text-sm leading-relaxed whitespace-pre-line ${
+                  className={`max-w-[85%] md:max-w-[75%] p-4 rounded-2xl text-xs md:text-sm font-medium leading-relaxed whitespace-pre-line ${
                     msg.role === "user"
-                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20 rounded-tr-none"
-                      : "bg-slate-100 dark:bg-slate-800/80 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700/60 rounded-tl-none"
+                      ? "bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-md cherry-glow rounded-tr-none"
+                      : "bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] border border-[#E6E1D3] dark:border-[#382D2D] rounded-tl-none shadow-sm"
                   }`}
                 >
                   {msg.content}
                 </div>
 
                 {msg.role === "user" && (
-                  <div className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center shrink-0 text-xs font-bold">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  <div className="w-8 h-8 rounded-xl bg-[#810100] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                    {user?.name ? user.name.charAt(0).toUpperCase() : "M"}
                   </div>
                 )}
               </div>
@@ -200,14 +194,14 @@ export default function AiAdvisorPage() {
 
           {sending && (
             <div className="flex gap-3 justify-start">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-emerald-400 text-white flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#810100] to-[#630000] text-white flex items-center justify-center shrink-0">
                 <Bot className="w-4 h-4" />
               </div>
-              <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 rounded-tl-none flex items-center gap-2 text-xs text-slate-400 font-medium">
-                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce" />
-                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.2s]" />
-                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.4s]" />
-                <span className="ml-1">Analyzing database context...</span>
+              <div className="p-4 rounded-2xl bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-tl-none flex items-center gap-2 text-xs text-[#7A6E6E] font-bold">
+                <div className="w-2 h-2 rounded-full bg-[#810100] animate-bounce" />
+                <div className="w-2 h-2 rounded-full bg-[#810100] animate-bounce [animation-delay:0.2s]" />
+                <div className="w-2 h-2 rounded-full bg-[#810100] animate-bounce [animation-delay:0.4s]" />
+                <span className="ml-1">Analyzing database records...</span>
               </div>
             </div>
           )}
@@ -215,8 +209,7 @@ export default function AiAdvisorPage() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Bar */}
-        <div className="p-3 md:p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+        <div className="p-4 border-t border-[#E6E1D3] dark:border-[#382D2D] bg-[#FAF9F5] dark:bg-[#1B1717]/60">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -229,12 +222,12 @@ export default function AiAdvisorPage() {
               placeholder="Ask AI Advisor about your income, spending habits, or budgets..."
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              className="flex-1 px-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs md:text-sm font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 px-4 py-3 bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] rounded-2xl text-xs md:text-sm font-semibold text-[#1B1717] dark:text-[#EDEBDD] focus:outline-none"
             />
             <button
               type="submit"
               disabled={sending || !inputMessage.trim()}
-              className="p-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white shadow-md shadow-indigo-600/20 transition-all"
+              className="p-3.5 rounded-2xl bg-gradient-to-r from-[#810100] to-[#630000] disabled:opacity-40 text-white shadow-md cherry-glow transition-all"
             >
               <Send className="w-4 h-4" />
             </button>

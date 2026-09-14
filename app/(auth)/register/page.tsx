@@ -33,73 +33,72 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-slate-950 text-slate-100 relative overflow-hidden">
-      <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-indigo-600/20 blur-3xl" />
-      <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-emerald-600/20 blur-3xl" />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] relative overflow-hidden transition-colors duration-300">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#810100]/15 via-[#630000]/10 to-transparent blur-3xl pointer-events-none" />
 
-      <div className="relative w-full max-w-md bg-slate-900/90 border border-slate-800/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
+      <div className="relative w-full max-w-md bg-[#FFFFFF] dark:bg-[#252020] border border-[#E6E1D3] dark:border-[#382D2D] backdrop-blur-xl rounded-3xl p-8 shadow-2xl">
         <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-emerald-400 flex items-center justify-center text-white shadow-xl shadow-indigo-600/30 mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#810100] to-[#630000] flex items-center justify-center text-white shadow-lg cherry-glow mb-3">
             <TrendingUp className="w-7 h-7 stroke-[2.5]" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Join FinTrack</h1>
-          <p className="text-xs text-slate-400 mt-1">Start tracking expenses & optimizing budgets with AI</p>
+          <h1 className="text-2xl font-black tracking-tight text-[#1B1717] dark:text-[#EDEBDD]">Join FinTrack</h1>
+          <p className="text-xs text-[#7A6E6E] dark:text-[#C8BFB0] font-medium mt-1">Start tracking expenses & optimizing budgets with AI</p>
         </div>
 
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
               Full Name
             </label>
             <div className="relative">
-              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
               <input
                 type="text"
                 required
                 placeholder="Megha R"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-800/60 border border-slate-700/70 rounded-xl text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full pl-10 pr-4 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#1B1717] dark:text-[#EDEBDD] placeholder-[#7A6E6E] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
               <input
                 type="email"
                 required
-                placeholder="alex@example.com"
+                placeholder="megha@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-800/60 border border-slate-700/70 rounded-xl text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full pl-10 pr-4 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#1B1717] dark:text-[#EDEBDD] placeholder-[#7A6E6E] focus:outline-none"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7A6E6E]" />
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="Min 6 chars"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-8 py-3 bg-slate-800/60 border border-slate-700/70 rounded-xl text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full pl-10 pr-8 py-3 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-bold text-[#1B1717] dark:text-[#EDEBDD] placeholder-[#7A6E6E] focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7A6E6E] hover:text-[#810100]"
                 >
                   {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                 </button>
@@ -107,13 +106,13 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-[#7A6E6E] mb-1.5">
                 Currency
               </label>
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="w-full py-3 px-2 bg-slate-800/60 border border-slate-700/70 rounded-xl text-sm font-bold text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full py-3 px-2 bg-[#FAF9F5] dark:bg-[#1B1717] border border-[#E6E1D3] dark:border-[#382D2D] rounded-xl text-xs font-black text-[#810100] dark:text-[#EDEBDD] focus:outline-none"
               >
                 <option value="₹">₹ (INR)</option>
                 <option value="$">$ (USD)</option>
@@ -126,16 +125,16 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 px-4 rounded-xl text-sm font-bold bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all mt-2"
+            className="w-full py-3.5 px-4 rounded-2xl text-xs font-black uppercase tracking-wider bg-gradient-to-r from-[#810100] to-[#630000] text-white shadow-xl cherry-glow flex items-center justify-center gap-2 transition-all mt-2"
           >
             {submitting ? "Creating Account..." : "Create Account"}
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-slate-400">
+        <div className="mt-6 text-center text-xs font-semibold text-[#7A6E6E]">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-indigo-400 hover:underline">
+          <Link href="/login" className="font-extrabold text-[#810100] dark:text-[#EDEBDD] hover:underline">
             Sign In
           </Link>
         </div>
