@@ -1,15 +1,23 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 import bcrypt from "bcryptjs";
-import { DEFAULT_CATEGORIES } from "../lib/defaultCategories";
+import { DEFAULT_CATEGORIES } from "../lib/defaultCategories.js";
 async function main() {
     console.log("🌱 Starting FinTrack database seeding for Hostel Student Persona...");
     // 1. Clean existing demo data if present
-    const existingUser = await prisma.user.findUnique({
-        where: { email: "demo@fintrack.com" },
-    });
-    if (existingUser) {
-        await prisma.user.delete({ where: { id: existingUser.id } });
-    }
+    await prisma.transaction.deleteMany();
+    await prisma.recurringTransaction.deleteMany();
+    await prisma.budget.deleteMany();
+    await prisma.goalContribution.deleteMany();
+    await prisma.goal.deleteMany();
+    await prisma.sharedExpense.deleteMany();
+    await prisma.emergencyFundLog.deleteMany();
+    await prisma.userBadge.deleteMany();
+    await prisma.savingsChallenge.deleteMany();
+    await prisma.notification.deleteMany();
+    await prisma.workspaceMember.deleteMany();
+    await prisma.workspace.deleteMany();
+    await prisma.category.deleteMany();
+    await prisma.user.deleteMany();
     // 2. Create Demo Hostel Student User
     const passwordHash = await bcrypt.hash("password123", 10);
     const user = await prisma.user.create({
@@ -158,7 +166,37 @@ async function main() {
         }
     }
     console.log("🔄 Created Student Recurring Transactions.");
-    // 8. Create Welcome Notification
+    // 8. Create Default & Household Workspaces
+    const personalWs = await prisma.workspace.create({
+      data: {
+        name: "Personal Workspace",
+        code: "PERS-001",
+        isDefault: true,
+        members: {
+          create: {
+            userId: user.id,
+            role: "OWNER",
+          },
+        },
+      },
+    });
+
+    await prisma.workspace.create({
+      data: {
+        name: "Hostel Flat 302",
+        code: "FLAT-302",
+        isDefault: false,
+        members: {
+          create: {
+            userId: user.id,
+            role: "ADMIN",
+          },
+        },
+      },
+    });
+    console.log("🏠 Created Default & Household Workspaces.");
+
+    // 9. Create Welcome Notification
     await prisma.notification.create({
         data: {
             userId: user.id,

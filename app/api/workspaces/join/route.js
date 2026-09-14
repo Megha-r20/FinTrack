@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAuthUser } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req) {
   try {
@@ -13,24 +14,85 @@ export async function POST(req) {
 
     const cleanCode = code.trim().toUpperCase();
 
-    // Demo workspace joined response
-    const joinedWorkspace = {
-      id: `ws_joined_${Date.now()}`,
-      name: cleanCode.includes("FLAT") ? "Hostel Flat 302" : `Workspace (${cleanCode})`,
-      code: cleanCode,
+    // Find workspace by code in Prisma DB
+    let targetWs = await prisma.workspace.findUnique({
+      where: { code: cleanCode },
+      include: {
+        members: {
+          include: {
+            user: { select: { id: true, name: true, email: true } },
+          },
+        },
+      },
+    });
+
+    // If workspace code doesn't exist yet, create household workspace dynamically with code
+    if (!targetWs) {
+      targetWs = await prisma.workspace.create({
+        data: {
+          name: `Shared Workspace (${cleanCode})`,
+          code: cleanCode,
+          isDefault: false,
+          members: {
+            create: {
+              userId: user.id,
+              role: "MEMBER",
+            },
+          },
+        },
+        include: {
+          members: {
+            include: {
+              user: { select: { id: true, name: true, email: true } },
+            },
+          },
+        },
+      });
+    } else {
+      // Check if user is already a member
+      const existingMember = targetWs.members.find((m) => m.userId === user.id);
+      if (!existingMember) {
+        await prisma.workspaceMember.create({
+          data: {
+            workspaceId: targetWs.id,
+            userId: user.id,
+            role: "MEMBER",
+          },
+        });
+      }
+    }
+
+    // Re-fetch formatted workspace
+    const updatedWs = await prisma.workspace.findUnique({
+      where: { id: targetWs.id },
+      include: {
+        members: {
+          include: {
+            user: { select: { id: true, name: true, email: true } },
+          },
+        },
+      },
+    });
+
+    const formatted = {
+      id: updatedWs.id,
+      name: updatedWs.name,
+      code: updatedWs.code,
+      isDefault: updatedWs.isDefault,
       role: "MEMBER",
-      memberCount: 4,
-      isDefault: false,
-      members: [
-        { id: user.id, name: user.name || "Megha R", email: user.email, role: "MEMBER" },
-        { id: "mem_2", name: "Rahul S", email: "rahul@fintrack.com", role: "OWNER" },
-      ],
+      memberCount: updatedWs.members.length,
+      members: updatedWs.members.map((mem) => ({
+        id: mem.user.id,
+        name: mem.user.name,
+        email: mem.user.email,
+        role: mem.role,
+      })),
     };
 
     return NextResponse.json({
       success: true,
-      message: `Successfully joined workspace using code ${cleanCode}!`,
-      workspace: joinedWorkspace,
+      message: `Joined workspace "${updatedWs.name}"!`,
+      workspace: formatted,
     });
   } catch (error) {
     console.error("Join Workspace Error:", error);
