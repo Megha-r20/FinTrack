@@ -160,10 +160,10 @@ export default function ProfilePage() {
       {/* Title */}
       <div>
         <h1 className="text-2xl font-black tracking-tight text-[#141010] dark:text-[#FAF8F5]">
-          Account & Persona Settings
+          Account Settings
         </h1>
         <p className="text-xs text-[#4A3F3F] dark:text-[#C8BFB0] font-medium mt-0.5">
-          Manage your personal profile, hostel budget preferences, and security options.
+          Manage your personal profile, budget preferences, and security options.
         </p>
       </div>
 
@@ -176,8 +176,8 @@ export default function ProfilePage() {
           <div className="space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-xl font-black text-[#141010] dark:text-[#FAF8F5]">{user?.name || "Megha R"}</h2>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/30 flex items-center gap-1">
-                <GraduationCap className="w-3 h-3" /> Hostel Student Persona
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                <User className="w-3 h-3" /> Personal Account
               </span>
             </div>
             <p className="text-xs font-semibold text-[#594D4D] dark:text-[#C8BFB0] flex items-center gap-1.5">

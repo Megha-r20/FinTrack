@@ -58,7 +58,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () =>
                 FinTrack
               </span>
               <span className="text-[10px] uppercase tracking-widest font-extrabold text-[#810100] dark:text-[#E53835] -mt-1">
-                Luxury Edition
+                Personal Finance
               </span>
             </div>
           </Link>

@@ -40,10 +40,10 @@ export function Navbar({ onToggleSidebar, onOpenAddModal }: NavbarProps) {
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* Safety Badge */}
-          <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-[#810100]/10 text-[#810100] dark:text-[#FAF8F5] border border-[#810100]/30 shadow-sm">
-            <ShieldCheck className="w-4 h-4 text-[#810100] dark:text-[#E53835]" />
-            <span>Cherry Palette • Educational Safety</span>
+          {/* Status Badge */}
+          <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#FFFFFF] dark:bg-[#201A1A] text-[#141010] dark:text-[#FAF8F5] border border-[#E2DBD0] dark:border-[#3B3030] shadow-sm">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span>Financial Intelligence Suite</span>
           </div>
         </div>
 
