@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   /* Crisp Bright Light & Luxury Cherry Noir Dark Palette */
   :root {

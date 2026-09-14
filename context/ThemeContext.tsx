@@ -13,18 +13,19 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   const applyTheme = (targetTheme: Theme) => {
     setTheme(targetTheme);
-    localStorage.setItem("fintrack_theme", targetTheme);
+    try {
+      localStorage.setItem("fintrack_theme", targetTheme);
+    } catch {}
+
     const root = document.documentElement;
     if (targetTheme === "dark") {
       root.classList.add("dark");
-      root.classList.remove("light");
     } else {
       root.classList.remove("dark");
-      root.classList.add("light");
     }
   };
 
@@ -33,7 +34,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedTheme === "light" || savedTheme === "dark") {
       applyTheme(savedTheme);
     } else {
-      applyTheme("dark");
+      applyTheme("light");
     }
   }, []);
 
