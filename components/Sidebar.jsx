@@ -22,9 +22,11 @@ export function Sidebar({ isOpen, onClose }) {
         {/* Brand Header */}
         <div className="flex items-center justify-between h-20 px-6 border-b border-[#E2DBD0] dark:border-[#3B3030]">
           <Link href="/dashboard" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#810100] to-[#630000] flex items-center justify-center text-white shadow-md cherry-glow group-hover:scale-105 transition-transform">
-              <TrendingUp className="w-5 h-5 stroke-[2.5]"/>
-            </div>
+            <img
+              src="/logo.png"
+              alt="FinTrack Logo"
+              className="w-10 h-10 rounded-2xl object-cover shadow-md cherry-glow group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col">
               <span className="font-heading font-black text-xl tracking-tight text-[#181414] dark:text-[#FAF8F5]">
                 FinTrack

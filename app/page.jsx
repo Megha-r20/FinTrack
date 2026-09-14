@@ -64,9 +64,11 @@ export default function LandingPage() {
       {/* Header Navigation */}
       <header className="sticky top-0 z-50 h-20 border-b border-[#E2DBD0] dark:border-[#3B3030] backdrop-blur-xl bg-[#FAF8F5]/85 dark:bg-[#141010]/85 px-4 lg:px-12 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#810100] to-[#630000] flex items-center justify-center text-[#FAF8F5] shadow-lg cherry-glow group-hover:scale-105 transition-transform">
-            <TrendingUp className="w-6 h-6 stroke-[2.5]" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="FinTrack Logo"
+            className="w-10 h-10 rounded-2xl object-cover shadow-lg cherry-glow group-hover:scale-105 transition-transform"
+          />
           <div className="flex flex-col">
             <span className="font-black text-xl tracking-tight text-[#141010] dark:text-[#FAF8F5]">
               FinTrack
