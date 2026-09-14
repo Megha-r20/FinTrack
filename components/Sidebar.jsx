@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LayoutDashboard, Receipt, PieChart as ChartIcon, Target, Repeat, BarChart3, Bot, User, LogOut, Sparkles, TrendingUp } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { Logo } from "@/components/Logo";
