@@ -139,14 +139,19 @@ export async function GET() {
 
 Remember: Provide educational analysis only. Do NOT claim to be a licensed financial advisor or give stock investment advice.`;
 
-        const response = await ai.models.generateContent({
+        const responsePromise = ai.models.generateContent({
           model: "gemini-2.5-flash",
           contents: prompt,
         });
 
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Gemini AI timeout")), 2500)
+        );
+
+        const response: any = await Promise.race([responsePromise, timeoutPromise]);
         aiSummary = response.text || "";
       } catch (err) {
-        console.warn("Gemini API call failed, using synthetic response engine:", err);
+        console.warn("Gemini API skipped or timed out:", err);
       }
     }
 

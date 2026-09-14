@@ -42,11 +42,10 @@ export default function DashboardPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [analyticsRes, goalsRes, txRes, aiRes] = await Promise.all([
+      const [analyticsRes, goalsRes, txRes] = await Promise.all([
         fetch(`/api/analytics?period=${period}`),
         fetch("/api/goals"),
         fetch("/api/transactions?limit=5"),
-        fetch("/api/ai/advisor"),
       ]);
 
       if (analyticsRes.ok) setAnalyticsData(await analyticsRes.json());
@@ -58,12 +57,19 @@ export default function DashboardPage() {
         const tData = await txRes.json();
         setRecentTx(tData.transactions || []);
       }
-      if (aiRes.ok) setAiInsights(await aiRes.json());
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
+
+    // Fetch AI Advisor Insights asynchronously in background to ensure zero render lag
+    fetch("/api/ai/advisor")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setAiInsights(data);
+      })
+      .catch((err) => console.error("AI Advisor fetch background error:", err));
   };
 
   useEffect(() => {
