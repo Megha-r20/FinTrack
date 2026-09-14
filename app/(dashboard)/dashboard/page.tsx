@@ -23,10 +23,12 @@ import {
   Cell,
 } from "recharts";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
 import { CategoryIcon } from "@/components/CategoryIcon";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { theme } = useTheme();
   const currency = user?.currency || "₹";
 
   const [period, setPeriod] = useState("THIS_MONTH");
@@ -77,7 +79,6 @@ export default function DashboardPage() {
   const summary = analyticsData?.summary || { totalIncome: 0, totalExpenses: 0, netSavings: 0, savingsRate: 0 };
   const totalBalance = (summary.totalIncome || 0) - (summary.totalExpenses || 0);
 
-  // Cherry Noir Palette for Recharts
   const CHERRY_PALETTE = ["#810100", "#630000", "#9E100E", "#B22222", "#4A0000", "#D32F2F", "#8B0000"];
 
   return (
@@ -89,12 +90,12 @@ export default function DashboardPage() {
             Welcome back, {user?.name || "Megha R"}
           </h1>
           <p className="text-xs md:text-sm text-[#544A4A] dark:text-[#C8BFB0] mt-1">
-            Cherry Noir Portfolio Edition • Financial intelligence & AI metrics.
+            Cotton & Cherry Noir Edition • Financial intelligence & AI metrics.
           </p>
         </div>
 
         {/* Time Period Filter Pills */}
-        <div className="flex items-center gap-1.5 p-1.5 bg-[#FAF8F2] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] rounded-2xl shadow-sm overflow-x-auto">
+        <div className="flex items-center gap-1.5 p-1.5 bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] rounded-2xl shadow-sm overflow-x-auto">
           {[
             { id: "THIS_WEEK", label: "This Week" },
             { id: "THIS_MONTH", label: "This Month" },
@@ -119,11 +120,11 @@ export default function DashboardPage() {
 
       {/* KPI Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Balance */}
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#1B1717] text-[#EDEBDD] border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden">
+        {/* Total Balance Card */}
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-[#810100] via-[#630000] to-[#810100] text-[#EDEBDD] border border-[#810100]/60 shadow-xl cherry-glow relative overflow-hidden">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold tracking-widest text-[#EDEBDD]/80 uppercase">Total Balance</span>
-            <div className="w-9 h-9 rounded-2xl bg-[#EDEBDD]/15 flex items-center justify-center text-[#EDEBDD]">
+            <span className="text-xs font-bold tracking-widest text-[#EDEBDD]/90 uppercase">Total Balance</span>
+            <div className="w-9 h-9 rounded-2xl bg-[#EDEBDD]/20 flex items-center justify-center text-[#EDEBDD]">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
@@ -132,16 +133,16 @@ export default function DashboardPage() {
               {currency}{totalBalance.toLocaleString()}
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-[#EDEBDD]/70 font-semibold">
+          <div className="mt-2 text-[11px] text-[#EDEBDD]/80 font-semibold">
             Cumulative Net Capital
           </div>
         </div>
 
-        {/* Total Income */}
+        {/* Total Income Card */}
         <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold tracking-widest text-[#544A4A] dark:text-[#C8BFB0] uppercase">Total Income</span>
-            <div className="w-9 h-9 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
@@ -155,7 +156,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Total Expenses */}
+        {/* Total Expenses Card */}
         <div className="p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#252020] border border-[#DCD7C5] dark:border-[#382D2D] shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold tracking-widest text-[#544A4A] dark:text-[#C8BFB0] uppercase">Total Expenses</span>
@@ -197,20 +198,20 @@ export default function DashboardPage() {
 
       {/* AI Financial Snapshot Card */}
       {aiInsights && aiInsights.insights && aiInsights.insights.length > 0 && (
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#252020] via-[#1B1717] to-[#252020] text-[#EDEBDD] border border-[#810100]/50 shadow-xl relative overflow-hidden">
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-[#810100] via-[#630000] to-[#810100] dark:from-[#252020] dark:via-[#1B1717] dark:to-[#252020] text-[#EDEBDD] border border-[#810100]/40 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-[#810100] text-[#EDEBDD] flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-[#EDEBDD]/20 text-[#EDEBDD] flex items-center justify-center shadow-md">
                 <Bot className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="font-extrabold text-base text-[#EDEBDD]">FinTrack AI Advisor Insights</h3>
-                <p className="text-xs text-[#C8BFB0]">Automated data observations grounded in your records</p>
+                <p className="text-xs text-[#EDEBDD]/80 dark:text-[#C8BFB0]">Automated observations grounded in your transaction history</p>
               </div>
             </div>
             <Link
               href="/ai-advisor"
-              className="flex items-center gap-1 text-xs font-bold text-[#EDEBDD] hover:text-[#810100] transition-colors"
+              className="flex items-center gap-1 text-xs font-bold text-[#EDEBDD] hover:underline"
             >
               <span>Ask AI Chat</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -221,13 +222,13 @@ export default function DashboardPage() {
             {aiInsights.insights.map((insight: any, idx: number) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-[#1B1717]/80 border border-[#382D2D] backdrop-blur-sm flex flex-col justify-between"
+                className="p-4 rounded-2xl bg-[#1B1717]/40 dark:bg-[#1B1717]/80 border border-[#EDEBDD]/20 dark:border-[#382D2D] backdrop-blur-sm flex flex-col justify-between"
               >
                 <div className="flex items-center gap-2 text-xs font-bold text-[#EDEBDD] mb-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#810100] dark:text-[#E53835]" />
+                  <Sparkles className="w-3.5 h-3.5 text-[#EDEBDD] dark:text-[#E53835]" />
                   <span>{insight.title}</span>
                 </div>
-                <p className="text-xs text-[#C8BFB0] leading-relaxed">{insight.text}</p>
+                <p className="text-xs text-[#EDEBDD]/90 dark:text-[#C8BFB0] leading-relaxed">{insight.text}</p>
               </div>
             ))}
           </div>
@@ -249,14 +250,14 @@ export default function DashboardPage() {
             {analyticsData?.monthlyTrend && (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={analyticsData.monthlyTrend}>
-                  <XAxis dataKey="month" stroke="#887B7B" fontSize={11} />
-                  <YAxis stroke="#887B7B" fontSize={11} />
+                  <XAxis dataKey="month" stroke={theme === "dark" ? "#887B7B" : "#544A4A"} fontSize={11} />
+                  <YAxis stroke={theme === "dark" ? "#887B7B" : "#544A4A"} fontSize={11} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#1B1717",
-                      borderColor: "#382D2D",
+                      backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
+                      borderColor: theme === "dark" ? "#382D2D" : "#DCD7C5",
                       borderRadius: "14px",
-                      color: "#EDEBDD",
+                      color: theme === "dark" ? "#EDEBDD" : "#1B1717",
                       fontSize: "12px",
                     }}
                   />
@@ -296,10 +297,10 @@ export default function DashboardPage() {
                   <Tooltip
                     formatter={(value: any) => `${currency}${value.toLocaleString()}`}
                     contentStyle={{
-                      backgroundColor: "#1B1717",
-                      borderColor: "#382D2D",
+                      backgroundColor: theme === "dark" ? "#1B1717" : "#FFFFFF",
+                      borderColor: theme === "dark" ? "#382D2D" : "#DCD7C5",
                       borderRadius: "14px",
-                      color: "#EDEBDD",
+                      color: theme === "dark" ? "#EDEBDD" : "#1B1717",
                       fontSize: "12px",
                     }}
                   />
