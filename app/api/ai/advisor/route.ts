@@ -55,6 +55,15 @@ export async function GET() {
     const savingsRate = currIncome > 0 ? Math.max(0, Math.round((netSavings / currIncome) * 100)) : 0;
     const expenseMoM = prevExpenses > 0 ? Math.round(((currExpenses - prevExpenses) / prevExpenses) * 100) : 0;
 
+    // Safe Daily Pacing for Hostel Students
+    const totalBudgeted = budgets.reduce((acc, b) => acc + b.amount, 0);
+    const totalSpentInBudgets = budgets.reduce((acc, b) => acc + (currCatMap[b.category.name] || 0), 0);
+
+    const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const daysRemaining = Math.max(1, totalDaysInMonth - now.getDate() + 1);
+    const totalRemainingBudget = Math.max(0, (totalBudgeted || 6000) - totalSpentInBudgets);
+    const safeDailyAllowance = Math.round(totalRemainingBudget / daysRemaining);
+
     // Highest spending category
     let highestCat = "None";
     let highestCatAmount = 0;
@@ -78,6 +87,24 @@ export async function GET() {
     // Synthesize structured insights
     const insights: Array<{ title: string; text: string; category: string; type: "alert" | "positive" | "info" }> = [];
 
+    // Safe Daily Spend Insight
+    insights.push({
+      title: `Daily Safe Limit: ${user.currency}${safeDailyAllowance}/day`,
+      text: `You have ${user.currency}${totalRemainingBudget.toLocaleString()} left for the next ${daysRemaining} days. Cap non-mess expenses at ${user.currency}${safeDailyAllowance}/day to stay on track.`,
+      category: "Hostel Pacing",
+      type: safeDailyAllowance < 100 ? "alert" : "positive",
+    });
+
+    // Highest Category insight
+    if (highestCatAmount > 0) {
+      insights.push({
+        title: `Top Outflow Category: ${highestCat}`,
+        text: `You have spent ${user.currency}${highestCatAmount.toLocaleString()} on ${highestCat} this month, accounting for ${currExpenses > 0 ? Math.round((highestCatAmount / currExpenses) * 100) : 0}% of total expenses.`,
+        category: "Category Outflow",
+        type: "info",
+      });
+    }
+
     // MoM Trend insight
     if (expenseMoM > 0) {
       insights.push({
@@ -95,16 +122,6 @@ export async function GET() {
       });
     }
 
-    // Highest Category insight
-    if (highestCatAmount > 0) {
-      insights.push({
-        title: `Top Outflow Category: ${highestCat}`,
-        text: `You have spent ${user.currency}${highestCatAmount.toLocaleString()} on ${highestCat} this month, accounting for ${currExpenses > 0 ? Math.round((highestCatAmount / currExpenses) * 100) : 0}% of total expenses.`,
-        category: "Category Outflow",
-        type: "info",
-      });
-    }
-
     // Budget utilization insight
     if (budgetAlerts.length > 0) {
       insights.push({
@@ -115,29 +132,22 @@ export async function GET() {
       });
     }
 
-    // Savings rate insight
-    insights.push({
-      title: "Monthly Savings Rate",
-      text: `Your current savings rate is ${savingsRate}%. Net saved this month: ${user.currency}${netSavings.toLocaleString()}.`,
-      category: "Savings Trend",
-      type: savingsRate >= 20 ? "positive" : "info",
-    });
-
     // Try Gemini AI if API key is present
     let aiSummary = "";
     const apiKey = process.env.GEMINI_API_KEY;
     if (apiKey && apiKey.trim() !== "") {
       try {
         const ai = new GoogleGenAI({ apiKey });
-        const prompt = `Analyze this user's monthly financial summary and provide 3 short, actionable, educational financial observation bullet points:
-- Total Income: ${user.currency}${currIncome}
-- Total Expenses: ${user.currency}${currExpenses}
+        const prompt = `Analyze this hostel student user's monthly financial summary and provide 3 short, actionable, educational financial observation bullet points:
+- Total Budgeted: ${user.currency}${totalBudgeted}
+- Total Spent: ${user.currency}${currExpenses}
+- Safe Daily Spend: ${user.currency}${safeDailyAllowance}/day (${daysRemaining} days left)
 - Net Savings: ${user.currency}${netSavings} (Savings Rate: ${savingsRate}%)
 - Month-over-Month Expense Change: ${expenseMoM}%
 - Top Category: ${highestCat} (${user.currency}${highestCatAmount})
 - Active Budget Warnings: ${budgetAlerts.join("; ") || "None"}
 
-Remember: Provide educational analysis only. Do NOT claim to be a licensed financial advisor or give stock investment advice.`;
+Remember: Provide educational analysis only. Focus on hostel student budgeting. Do NOT claim to be a licensed financial advisor or give stock investment advice.`;
 
         const responsePromise = ai.models.generateContent({
           model: "gemini-2.5-flash",
@@ -164,6 +174,8 @@ Remember: Provide educational analysis only. Do NOT claim to be a licensed finan
         expenseMoM,
         highestCat,
         highestCatAmount,
+        safeDailyAllowance,
+        daysRemaining,
       },
       insights,
       aiSummary,

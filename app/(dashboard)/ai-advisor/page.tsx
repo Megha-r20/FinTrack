@@ -6,12 +6,12 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 
 const PRESET_QUESTIONS = [
+  "How much can I safely spend per day for the rest of this month?",
+  "Am I spending too much on snacks outside the mess?",
+  "How can I reallocate my remaining budget to save ₹1,000 this month?",
+  "Where can I cut down without affecting essential personal care and books?",
   "What is my current monthly savings rate?",
-  "Which category had the largest month-over-month spending increase?",
-  "Are any of my budgets near or over their limits?",
-  "What are my recurring subscription costs this month?",
-  "Where am I spending the most money?",
-  "How can I optimize my monthly cash flow?",
+  "Are any of my hostel budgets near or over their limits?",
 ];
 
 export default function AiAdvisorPage() {

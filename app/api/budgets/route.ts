@@ -69,6 +69,16 @@ export async function GET(req: Request) {
     const totalBudgeted = enrichedBudgets.reduce((acc, curr) => acc + curr.budgetAmount, 0);
     const totalSpentInBudgets = enrichedBudgets.reduce((acc, curr) => acc + curr.spentAmount, 0);
 
+    // Calculate safe pacing math for hostel students
+    const totalDaysInMonth = new Date(year, month, 0).getDate();
+    const currentDay = now.getMonth() + 1 === month && now.getFullYear() === year ? now.getDate() : 1;
+    const daysRemaining = Math.max(1, totalDaysInMonth - currentDay + 1);
+    const weeksRemaining = Math.max(1, Math.ceil(daysRemaining / 7));
+    const totalRemaining = Math.max(0, totalBudgeted - totalSpentInBudgets);
+
+    const safeDailyAllowance = Math.round(totalRemaining / daysRemaining);
+    const safeWeeklyAllowance = Math.round(totalRemaining / weeksRemaining);
+
     return NextResponse.json({
       budgets: enrichedBudgets,
       month,
@@ -78,6 +88,10 @@ export async function GET(req: Request) {
         totalSpentInBudgets,
         totalRemaining: totalBudgeted - totalSpentInBudgets,
         overallPercentage: totalBudgeted > 0 ? Math.round((totalSpentInBudgets / totalBudgeted) * 100) : 0,
+        daysRemaining,
+        weeksRemaining,
+        safeDailyAllowance,
+        safeWeeklyAllowance,
       },
     });
   } catch (error) {
@@ -89,15 +103,65 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const user = await requireAuthUser();
-    const { categoryId, amount, month, year } = await req.json();
+    const body = await req.json();
 
+    const now = new Date();
+    const targetMonth = body.month || now.getMonth() + 1;
+    const targetYear = body.year || now.getFullYear();
+
+    // Support bulk preset creation (e.g. Hostel Student ₹6,000 Template)
+    if (body.bulk && Array.isArray(body.items)) {
+      const results = [];
+
+      for (const item of body.items) {
+        let category = await prisma.category.findFirst({
+          where: {
+            name: { equals: item.categoryName.trim() },
+            OR: [{ userId: user.id }, { isDefault: true }],
+          },
+        });
+
+        if (!category) {
+          category = await prisma.category.create({
+            data: {
+              name: item.categoryName.trim(),
+              type: "EXPENSE",
+              color: item.color || "#6366f1",
+              icon: item.icon || "Tag",
+              userId: user.id,
+            },
+          });
+        }
+
+        const b = await prisma.budget.upsert({
+          where: {
+            userId_categoryId_month_year: {
+              userId: user.id,
+              categoryId: category.id,
+              month: targetMonth,
+              year: targetYear,
+            },
+          },
+          update: { amount: parseFloat(item.amount) },
+          create: {
+            userId: user.id,
+            categoryId: category.id,
+            amount: parseFloat(item.amount),
+            month: targetMonth,
+            year: targetYear,
+          },
+        });
+        results.push(b);
+      }
+
+      return NextResponse.json({ success: true, count: results.length });
+    }
+
+    // Single item budget creation/update
+    const { categoryId, amount, month, year } = body;
     if (!categoryId || amount === undefined) {
       return NextResponse.json({ error: "Category ID and budget amount are required." }, { status: 400 });
     }
-
-    const now = new Date();
-    const targetMonth = month || now.getMonth() + 1;
-    const targetYear = year || now.getFullYear();
 
     const budget = await prisma.budget.upsert({
       where: {

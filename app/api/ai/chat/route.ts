@@ -125,6 +125,18 @@ export async function POST(req: Request) {
       }
     });
 
+    const totalBudgeted = budgets.reduce((acc, b) => acc + b.amount, 0);
+    const totalSpentInBudgets = budgets.reduce((acc, b) => acc + (catBreakdown[b.category.name] || 0), 0);
+
+    const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const currentDay = now.getDate();
+    const daysRemaining = Math.max(1, totalDaysInMonth - currentDay + 1);
+    const weeksRemaining = Math.max(1, Math.ceil(daysRemaining / 7));
+    const totalRemainingBudget = Math.max(0, (totalBudgeted || 6000) - totalSpentInBudgets);
+
+    const safeDailyAllowance = Math.round(totalRemainingBudget / daysRemaining);
+    const safeWeeklyAllowance = Math.round(totalRemainingBudget / weeksRemaining);
+
     const netSavings = currIncome - currExpenses;
     const savingsRate = currIncome > 0 ? Math.max(0, Math.round((netSavings / currIncome) * 100)) : 0;
     const totalRecurringOutflow = recurring.reduce((acc, r) => acc + (r.type === "EXPENSE" ? r.amount : 0), 0);
@@ -166,39 +178,40 @@ export async function POST(req: Request) {
 
     const financialContextSummary = `
 USER REAL FINANCIAL DATABASE RECORD SUMMARY (${user.name}):
+- Student Persona: Hostel Resident Student (Target monthly allowance < ₹6,000; Accommodation & mess food covered)
 - Currency Symbol: ${user.currency}
-- Total Monthly Income: ${user.currency}${currIncome.toLocaleString()}
+- Total Monthly Budget Configured: ${user.currency}${totalBudgeted.toLocaleString()}
+- Total Spent in Budgets: ${user.currency}${totalSpentInBudgets.toLocaleString()}
+- Remaining Budget Balance: ${user.currency}${totalRemainingBudget.toLocaleString()}
+- Days Left in Month: ${daysRemaining} days (Weeks left: ${weeksRemaining} weeks)
+- Safe Daily Spend Allowance: ${user.currency}${safeDailyAllowance.toLocaleString()} / day
+- Safe Weekly Spend Allowance: ${user.currency}${safeWeeklyAllowance.toLocaleString()} / week
+- Total Monthly Income / Pocket Money: ${user.currency}${currIncome.toLocaleString()}
 - Total Monthly Expenses: ${user.currency}${currExpenses.toLocaleString()}
-- Net Savings: ${user.currency}${netSavings.toLocaleString()}
-- Monthly Savings Rate: ${savingsRate}%
-- Previous Month Expenses: ${user.currency}${prevExpenses.toLocaleString()} (MoM Expense Change: ${prevExpenses > 0 ? Math.round(((currExpenses - prevExpenses) / prevExpenses) * 100) : 0}%)
+- Net Savings: ${user.currency}${netSavings.toLocaleString()} (Savings Rate: ${savingsRate}%)
 - Current Month Category Outflow: ${Object.entries(catBreakdown).map(([cat, amt]) => `${cat}: ${user.currency}${amt.toLocaleString()}`).join(", ")}
 - Active Budgets: ${budgetAnalysis.map((b) => `${b.category} (Spent: ${user.currency}${b.spent.toLocaleString()} / Limit: ${user.currency}${b.limit.toLocaleString()}, ${b.percentage}% used)`).join("; ")}
 - Exceeded Budgets: ${exceededBudgets.length > 0 ? exceededBudgets.map((b) => `${b.category} (+${user.currency}${Math.abs(b.remaining).toLocaleString()} over limit)`).join(", ") : "None"}
 - Approaching Budget Limits (≥80%): ${warningBudgets.length > 0 ? warningBudgets.map((b) => `${b.category} (${b.percentage}% capacity)`).join(", ") : "None"}
 - Unusual Category Increases (>20% MoM): ${unusualIncreases.length > 0 ? unusualIncreases.map((u) => `${u.category} (+${u.pctChange}%, +${user.currency}${u.diff.toLocaleString()})`).join(", ") : "None"}
-- Recurring Monthly Subscriptions/Bills: Total Outflow ${user.currency}${totalRecurringOutflow.toLocaleString()} (${recurring.map((r) => `${r.description}: ${user.currency}${r.amount.toLocaleString()}`).join(", ")})
-- Financial Goals Progress: ${goals.map((g) => {
-  const pct = g.targetAmount > 0 ? Math.round((g.currentAmount / g.targetAmount) * 100) : 0;
-  return `${g.title}: Saved ${user.currency}${g.currentAmount.toLocaleString()} / ${user.currency}${g.targetAmount.toLocaleString()} (${pct}% reached)`;
-}).join("; ")}
 `;
 
-    // 3. AI Reply Generation (Gemini API or intelligent rule-based engine)
+    // 3. AI Reply Generation
     let aiResponseText = "";
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (apiKey && apiKey.trim() !== "") {
       try {
         const ai = new GoogleGenAI({ apiKey });
-        const systemPrompt = `You are FinTrack AI — an expert, objective financial data analyst for ${user.name}.
-Your job is to answer user queries using their actual recorded financial metrics provided below.
+        const systemPrompt = `You are FinTrack AI Advisor — an expert financial advisor specializing in hostel student budgeting (< ₹6,000/mo allowance) for ${user.name}.
+Your job is to answer user queries using their actual database numbers and pacing math.
 
-STRICT NUMERICAL DIRECTIVES & SAFETY:
+STRICT NUMERICAL DIRECTIVES & STUDENT ADVICE GUIDELINES:
 1. Always use the exact numerical values provided in the DATABASE CONTEXT below. Never invent, estimate, or hallucinate financial numbers.
-2. If asked about category spending, month-over-month changes, savings rate, budgets, or recurring bills, cite the exact calculated numbers.
-3. CRITICAL SAFETY DISCLAIMER: You must NEVER present yourself as a certified financial planner or recommend stock/crypto trading execution. Provide educational analytical insights only.
-4. Format responses cleanly with bold highlights, bullet points, and actionable takeaways.`;
+2. Understand that the user is a hostel resident student whose main mess meals & room rent are already covered. Focus advice on discretionary categories: Snacks/Food outside mess, Transport/Auto, Mobile Recharge, Personal Care, Entertainment, Books & Stationary, Emergency Fund, and Savings.
+3. When asked about daily or weekly spend, cite exact values: Safe Daily Spend = ${user.currency}${safeDailyAllowance}/day and Safe Weekly Spend = ${user.currency}${safeWeeklyAllowance}/week for the remaining ${daysRemaining} days.
+4. If overspending occurs in non-essential areas (e.g. eating out, gaming, impulse shopping), warn gently and suggest reallocating surplus to essential needs (personal care, books, emergency fund) without sacrificing health.
+5. Educational advice only — never suggest trading or stocks.`;
 
         const responsePromise = ai.models.generateContent({
           model: "gemini-2.5-flash",
@@ -220,73 +233,74 @@ STRICT NUMERICAL DIRECTIVES & SAFETY:
     if (!aiResponseText) {
       const queryLower = message.toLowerCase();
 
-      if (queryLower.includes("savings rate") || queryLower.includes("how much am i saving") || queryLower.includes("savings")) {
-        aiResponseText = `Based on your database records for this month:\n\n` +
-          `- **Total Income**: ${user.currency}${currIncome.toLocaleString()}\n` +
-          `- **Total Expenses**: ${user.currency}${currExpenses.toLocaleString()}\n` +
-          `- **Net Savings**: **${user.currency}${netSavings.toLocaleString()}**\n` +
-          `- **Savings Rate**: **${savingsRate}%**\n\n` +
-          (savingsRate >= 20
-            ? `🟢 **Great Job!** Your savings rate of ${savingsRate}% exceeds the recommended 20% benchmark.`
-            : `💡 **Optimization Tip:** Aiming for a 20%+ savings rate (target net savings: ${user.currency}${Math.round(currIncome * 0.2).toLocaleString()}) will accelerate your long-term financial goals.`);
+      if (
+        queryLower.includes("daily") ||
+        queryLower.includes("safely spend") ||
+        queryLower.includes("per day") ||
+        queryLower.includes("how much can i spend") ||
+        queryLower.includes("pacing")
+      ) {
+        aiResponseText = `Here is your **Safe Spending Pacing** for the rest of this month:\n\n` +
+          `- **Total Budget Allocation**: ${user.currency}${totalBudgeted.toLocaleString()}\n` +
+          `- **Total Spent So Far**: ${user.currency}${totalSpentInBudgets.toLocaleString()}\n` +
+          `- **Remaining Budget**: **${user.currency}${totalRemainingBudget.toLocaleString()}**\n` +
+          `- **Days Remaining in Month**: **${daysRemaining} days**\n\n` +
+          `💡 **Safe Daily Spend Limit**: **${user.currency}${safeDailyAllowance} / day**\n` +
+          `📅 **Safe Weekly Spend Cap**: **${user.currency}${safeWeeklyAllowance} / week**\n\n` +
+          `*Tip for hostel life:* Since mess food is covered, keep non-mess snacks, chai, and auto rides under ${user.currency}${safeDailyAllowance}/day so you have reserve cash at month-end!`;
 
-      } else if (queryLower.includes("budget") || queryLower.includes("limit") || queryLower.includes("capacity")) {
+      } else if (queryLower.includes("snack") || queryLower.includes("mess") || queryLower.includes("food outside") || queryLower.includes("eating out")) {
+        const snackSpent = catBreakdown["Snacks & Mess Outings"] || catBreakdown["Food"] || 0;
+        const snackBudget = budgets.find((b) => b.category.name.includes("Snack") || b.category.name === "Food")?.amount || 1500;
+
+        aiResponseText = `Here is your **Snacks & Mess Outings Analysis**:\n\n` +
+          `- **Spent on Snacks / Eating Out**: ${user.currency}${snackSpent.toLocaleString()}\n` +
+          `- **Monthly Snack Allocation**: ${user.currency}${snackBudget.toLocaleString()}\n` +
+          `- **Status**: ${snackSpent > snackBudget ? "🚨 Exceeded limit!" : snackSpent >= snackBudget * 0.8 ? "⚠️ Near maximum capacity" : "✅ Within safe budget"}\n\n` +
+          (snackSpent > snackBudget
+            ? `⚠️ **Hostel Advisor Warning:** You have spent ${user.currency}${snackSpent.toLocaleString()} on food outside the mess. Rely more on mess meals for the next ${daysRemaining} days to protect your emergency and book savings!`
+            : `👍 You are pacing well on snacks. Try keeping daily tea/snack expenses under ${user.currency}${Math.round((snackBudget - snackSpent) / Math.max(1, daysRemaining))}/day.`);
+
+      } else if (queryLower.includes("savings rate") || queryLower.includes("how much am i saving") || queryLower.includes("savings")) {
+        aiResponseText = `Based on your hostel budget records for this month:\n\n` +
+          `- **Total Income / Allowance**: ${user.currency}${currIncome.toLocaleString()}\n` +
+          `- **Total Expenses**: ${user.currency}${currExpenses.toLocaleString()}\n` +
+          `- **Net Pocket Savings**: **${user.currency}${netSavings.toLocaleString()}**\n` +
+          `- **Savings Rate**: **${savingsRate}%**\n\n` +
+          (savingsRate >= 15
+            ? `🟢 **Awesome Job!** Saving ${savingsRate}% (${user.currency}${netSavings.toLocaleString()}) on a student budget is outstanding discipline.`
+            : `💡 **Student Saver Tip:** Aiming to save even ₹500–₹1,000/mo creates a strong safety net for semester breaks and surprise expenses.`);
+
+      } else if (queryLower.includes("budget") || queryLower.includes("limit") || queryLower.includes("capacity") || queryLower.includes("6000")) {
         if (budgetAnalysis.length === 0) {
-          aiResponseText = `You currently have no active category budgets configured for this month. You can set monthly spending caps on the Budgets page to receive automatic utilization alerts!`;
+          aiResponseText = `You currently have no active category budgets configured. On the **Budgets** page, click **Load ₹6,000 Hostel Template** to instantly apply optimal limits for snacks, transport, mobile recharge, toiletries, books, emergency, and savings!`;
         } else {
-          aiResponseText = `Here is your current monthly budget status across configured categories:\n\n` +
+          aiResponseText = `Here is your **Hostel Category Budget Status**:\n\n` +
             budgetAnalysis
               .map(
                 (b) =>
-                  `- **${b.category}**: ${user.currency}${b.spent.toLocaleString()} spent / ${user.currency}${b.limit.toLocaleString()} limit (**${b.percentage}% used**)${
+                  `- **${b.category}**: ${user.currency}${b.spent.toLocaleString()} / ${user.currency}${b.limit.toLocaleString()} (**${b.percentage}% used**)${
                     b.isExceeded ? " 🚨 *EXCEEDED*" : b.isWarning ? " ⚠️ *NEAR LIMIT*" : " ✅ *ON TRACK*"
                   }`
               )
               .join("\n") +
-            (exceededBudgets.length > 0
-              ? `\n\n⚠️ **Action Item:** ${exceededBudgets.map((b) => b.category).join(", ")} exceeded configured limits this month.`
-              : `\n\n✅ **Status:** All category budgets are currently within safe limits.`);
+            `\n\n💡 **Remaining Safe Allowance**: **${user.currency}${safeDailyAllowance}/day** across the remaining ${daysRemaining} days.`;
         }
 
-      } else if (queryLower.includes("recurring") || queryLower.includes("subscription") || queryLower.includes("bills")) {
-        if (recurring.length === 0) {
-          aiResponseText = `You have no active recurring subscriptions or bills logged. You can add recurring items on the Recurring page to track upcoming bill due dates.`;
-        } else {
-          aiResponseText = `Here are your active recurring monthly bills & subscriptions:\n\n` +
-            recurring.map((r) => `- **${r.description}**: ${user.currency}${r.amount.toLocaleString()} (${r.frequency.toLowerCase()})`).join("\n") +
-            `\n\n- **Total Monthly Recurring Outflow**: **${user.currency}${totalRecurringOutflow.toLocaleString()}**`;
-        }
-
-      } else if (queryLower.includes("unusual") || queryLower.includes("spending increase") || queryLower.includes("why are my expenses")) {
-        const diff = currExpenses - prevExpenses;
-        const pct = prevExpenses > 0 ? Math.round((diff / prevExpenses) * 100) : 0;
-
-        aiResponseText = `Your overall expenses this month are **${user.currency}${currExpenses.toLocaleString()}**, which is **${pct >= 0 ? "+" : ""}${pct}%** compared to last month (${user.currency}${prevExpenses.toLocaleString()}).\n\n` +
-          (unusualIncreases.length > 0
-            ? `**Top Outflow Increases (>20% MoM):**\n` +
-              unusualIncreases
-                .map((u) => `- **${u.category}**: increased by **+${user.currency}${u.diff.toLocaleString()}** (+${u.pctChange}% MoM: ${user.currency}${u.previous.toLocaleString()} ➔ ${user.currency}${u.current.toLocaleString()})`)
-                .join("\n")
-            : `✅ No category experienced an unusual >20% expense jump compared to last month.`);
-
-      } else if (queryLower.includes("where am i spending") || queryLower.includes("most money") || queryLower.includes("category")) {
-        const sortedCats = Object.entries(catBreakdown).sort((a, b) => b[1] - a[1]);
-        aiResponseText = `Here is your spending breakdown by category for this month:\n\n` +
-          sortedCats
-            .map(
-              ([cat, amt]) =>
-                `- **${cat}**: **${user.currency}${amt.toLocaleString()}** (${currExpenses > 0 ? Math.round((amt / currExpenses) * 100) : 0}% of total outflow)`
-            )
-            .join("\n");
+      } else if (queryLower.includes("reallocate") || queryLower.includes("cut down") || queryLower.includes("adjust")) {
+        aiResponseText = `Here is a recommended **Hostel Budget Reallocation Plan**:\n\n` +
+          `1. **Protect Essential Needs**: Keep allocations intact for *Personal Care & Toiletries* (${user.currency}${budgetAnalysis.find(b=>b.category.includes("Personal"))?.limit || 500}), *Books & Education* (${user.currency}${budgetAnalysis.find(b=>b.category.includes("Education"))?.limit || 500}), and *Mobile Recharge* (${user.currency}300).\n` +
+          `2. **Trim Discretionary Outflows**: If over budget, temporarily cap *Snacks & Mess Outings* and *Entertainment & Outings*.\n` +
+          `3. **Safe Daily Cap**: Limit daily out-of-pocket cash to **${user.currency}${safeDailyAllowance}/day** to preserve your ${user.currency}${totalRemainingBudget.toLocaleString()} balance.`;
 
       } else {
-        aiResponseText = `Here is an overview of your financial metrics:\n\n` +
-          `- **Total Monthly Income**: ${user.currency}${currIncome.toLocaleString()}\n` +
-          `- **Total Monthly Expenses**: ${user.currency}${currExpenses.toLocaleString()}\n` +
-          `- **Net Savings**: ${user.currency}${netSavings.toLocaleString()} (${savingsRate}% savings rate)\n` +
-          `- **Top Category Outflow**: ${Object.entries(catBreakdown).sort((a, b) => b[1] - a[1])[0]?.[0] || "None"} (${user.currency}${(Object.entries(catBreakdown).sort((a, b) => b[1] - a[1])[0]?.[1] || 0).toLocaleString()})\n` +
-          `- **Active Goals**: ${goals.map((g) => `${g.title} (${g.targetAmount > 0 ? Math.round((g.currentAmount / g.targetAmount) * 100) : 0}%)`).join(", ") || "None"}\n\n` +
-          `Feel free to ask about specific categories, budget limits, savings tips, or month-over-month comparisons!`;
+        aiResponseText = `Here is an overview of your **Hostel Student Financial Metrics** (${user.name}):\n\n` +
+          `- **Configured Monthly Budget**: ${user.currency}${totalBudgeted.toLocaleString()}\n` +
+          `- **Total Spent**: ${user.currency}${totalSpentInBudgets.toLocaleString()}\n` +
+          `- **Remaining Balance**: ${user.currency}${totalRemainingBudget.toLocaleString()}\n` +
+          `- **Safe Daily Allowance**: **${user.currency}${safeDailyAllowance} / day** (${daysRemaining} days left)\n` +
+          `- **Net Pocket Savings**: ${user.currency}${netSavings.toLocaleString()} (${savingsRate}% savings rate)\n\n` +
+          `Ask me anything like *"How much can I safely spend per day?"*, *"Am I spending too much on snacks?"*, or *"How can I reallocate my remaining budget?"*`;
       }
     }
 

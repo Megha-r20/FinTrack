@@ -25,6 +25,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { CategoryIcon } from "@/components/CategoryIcon";
+import { StudentPacingCard } from "@/components/StudentPacingCard";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -37,15 +38,17 @@ export default function DashboardPage() {
   const [analyticsData, setAnalyticsData] = useState<any>(null);
   const [goals, setGoals] = useState<any[]>([]);
   const [recentTx, setRecentTx] = useState<any[]>([]);
+  const [budgetsData, setBudgetsData] = useState<any>(null);
   const [aiInsights, setAiInsights] = useState<any>(null);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [analyticsRes, goalsRes, txRes] = await Promise.all([
+      const [analyticsRes, goalsRes, txRes, budgetsRes] = await Promise.all([
         fetch(`/api/analytics?period=${period}`),
         fetch("/api/goals"),
         fetch("/api/transactions?limit=5"),
+        fetch("/api/budgets"),
       ]);
 
       if (analyticsRes.ok) setAnalyticsData(await analyticsRes.json());
@@ -57,11 +60,15 @@ export default function DashboardPage() {
         const tData = await txRes.json();
         setRecentTx(tData.transactions || []);
       }
+      if (budgetsRes.ok) {
+        setBudgetsData(await budgetsRes.json());
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
+
 
     // Fetch AI Advisor Insights asynchronously in background to ensure zero render lag
     fetch("/api/ai/advisor")
@@ -204,6 +211,9 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Hostel Student Budget Pacing Card */}
+      {budgetsData && <StudentPacingCard summary={budgetsData.summary} />}
 
       {/* AI Financial Snapshot Card */}
       {aiInsights && aiInsights.insights && aiInsights.insights.length > 0 && (
