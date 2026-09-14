@@ -59,18 +59,13 @@ export default function LandingPage() {
             {theme === "dark" ? <Sun className="w-4 h-4 text-amber-400"/> : <Moon className="w-4 h-4 text-[#810100]"/>}
           </button>
 
-          {user ? (<Link href="/dashboard" className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-[#810100] to-[#630000] text-[#FAF8F5] shadow-md cherry-glow transition-all">
-              <span>Go to Dashboard</span>
-              <ArrowRight className="w-4 h-4"/>
-            </Link>) : (<>
-              <Link href="/login" className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] bg-[#FFFFFF] dark:bg-[#201A1A] hover:bg-[#810100]/10 border border-[#E2DBD0] dark:border-[#3B3030] transition-colors">
-                Sign In
-              </Link>
-              <Link href="/register" className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-[#810100] to-[#630000] text-[#FAF8F5] shadow-md cherry-glow transition-all">
-                <span>Get Started Free</span>
-                <ArrowRight className="w-4 h-4"/>
-              </Link>
-            </>)}
+          <Link href="/login" className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#141010] dark:text-[#FAF8F5] bg-[#FFFFFF] dark:bg-[#201A1A] hover:bg-[#810100]/10 border border-[#E2DBD0] dark:border-[#3B3030] transition-colors">
+            Sign In
+          </Link>
+          <Link href="/register" className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-[#810100] to-[#630000] text-[#FAF8F5] shadow-md cherry-glow transition-all">
+            <span>Get Started</span>
+            <ArrowRight className="w-4 h-4"/>
+          </Link>
         </div>
       </header>
 
