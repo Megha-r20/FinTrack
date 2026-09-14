@@ -173,3 +173,29 @@ export async function POST(req) {
         return NextResponse.json({ error: "Failed to set budget" }, { status: 500 });
     }
 }
+
+export async function DELETE(req) {
+    try {
+        const user = await requireAuthUser();
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
+        const categoryId = searchParams.get("categoryId");
+
+        if (id) {
+            await prisma.budget.deleteMany({
+                where: { id, userId: user.id },
+            });
+        } else if (categoryId) {
+            await prisma.budget.deleteMany({
+                where: { categoryId, userId: user.id },
+            });
+        } else {
+            return NextResponse.json({ error: "Budget ID or Category ID required" }, { status: 400 });
+        }
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        console.error("Delete Budget Error:", error);
+        return NextResponse.json({ error: "Failed to delete budget" }, { status: 500 });
+    }
+}
