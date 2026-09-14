@@ -72,7 +72,7 @@ export function WorkspaceSwitcher() {
       {dropdownOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-          <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-2xl z-50 p-2 space-y-1 animate-in fade-in duration-150">
+          <div className="absolute left-0 mt-2 w-64 rounded-2xl bg-[#FFFFFF] dark:bg-[#201A1A] border border-[#E2DBD0] dark:border-[#3B3030] shadow-2xl z-50 p-2 space-y-1 animate-in fade-in duration-150">
             <div className="px-3 py-1.5 text-[10px] font-extrabold uppercase text-[#594D4D] tracking-wider">
               Switch Household Workspace
             </div>
