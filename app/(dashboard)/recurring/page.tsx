@@ -159,7 +159,7 @@ export default function RecurringPage() {
                         <AlertCircle className="w-3 h-3" /> Overdue
                       </span>
                     ) : (
-                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FAF9F5] dark:bg-[#1B1717] text-[#7A6E6E] dark:text-[#A89F9F] border border-[#E6E1D3] dark:border-[#382D2D]">
                         Active
                       </span>
                     )}
@@ -182,7 +182,7 @@ export default function RecurringPage() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="w-full max-w-md bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] p-6 space-y-4">
             <h3 className="text-lg font-black text-[#1B1717] dark:text-[#EDEBDD]">Add Recurring Subscription / Income</h3>
             <form onSubmit={handleCreate} className="space-y-3">

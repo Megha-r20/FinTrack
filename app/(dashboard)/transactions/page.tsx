@@ -375,7 +375,7 @@ export default function TransactionsPage() {
 
       {/* CSV Import Preview Modal */}
       {isImportModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="w-full max-w-xl bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] overflow-hidden">
             <div className="flex items-center justify-between p-5 border-b border-[#E6E1D3] dark:border-[#382D2D]">
               <div className="flex items-center gap-2">

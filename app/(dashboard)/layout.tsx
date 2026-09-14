@@ -21,9 +21,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-950 text-slate-400 gap-3">
-        <div className="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
-        <span className="text-xs font-semibold tracking-wider">Loading FinTrack Workspace...</span>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAF9F5] dark:bg-[#1B1717] text-[#1B1717] dark:text-[#EDEBDD] gap-3">
+        <div className="w-9 h-9 rounded-full border-3 border-[#810100] dark:border-[#A31D1C] border-t-transparent animate-spin" />
+        <span className="text-xs font-bold uppercase tracking-wider text-[#810100] dark:text-[#E58887]">Loading FinTrack Workspace...</span>
       </div>
     );
   }
@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden"
         />
       )}
 

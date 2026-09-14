@@ -133,7 +133,7 @@ export function AddTransactionModal({ isOpen, onClose, onSuccess }: AddTransacti
   const filteredCategories = categories.filter((c) => c.type === type);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="relative w-full max-w-lg bg-[#FFFFFF] dark:bg-[#252020] rounded-3xl shadow-2xl border border-[#E6E1D3] dark:border-[#382D2D] overflow-hidden">
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#E6E1D3] dark:border-[#382D2D]">
