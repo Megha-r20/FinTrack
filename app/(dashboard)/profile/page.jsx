@@ -17,10 +17,12 @@ import {
   Smartphone,
   Check,
   X,
+  MessageSquare,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { useTheme } from "@/context/ThemeContext";
+import BotIntegrationCard from "@/components/BotIntegrationCard";
 
 export default function ProfilePage() {
   const { user, refreshUser } = useAuth();
@@ -227,6 +229,7 @@ export default function ProfilePage() {
           { id: "profile", label: "Profile & Preferences", icon: User },
           { id: "pacing", label: "Budget & Pacing", icon: GraduationCap },
           { id: "security", label: "Security & App Lock", icon: Lock },
+          { id: "bot", label: "WhatsApp & Telegram Bot", icon: MessageSquare },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -554,6 +557,9 @@ export default function ProfilePage() {
           </div>
         </div>
       )}
+
+      {/* TAB 4: WhatsApp & Telegram Bot */}
+      {activeTab === "bot" && <BotIntegrationCard />}
     </div>
   );
 }
