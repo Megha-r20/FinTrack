@@ -105,7 +105,7 @@ self.__SERVER_FILES_MANIFEST={
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "C:\\Users\\megha\\.gemini\\antigravity\\scratch\\fintrack",
+    "outputFileTracingRoot": "H:\\Projects\\FinTrack",
     "enablePrerenderSourceMaps": true,
     "cacheComponents": false,
     "cacheLife": {
@@ -175,7 +175,7 @@ self.__SERVER_FILES_MANIFEST={
       "proxyPrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 7,
+      "cpus": 19,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptOperationCache": null,
@@ -320,13 +320,13 @@ self.__SERVER_FILES_MANIFEST={
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.js",
-    "repoRoot": "C:\\Users\\megha\\.gemini\\antigravity\\scratch\\fintrack",
+    "repoRoot": "H:\\Projects\\FinTrack",
     "turbopack": {
-      "root": "C:\\Users\\megha\\.gemini\\antigravity\\scratch\\fintrack"
+      "root": "H:\\Projects\\FinTrack"
     },
     "distDirRoot": "dist"
   },
-  "appDir": "C:\\Users\\megha\\.gemini\\antigravity\\scratch\\fintrack",
+  "appDir": "H:\\Projects\\FinTrack",
   "relativeAppDir": "",
   "files": [
     "dist\\package.json",
