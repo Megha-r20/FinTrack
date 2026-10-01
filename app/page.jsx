@@ -57,13 +57,13 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] selection:bg-[#810100] selection:text-[#FAF8F5] font-sans relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] selection:bg-[#810100] selection:text-[#FAF8F5] font-sans relative overflow-x-clip transition-colors duration-300">
       {/* Background Decorative Gradient Orbs */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[550px] bg-gradient-to-b from-[#810100]/25 via-[#630000]/10 to-transparent blur-3xl pointer-events-none" />
       <div className="absolute top-[40%] -right-40 w-[600px] h-[600px] bg-[#810100]/10 dark:bg-[#810100]/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header Navigation */}
-      <header className="sticky top-0 z-50 h-20 border-b border-[#E2DBD0] dark:border-[#3B3030] backdrop-blur-xl bg-[#FAF8F5]/85 dark:bg-[#141010]/85 px-4 lg:px-12 flex items-center justify-between">
+      <header className="sticky top-0 z-50 h-20 w-full border-b border-[#E2DBD0] dark:border-[#3B3030] backdrop-blur-xl bg-[#FAF8F5]/85 dark:bg-[#141010]/85 px-4 lg:px-12 flex items-center justify-between">
         <Logo href="/" subtitle="Personal Expense Tracker" />
 
         {/* Desktop Navigation Links */}

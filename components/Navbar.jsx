@@ -24,7 +24,7 @@ export function Navbar({ onToggleSidebar, onOpenAddModal }) {
     }, []);
 
     return (<>
-      <header className="sticky top-0 z-30 h-20 border-b backdrop-blur-xl bg-[#FAF8F5]/90 dark:bg-[#141010]/90 border-[#E2DBD0] dark:border-[#3B3030] px-4 lg:px-8 flex items-center justify-between transition-colors">
+      <header className="sticky top-0 z-30 h-20 w-full border-b backdrop-blur-xl bg-[#FAF8F5]/90 dark:bg-[#141010]/90 border-[#E2DBD0] dark:border-[#3B3030] px-4 lg:px-8 flex items-center justify-between transition-colors">
         <div className="flex items-center gap-3">
           <button onClick={onToggleSidebar} className="p-2.5 rounded-xl text-[#181414] dark:text-[#FAF8F5] hover:bg-[#FFFFFF] dark:hover:bg-[#201A1A] lg:hidden border border-[#E2DBD0] dark:border-[#3B3030]" aria-label="Toggle Navigation">
             <Menu className="w-5 h-5"/>
