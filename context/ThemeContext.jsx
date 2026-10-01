@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const ThemeContext = createContext(undefined);
 
 export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState("dark");
     const [accentTheme, setAccent] = useState("cherry"); // "cherry" | "emerald" | "gold" | "violet"
 
     const applyTheme = (targetTheme) => {
@@ -34,7 +34,7 @@ export function ThemeProvider({ children }) {
         if (savedTheme === "light" || savedTheme === "dark") {
             applyTheme(savedTheme);
         } else {
-            applyTheme("light");
+            applyTheme("dark");
         }
 
         const savedAccent = localStorage.getItem("fintrack_accent");

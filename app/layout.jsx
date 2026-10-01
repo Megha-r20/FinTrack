@@ -21,13 +21,33 @@ export const metadata = {
     },
 };
 export default function RootLayout({ children }) {
-    return (<html lang="en" className={`${plusJakarta.variable} ${outfit.variable} font-sans h-full`} suppressHydrationWarning>
-      <body className="min-h-full flex flex-col antialiased tabular-nums bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] transition-colors duration-300">
-        <ThemeProvider>
-          <ToastProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </ToastProvider>
-        </ThemeProvider>
-      </body>
-    </html>);
+    return (
+      <html lang="en" className={`dark ${plusJakarta.variable} ${outfit.variable} font-sans h-full`} suppressHydrationWarning>
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  try {
+                    var saved = localStorage.getItem('fintrack_theme');
+                    if (saved === 'light') {
+                      document.documentElement.classList.remove('dark');
+                    } else {
+                      document.documentElement.classList.add('dark');
+                    }
+                  } catch (e) {}
+                })();
+              `,
+            }}
+          />
+        </head>
+        <body className="min-h-full flex flex-col antialiased tabular-nums bg-[#FAF8F5] dark:bg-[#141010] text-[#141010] dark:text-[#FAF8F5] transition-colors duration-300">
+          <ThemeProvider>
+            <ToastProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </ToastProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    );
 }
